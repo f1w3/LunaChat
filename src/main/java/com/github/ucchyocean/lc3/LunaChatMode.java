@@ -7,6 +7,7 @@ package com.github.ucchyocean.lc3;
 
 /**
  * LunaChatの動作モード
+ *
  * @author ucchy
  */
 public enum LunaChatMode {

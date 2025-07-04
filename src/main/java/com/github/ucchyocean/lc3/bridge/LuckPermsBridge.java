@@ -5,15 +5,16 @@
  */
 package com.github.ucchyocean.lc3.bridge;
 
-import java.util.UUID;
-
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
 import net.luckperms.api.model.user.User;
 import net.md_5.bungee.api.plugin.Plugin;
 
+import java.util.UUID;
+
 /**
  * LuckPerms連携クラス
+ *
  * @author ucchy
  */
 public class LuckPermsBridge {
@@ -27,13 +28,14 @@ public class LuckPermsBridge {
 
     /**
      * LuckPermsをロードする
+     *
      * @param plugin LuckPermsのインスタンス
      * @return ロードされたLuckPermsBridge
      */
     public static LuckPermsBridge load(Plugin plugin) {
 
         // LuckPermsが指定されたかどうかを確認
-        if ( plugin == null ) return null;
+        if (plugin == null) return null;
 
         // ロードされているならLuckPermsBridgeのインスタンスを作成して返す
         return new LuckPermsBridge(LuckPermsProvider.get());
@@ -41,6 +43,7 @@ public class LuckPermsBridge {
 
     /**
      * プレイヤーのprefixを取得します。
+     *
      * @param uniqueId プレイヤーのUUID
      * @return プレイヤーのprefix
      */
@@ -52,6 +55,7 @@ public class LuckPermsBridge {
 
     /**
      * プレイヤーのsuffixを取得します。
+     *
      * @param uniqueId プレイヤーのUUID
      * @return プレイヤーのsuffix
      */

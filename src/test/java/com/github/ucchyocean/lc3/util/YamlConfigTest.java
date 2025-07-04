@@ -5,13 +5,14 @@
  */
 package com.github.ucchyocean.lc3.util;
 
+import junit.framework.TestCase;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import junit.framework.TestCase;
-
 /**
  * YamlConfigのテスト
+ *
  * @author ucchy
  */
 public class YamlConfigTest extends TestCase {
@@ -35,7 +36,7 @@ public class YamlConfigTest extends TestCase {
         System.out.println(config.getRawData());
         System.out.println();
         System.out.println("=== Yaml Keys (deeps=true) ===");
-        for ( String key : config.getKeys(true) ) {
+        for (String key : config.getKeys(true)) {
             System.out.println(key);
         }
 

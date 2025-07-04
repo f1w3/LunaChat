@@ -5,11 +5,6 @@
  */
 package com.github.ucchyocean.lc3.channel;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.jetbrains.annotations.Nullable;
-
 import com.github.ucchyocean.lc3.LunaChat;
 import com.github.ucchyocean.lc3.LunaChatAPI;
 import com.github.ucchyocean.lc3.LunaChatBungee;
@@ -17,19 +12,24 @@ import com.github.ucchyocean.lc3.LunaChatConfig;
 import com.github.ucchyocean.lc3.event.EventResult;
 import com.github.ucchyocean.lc3.member.ChannelMember;
 import com.github.ucchyocean.lc3.util.ClickableFormat;
-
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * チャンネルのBungee実装クラス
+ *
  * @author ucchy
  */
 public class BungeeChannel extends Channel {
 
     /**
      * コンストラクタ
+     *
      * @param name チャンネル名
      */
     protected BungeeChannel(String name) {
@@ -38,14 +38,15 @@ public class BungeeChannel extends Channel {
 
     /**
      * メッセージを表示します。指定したプレイヤーの発言として処理されます。
-     * @param player プレイヤー（ワールドチャット、範囲チャットの場合は必須です）
-     * @param message メッセージ
-     * @param format フォーマット
+     *
+     * @param player     プレイヤー（ワールドチャット、範囲チャットの場合は必須です）
+     * @param message    メッセージ
+     * @param format     フォーマット
      * @param sendDynmap dynmapへ送信するかどうか
      */
     @Override
     protected void sendMessage(ChannelMember player, String message,
-            @Nullable ClickableFormat format, boolean sendDynmap) {
+                               @Nullable ClickableFormat format, boolean sendDynmap) {
 
         LunaChatConfig config = LunaChat.getConfig();
 
@@ -54,15 +55,15 @@ public class BungeeChannel extends Channel {
         // 受信者を設定する
         List<ChannelMember> recipients = new ArrayList<ChannelMember>();
 
-        if ( isBroadcastChannel() ) {
+        if (isBroadcastChannel()) {
             // ブロードキャストチャンネル
 
             // NOTE: BungeeChannelは範囲チャットやワールドチャットをサポートしない
 
             // 通常ブロードキャスト（全員へ送信）
-            for ( ProxiedPlayer p : ProxyServer.getInstance().getPlayers() ) {
+            for (ProxiedPlayer p : ProxyServer.getInstance().getPlayers()) {
                 ChannelMember cp = ChannelMember.getChannelMember(p);
-                if ( !getHided().contains(cp) ) {
+                if (!getHided().contains(cp)) {
                     recipients.add(cp);
                 }
             }
@@ -70,8 +71,8 @@ public class BungeeChannel extends Channel {
         } else {
             // 通常チャンネル
 
-            for ( ChannelMember mem : getMembers() ) {
-                if ( mem != null && mem.isOnline() && !getHided().contains(mem) ) {
+            for (ChannelMember mem : getMembers()) {
+                if (mem != null && mem.isOnline() && !getHided().contains(mem)) {
                     recipients.add(mem);
                 }
             }
@@ -80,11 +81,11 @@ public class BungeeChannel extends Channel {
         // opListenAllChannel 設定がある場合は、
         // パーミッション lunachat-admin.listen-all-channels を持つプレイヤーを
         // 受信者に加える。
-        if ( config.isOpListenAllChannel() ) {
-            for ( ProxiedPlayer p : ProxyServer.getInstance().getPlayers() ) {
+        if (config.isOpListenAllChannel()) {
+            for (ProxiedPlayer p : ProxyServer.getInstance().getPlayers()) {
                 ChannelMember cp = ChannelMember.getChannelMember(p);
-                if ( cp.hasPermission("lunachat-admin.listen-all-channels")
-                        && !recipients.contains(cp) ) {
+                if (cp.hasPermission("lunachat-admin.listen-all-channels")
+                        && !recipients.contains(cp)) {
                     recipients.add(cp);
                 }
             }
@@ -92,7 +93,7 @@ public class BungeeChannel extends Channel {
 
         // hideされている場合は、受信対象者から抜く。
         LunaChatAPI api = LunaChat.getAPI();
-        for ( ChannelMember cp : api.getHidelist(player) )  {
+        for (ChannelMember cp : api.getHidelist(player)) {
             recipients.remove(cp);
         }
 
@@ -106,21 +107,21 @@ public class BungeeChannel extends Channel {
         recipients = result.getRecipients();
 
         // 送信する
-        if ( format != null ) {
+        if (format != null) {
             format.replace("%msg", message);
             BaseComponent[] comps = format.makeTextComponent();
-            for ( ChannelMember p : recipients ) {
+            for (ChannelMember p : recipients) {
                 p.sendMessage(comps);
             }
             message = format.toLegacyText();
         } else {
-            for ( ChannelMember p : recipients ) {
+            for (ChannelMember p : recipients) {
                 p.sendMessage(message);
             }
         }
 
         // 設定に応じて、コンソールに出力する
-        if ( config.isDisplayChatOnConsole() ) {
+        if (config.isDisplayChatOnConsole()) {
             LunaChatBungee.getInstance().getLogger().info(message);
         }
 
@@ -130,6 +131,7 @@ public class BungeeChannel extends Channel {
 
     /**
      * チャンネルのオンライン人数を返す
+     *
      * @return オンライン人数
      * @see com.github.ucchyocean.lc3.channel.Channel#getOnlineNum()
      */
@@ -137,7 +139,7 @@ public class BungeeChannel extends Channel {
     public int getOnlineNum() {
 
         // ブロードキャストチャンネルならサーバー接続人数を返す
-        if ( isBroadcastChannel() ) {
+        if (isBroadcastChannel()) {
             return ProxyServer.getInstance().getOnlineCount();
         }
 
@@ -146,6 +148,7 @@ public class BungeeChannel extends Channel {
 
     /**
      * チャンネルの総参加人数を返す
+     *
      * @return 総参加人数
      * @see com.github.ucchyocean.lc3.channel.Channel#getTotalNum()
      */
@@ -153,7 +156,7 @@ public class BungeeChannel extends Channel {
     public int getTotalNum() {
 
         // ブロードキャストチャンネルならサーバー接続人数を返す
-        if ( isBroadcastChannel() ) {
+        if (isBroadcastChannel()) {
             return ProxyServer.getInstance().getOnlineCount();
         }
 
@@ -162,6 +165,7 @@ public class BungeeChannel extends Channel {
 
     /**
      * チャンネルのメンバーを返す
+     *
      * @return チャンネルのメンバー
      * @see com.github.ucchyocean.lc3.channel.Channel#getMembers()
      */
@@ -170,9 +174,9 @@ public class BungeeChannel extends Channel {
 
         // ブロードキャストチャンネルなら、
         // 現在サーバーに接続している全プレイヤーをメンバーとして返す
-        if ( isBroadcastChannel() ) {
+        if (isBroadcastChannel()) {
             List<ChannelMember> mem = new ArrayList<ChannelMember>();
-            for ( ProxiedPlayer p : ProxyServer.getInstance().getPlayers() ) {
+            for (ProxiedPlayer p : ProxyServer.getInstance().getPlayers()) {
                 mem.add(ChannelMember.getChannelMember(p));
             }
             return mem;
@@ -183,7 +187,8 @@ public class BungeeChannel extends Channel {
 
     /**
      * ログを記録する
-     * @param name 発言者
+     *
+     * @param name    発言者
      * @param message 記録するメッセージ
      */
     @Override
@@ -191,7 +196,7 @@ public class BungeeChannel extends Channel {
 
         // LunaChatのチャットログへ記録
         LunaChatConfig config = LunaChat.getConfig();
-        if ( config.isLoggingChat() && logger != null ) {
+        if (config.isLoggingChat() && logger != null) {
             logger.log(message, name);
         }
 

@@ -7,6 +7,7 @@ package com.github.ucchyocean.lc3.util;
 
 /**
  * Event優先度列挙子
+ *
  * @author ucchy
  */
 public enum EventPriority {

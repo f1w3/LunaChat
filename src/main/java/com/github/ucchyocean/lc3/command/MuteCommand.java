@@ -11,6 +11,7 @@ import com.github.ucchyocean.lc3.member.ChannelMember;
 
 /**
  * muteコマンドの実行クラス
+ *
  * @author ucchy
  */
 public class MuteCommand extends LunaChatSubCommand {
@@ -20,6 +21,7 @@ public class MuteCommand extends LunaChatSubCommand {
 
     /**
      * コマンドを取得します。
+     *
      * @return コマンド
      * @see com.github.ucchyocean.lc3.command.LunaChatSubCommand#getCommandName()
      */
@@ -30,6 +32,7 @@ public class MuteCommand extends LunaChatSubCommand {
 
     /**
      * パーミッションノードを取得します。
+     *
      * @return パーミッションノード
      * @see com.github.ucchyocean.lc3.command.LunaChatSubCommand#getPermissionNode()
      */
@@ -40,6 +43,7 @@ public class MuteCommand extends LunaChatSubCommand {
 
     /**
      * コマンドの種別を取得します。
+     *
      * @return コマンド種別
      * @see com.github.ucchyocean.lc3.command.LunaChatSubCommand#getCommandType()
      */
@@ -50,8 +54,9 @@ public class MuteCommand extends LunaChatSubCommand {
 
     /**
      * 使用方法に関するメッセージをsenderに送信します。
+     *
      * @param sender コマンド実行者
-     * @param label 実行ラベル
+     * @param label  実行ラベル
      * @see com.github.ucchyocean.lc3.command.LunaChatSubCommand#sendUsageMessage()
      */
     @Override
@@ -63,9 +68,10 @@ public class MuteCommand extends LunaChatSubCommand {
 
     /**
      * コマンドを実行します。
+     *
      * @param sender コマンド実行者
-     * @param label 実行ラベル
-     * @param args 実行時の引数
+     * @param label  実行ラベル
+     * @param args   実行時の引数
      * @return コマンドが実行されたかどうか
      * @see com.github.ucchyocean.lc3.command.LunaChatSubCommand#runCommand(java.lang.String[])
      */
@@ -97,7 +103,7 @@ public class MuteCommand extends LunaChatSubCommand {
         }
 
         // モデレーターかどうか確認する
-        if ( !channel.hasModeratorPermission(sender) ) {
+        if (!channel.hasModeratorPermission(sender)) {
             sender.sendMessage(Messages.errmsgNotModerator());
             return true;
         }
@@ -118,12 +124,12 @@ public class MuteCommand extends LunaChatSubCommand {
         // 期限付きMuteの場合、期限の指定が正しいかどうかをチェックする
         int expireMinutes = -1;
         if (args.length >= 3 && !isSpecifiedChannel) {
-            if ( !args[2].matches("[0-9]+") ) {
+            if (!args[2].matches("[0-9]+")) {
                 sender.sendMessage(Messages.errmsgInvalidMuteExpireParameter());
                 return true;
             }
             expireMinutes = Integer.parseInt(args[2]);
-            if ( expireMinutes < 1 || 43200 < expireMinutes ) {
+            if (expireMinutes < 1 || 43200 < expireMinutes) {
                 sender.sendMessage(Messages.errmsgInvalidMuteExpireParameter());
                 return true;
             }
@@ -131,14 +137,14 @@ public class MuteCommand extends LunaChatSubCommand {
 
         // Mute実行
         channel.getMuted().add(kicked);
-        if ( expireMinutes != -1 ) {
+        if (expireMinutes != -1) {
             long expire = System.currentTimeMillis() + expireMinutes * 60 * 1000;
             channel.getMuteExpires().put(kicked, expire);
         }
         channel.save();
 
         // senderに通知メッセージを出す
-        if ( expireMinutes != -1 ) {
+        if (expireMinutes != -1) {
             sender.sendMessage(Messages.cmdmsgMuteWithExpire(
                     kickedName, channel.getName(), expireMinutes));
         } else {
@@ -146,18 +152,18 @@ public class MuteCommand extends LunaChatSubCommand {
         }
 
         // チャンネルに通知メッセージを出す
-        if ( expireMinutes != -1 ) {
+        if (expireMinutes != -1) {
             channel.sendSystemMessage(Messages.muteWithExpireMessage(
-                    channel.getColorCode(), channel.getName(), kicked.getName(), expireMinutes),
+                            channel.getColorCode(), channel.getName(), kicked.getName(), expireMinutes),
                     true, "system");
         } else {
             channel.sendSystemMessage(Messages.muteMessage(
-                    channel.getColorCode(), channel.getName(), kicked.getName()),
+                            channel.getColorCode(), channel.getName(), kicked.getName()),
                     true, "system");
         }
 
         // BANされた人に通知メッセージを出す
-        if ( kicked != null ) {
+        if (kicked != null) {
             kicked.sendMessage(Messages.cmdmsgMuted(channel.getName()));
         }
 

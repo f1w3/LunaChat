@@ -5,14 +5,15 @@
  */
 package com.github.ucchyocean.lc3.command;
 
-import java.util.Map;
-
 import com.github.ucchyocean.lc3.Messages;
 import com.github.ucchyocean.lc3.member.ChannelMember;
 import com.github.ucchyocean.lc3.util.ChatColor;
 
+import java.util.Map;
+
 /**
  * dictionaryコマンドの実行クラス
+ *
  * @author ucchy
  */
 public class DictionaryCommand extends LunaChatSubCommand {
@@ -22,6 +23,7 @@ public class DictionaryCommand extends LunaChatSubCommand {
 
     /**
      * コマンドを取得します。
+     *
      * @return コマンド
      * @see com.github.ucchyocean.lc3.command.LunaChatSubCommand#getCommandName()
      */
@@ -32,6 +34,7 @@ public class DictionaryCommand extends LunaChatSubCommand {
 
     /**
      * パーミッションノードを取得します。
+     *
      * @return パーミッションノード
      * @see com.github.ucchyocean.lc3.command.LunaChatSubCommand#getPermissionNode()
      */
@@ -42,6 +45,7 @@ public class DictionaryCommand extends LunaChatSubCommand {
 
     /**
      * コマンドの種別を取得します。
+     *
      * @return コマンド種別
      * @see com.github.ucchyocean.lc3.command.LunaChatSubCommand#getCommandType()
      */
@@ -52,8 +56,9 @@ public class DictionaryCommand extends LunaChatSubCommand {
 
     /**
      * 使用方法に関するメッセージをsenderに送信します。
+     *
      * @param sender コマンド実行者
-     * @param label 実行ラベル
+     * @param label  実行ラベル
      * @see com.github.ucchyocean.lc3.command.LunaChatSubCommand#sendUsageMessage()
      */
     @Override
@@ -64,9 +69,10 @@ public class DictionaryCommand extends LunaChatSubCommand {
 
     /**
      * コマンドを実行します。
+     *
      * @param sender コマンド実行者
-     * @param label 実行ラベル
-     * @param args 実行時の引数
+     * @param label  実行ラベル
+     * @param args   実行時の引数
      * @return コマンドが実行されたかどうか
      * @see com.github.ucchyocean.lc3.command.LunaChatSubCommand#runCommand(java.lang.String[])
      */
@@ -75,24 +81,24 @@ public class DictionaryCommand extends LunaChatSubCommand {
 
         // 引数チェック
         // このコマンドは、コンソールでも実行できる
-        if ( args.length <= 1 ) {
+        if (args.length <= 1) {
             sender.sendMessage(Messages.errmsgCommand());
             sendUsageMessage(sender, label);
             return true;
         }
 
-        if ( !args[1].equalsIgnoreCase("add") &&
+        if (!args[1].equalsIgnoreCase("add") &&
                 !args[1].equalsIgnoreCase("remove") &&
-                !args[1].equalsIgnoreCase("view") ) {
+                !args[1].equalsIgnoreCase("view")) {
             sender.sendMessage(Messages.errmsgCommand());
             sendUsageMessage(sender, label);
             return true;
         }
 
-        if ( args[1].equalsIgnoreCase("add") ) {
+        if (args[1].equalsIgnoreCase("add")) {
 
             // addの場合は、さらに2つ引数が必要
-            if ( args.length <= 3 ) {
+            if (args.length <= 3) {
                 sender.sendMessage(Messages.errmsgCommand());
                 sendUsageMessage(sender, label);
                 return true;
@@ -105,10 +111,10 @@ public class DictionaryCommand extends LunaChatSubCommand {
             sender.sendMessage(Messages.cmdmsgDictionaryAdd(key, value));
             return true;
 
-        } else if ( args[1].equalsIgnoreCase("remove") ) {
+        } else if (args[1].equalsIgnoreCase("remove")) {
 
             // removeの場合は、さらに1つ引数が必要
-            if ( args.length <= 2 ) {
+            if (args.length <= 2) {
                 sender.sendMessage(Messages.errmsgCommand());
                 sendUsageMessage(sender, label);
                 return true;
@@ -120,10 +126,10 @@ public class DictionaryCommand extends LunaChatSubCommand {
             sender.sendMessage(Messages.cmdmsgDictionaryRemove(key));
             return true;
 
-        } else if ( args[1].equalsIgnoreCase("view") ) {
+        } else if (args[1].equalsIgnoreCase("view")) {
 
             Map<String, String> dic = api.getAllDictionary();
-            for ( String key : dic.keySet() ) {
+            for (String key : dic.keySet()) {
                 String value = dic.get(key);
                 sender.sendMessage(key + ChatColor.GRAY + " -> " + ChatColor.WHITE + value);
             }

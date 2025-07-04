@@ -5,12 +5,13 @@
  */
 package com.github.ucchyocean.lc.event;
 
-import java.util.HashMap;
-
 import org.bukkit.command.CommandSender;
+
+import java.util.HashMap;
 
 /**
  * オプション変更イベント
+ *
  * @author ucchy
  * @deprecated Legacy Version
  */
@@ -20,7 +21,7 @@ public class LunaChatChannelOptionChangedEvent extends LunaChatBaseCancellableEv
     private HashMap<String, String> options;
 
     public LunaChatChannelOptionChangedEvent(String channelName,
-            CommandSender sender, HashMap<String, String> options) {
+                                             CommandSender sender, HashMap<String, String> options) {
         super(channelName);
         this.sender = sender;
         this.options = options;
@@ -28,6 +29,7 @@ public class LunaChatChannelOptionChangedEvent extends LunaChatBaseCancellableEv
 
     /**
      * 変更後のオプションリストをかえす
+     *
      * @return オプションリスト
      */
     public HashMap<String, String> getOptions() {
@@ -36,6 +38,7 @@ public class LunaChatChannelOptionChangedEvent extends LunaChatBaseCancellableEv
 
     /**
      * オプションリストを上書き設定する
+     *
      * @param options オプションリスト
      */
     public void setOptions(HashMap<String, String> options) {
@@ -44,6 +47,7 @@ public class LunaChatChannelOptionChangedEvent extends LunaChatBaseCancellableEv
 
     /**
      * チャンネルのオプションを変更した人を取得する。
+     *
      * @return チャンネルのオプションを変更したCommandSender
      */
     public CommandSender getSender() {

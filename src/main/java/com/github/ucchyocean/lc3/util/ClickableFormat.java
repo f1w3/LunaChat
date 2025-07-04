@@ -5,6 +5,14 @@
  */
 package com.github.ucchyocean.lc3.util;
 
+import com.github.ucchyocean.lc3.LunaChat;
+import com.github.ucchyocean.lc3.LunaChatAPI;
+import com.github.ucchyocean.lc3.Messages;
+import com.github.ucchyocean.lc3.channel.Channel;
+import com.github.ucchyocean.lc3.member.ChannelMember;
+import net.md_5.bungee.api.chat.*;
+import org.jetbrains.annotations.Nullable;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,22 +21,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.jetbrains.annotations.Nullable;
-
-import com.github.ucchyocean.lc3.LunaChat;
-import com.github.ucchyocean.lc3.LunaChatAPI;
-import com.github.ucchyocean.lc3.Messages;
-import com.github.ucchyocean.lc3.channel.Channel;
-import com.github.ucchyocean.lc3.member.ChannelMember;
-
-import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.TextComponent;
-
 /**
  * チャットのフォーマットを作成するユーティリティクラス
+ *
  * @author ucchy
  */
 public class ClickableFormat {
@@ -51,6 +46,7 @@ public class ClickableFormat {
 
     /**
      * チャットフォーマット内のキーワードを置き換えする
+     *
      * @param format チャットフォーマット
      * @param member 発言者
      * @return 置き換え結果
@@ -61,14 +57,15 @@ public class ClickableFormat {
 
     /**
      * チャットフォーマット内のキーワードを置き換えする
-     * @param format チャットフォーマット
-     * @param member 発言者
-     * @param channel チャンネル
+     *
+     * @param format         チャットフォーマット
+     * @param member         発言者
+     * @param channel        チャンネル
      * @param withPlayerLink プレイヤー名の箇所にクリック可能なプレースホルダーを挿入するか
      * @return 置き換え結果
      */
     public static ClickableFormat makeFormat(String format,
-            @Nullable ChannelMember member, @Nullable Channel channel, boolean withPlayerLink) {
+                                             @Nullable ChannelMember member, @Nullable Channel channel, boolean withPlayerLink) {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
@@ -79,13 +76,13 @@ public class ClickableFormat {
 
         //msg.replace("%msg", message);
 
-        if ( channel != null ) {
+        if (channel != null) {
 
             // テンプレートのキーワードを、まず最初に置き換える
-            for ( int i=0; i<=9; i++ ) {
+            for (int i = 0; i <= 9; i++) {
                 String key = "%" + i;
-                if ( msg.contains(key) ) {
-                    if ( api.getTemplate("" + i) != null ) {
+                if (msg.contains(key)) {
+                    if (api.getTemplate("" + i) != null) {
                         msg.replace(key, api.getTemplate("" + i));
                         break;
                     }
@@ -99,7 +96,7 @@ public class ClickableFormat {
                     Messages.hoverChannelName(channel.getName()),
                     String.format(JOIN_COMMAND_TEMPLATE, channel.getName())));
             msg.replace("%color", channel.getColorCode());
-            if ( channel.getPrivateMessageTo() != null ) {
+            if (channel.getPrivateMessageTo() != null) {
                 msg.replace("%to", String.format(
                         PLACEHOLDER_SUGGEST_COMMAND,
                         channel.getPrivateMessageTo().getDisplayName(),
@@ -109,17 +106,17 @@ public class ClickableFormat {
             }
         }
 
-        if ( msg.contains("%date") ) {
+        if (msg.contains("%date")) {
             msg.replace("%date", dateFormat.format(new Date()));
         }
-        if ( msg.contains("%time") ) {
+        if (msg.contains("%time")) {
             msg.replace("%time", timeFormat.format(new Date()));
         }
 
-        if ( member != null ) {
+        if (member != null) {
 
             // ChannelMember関連のキーワード置き換え
-            if ( withPlayerLink ) {
+            if (withPlayerLink) {
                 String playerPMPlaceHolder = String.format(
                         PLACEHOLDER_SUGGEST_COMMAND,
                         member.getDisplayName(),
@@ -138,7 +135,7 @@ public class ClickableFormat {
                 msg.replace("%player", member.getName());
             }
 
-            if ( msg.contains("%prefix") || msg.contains("%suffix") ) {
+            if (msg.contains("%prefix") || msg.contains("%suffix")) {
                 msg.replace("%prefix", member.getPrefix());
                 msg.replace("%suffix", member.getSuffix());
             }
@@ -152,7 +149,8 @@ public class ClickableFormat {
 
     /**
      * チャンネルチャットのメッセージ用のフォーマットを置き換えする
-     * @param format フォーマット
+     *
+     * @param format      フォーマット
      * @param channelName チャンネル名
      * @return 置き換え結果
      */
@@ -171,6 +169,7 @@ public class ClickableFormat {
 
     /**
      * チャットフォーマット内のキーワードをBukkitの通常チャットイベント用に置き換えする
+     *
      * @param format 置き換え元のチャットフォーマット
      * @param member 発言者
      * @return 置き換え結果
@@ -190,10 +189,10 @@ public class ClickableFormat {
         Matcher matcher = Pattern.compile(PLACEHOLDER_PATTERN).matcher(message.getStringBuilder());
         int lastIndex = 0;
 
-        while ( matcher.find() ) {
+        while (matcher.find()) {
 
             // マッチする箇所までの文字列を取得する
-            if ( lastIndex < matcher.start() ) {
+            if (lastIndex < matcher.start()) {
                 Collections.addAll(components, TextComponent.fromLegacyText(message.substring(lastIndex, matcher.start())));
             }
 
@@ -203,7 +202,7 @@ public class ClickableFormat {
             String hover = matcher.group(3);
             String command = matcher.group(4);
             TextComponent tc = new TextComponent(TextComponent.fromLegacyText(text));
-            if ( !hover.isEmpty() ) {
+            if (!hover.isEmpty()) {
                 @SuppressWarnings("deprecation")
                 HoverEvent event = new HoverEvent(
                         HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(hover).create());
@@ -212,7 +211,7 @@ public class ClickableFormat {
 //                        HoverEvent.Action.SHOW_TEXT, new Text(hover));
                 tc.setHoverEvent(event);
             }
-            if ( type.equals("RUN_COMMAND") ) {
+            if (type.equals("RUN_COMMAND")) {
                 tc.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
             } else { // type.equals("SUGGEST_COMMAND")
                 tc.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, command));
@@ -229,7 +228,7 @@ public class ClickableFormat {
             lastIndex = matcher.end();
         }
 
-        if ( lastIndex < message.length() - 1 ) {
+        if (lastIndex < message.length() - 1) {
             // 残りの部分の文字列を取得する
             Collections.addAll(components, TextComponent.fromLegacyText(message.substring(lastIndex)));
         }
@@ -244,7 +243,7 @@ public class ClickableFormat {
         StringBuilder msg = new StringBuilder(message.toString());
         Matcher matcher = Pattern.compile(PLACEHOLDER_PATTERN).matcher(msg);
 
-        while ( matcher.find(0) ) {
+        while (matcher.find(0)) {
             String text = matcher.group(2);
             msg.replace(matcher.start(), matcher.end(), text);
         }

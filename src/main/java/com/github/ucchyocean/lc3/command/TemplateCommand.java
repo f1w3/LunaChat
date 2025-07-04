@@ -10,6 +10,7 @@ import com.github.ucchyocean.lc3.member.ChannelMember;
 
 /**
  * templateコマンドの実行クラス
+ *
  * @author ucchy
  */
 public class TemplateCommand extends LunaChatSubCommand {
@@ -19,6 +20,7 @@ public class TemplateCommand extends LunaChatSubCommand {
 
     /**
      * コマンドを取得します。
+     *
      * @return コマンド
      * @see com.github.ucchyocean.lc3.command.LunaChatSubCommand#getCommandName()
      */
@@ -29,6 +31,7 @@ public class TemplateCommand extends LunaChatSubCommand {
 
     /**
      * パーミッションノードを取得します。
+     *
      * @return パーミッションノード
      * @see com.github.ucchyocean.lc3.command.LunaChatSubCommand#getPermissionNode()
      */
@@ -39,6 +42,7 @@ public class TemplateCommand extends LunaChatSubCommand {
 
     /**
      * コマンドの種別を取得します。
+     *
      * @return コマンド種別
      * @see com.github.ucchyocean.lc3.command.LunaChatSubCommand#getCommandType()
      */
@@ -49,8 +53,9 @@ public class TemplateCommand extends LunaChatSubCommand {
 
     /**
      * 使用方法に関するメッセージをsenderに送信します。
+     *
      * @param sender コマンド実行者
-     * @param label 実行ラベル
+     * @param label  実行ラベル
      * @see com.github.ucchyocean.lc3.command.LunaChatSubCommand#sendUsageMessage()
      */
     @Override
@@ -61,9 +66,10 @@ public class TemplateCommand extends LunaChatSubCommand {
 
     /**
      * コマンドを実行します。
+     *
      * @param sender コマンド実行者
-     * @param label 実行ラベル
-     * @param args 実行時の引数
+     * @param label  実行ラベル
+     * @param args   実行時の引数
      * @return コマンドが実行されたかどうか
      * @see com.github.ucchyocean.lc3.command.LunaChatSubCommand#runCommand(java.lang.String[])
      */
@@ -73,12 +79,12 @@ public class TemplateCommand extends LunaChatSubCommand {
 
         // 引数チェック
         // このコマンドは、コンソールでも実行できる
-        if ( args.length <= 1 ) {
+        if (args.length <= 1) {
             sender.sendMessage(Messages.errmsgCommand());
             return true;
         }
 
-        if ( !args[1].matches("[0-9]") ) {
+        if (!args[1].matches("[0-9]")) {
             sender.sendMessage(Messages.errmsgInvalidTemplateNumber());
             sender.sendMessage(Messages.usageTemplate(label));
             return true;
@@ -86,7 +92,7 @@ public class TemplateCommand extends LunaChatSubCommand {
 
         String id = args[1];
         StringBuilder buf = new StringBuilder();
-        if ( args.length >= 3 ) {
+        if (args.length >= 3) {
             for (int i = 2; i < args.length; i++) {
                 buf.append(args[i] + " ");
             }
@@ -94,7 +100,7 @@ public class TemplateCommand extends LunaChatSubCommand {
         String format = buf.toString().trim();
 
         // 登録を実行
-        if ( format.equals("") ) {
+        if (format.equals("")) {
             api.removeTemplate(id);
             sender.sendMessage(Messages.cmdmsgTemplateRemove(id));
         } else {

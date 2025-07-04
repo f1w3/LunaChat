@@ -9,17 +9,19 @@ import com.github.ucchyocean.lc3.channel.Channel;
 
 /**
  * 各チャンネルの期限付きBANや期限付きMuteを、1分間隔で確認しに行くタスク
+ *
  * @author ucchy
  */
 public class ExpireCheckTask implements Runnable {
 
     /**
      * 1分ごとに呼び出されるメソッド
+     *
      * @see java.lang.Runnable#run()
      */
     @Override
     public void run() {
-        for ( Channel channel : LunaChat.getAPI().getChannels() ) {
+        for (Channel channel : LunaChat.getAPI().getChannels()) {
             channel.checkExpires();
         }
     }

@@ -7,6 +7,7 @@ package com.github.ucchyocean.lc;
 
 /**
  * LunaChat プラグイン
+ *
  * @author ucchy
  */
 public class LunaChat {
@@ -17,6 +18,7 @@ public class LunaChat {
 
     /**
      * LunaChatのインスタンスを返す
+     *
      * @return LunaChat
      * @deprecated Legacy Version
      */
@@ -26,6 +28,7 @@ public class LunaChat {
 
     /**
      * LunaChatAPIを取得する
+     *
      * @return LunaChatAPI
      * @deprecated Legacy Version
      */

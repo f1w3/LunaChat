@@ -9,6 +9,7 @@ import com.github.ucchyocean.lc3.member.ChannelMember;
 
 /**
  * チャンネルチャットのチャットイベント
+ *
  * @author ucchy
  */
 public class LunaChatBungeeChannelChatEvent extends LunaChatBungeeBaseCancellableEvent {
@@ -19,8 +20,8 @@ public class LunaChatBungeeChannelChatEvent extends LunaChatBungeeBaseCancellabl
     private String messageFormat;
 
     public LunaChatBungeeChannelChatEvent(String channelName, ChannelMember member,
-            String originalMessage, String ngMaskedMessage,
-            String messageFormat) {
+                                          String originalMessage, String ngMaskedMessage,
+                                          String messageFormat) {
         super(channelName);
         this.member = member;
         this.originalMessage = originalMessage;
@@ -30,6 +31,7 @@ public class LunaChatBungeeChannelChatEvent extends LunaChatBungeeBaseCancellabl
 
     /**
      * 発言を行ったプレイヤーを取得します。
+     *
      * @return 発言したプレイヤー
      */
     public ChannelMember getMember() {
@@ -38,6 +40,7 @@ public class LunaChatBungeeChannelChatEvent extends LunaChatBungeeBaseCancellabl
 
     /**
      * 置き換え前の、発言されたままのテキストをかえす
+     *
      * @return 発言内容
      */
     public String getPreReplaceMessage() {
@@ -46,6 +49,7 @@ public class LunaChatBungeeChannelChatEvent extends LunaChatBungeeBaseCancellabl
 
     /**
      * NGワードがマスクされた後のテキストをかえす
+     *
      * @return NGワードマスク済みの発言内容
      */
     public String getNgMaskedMessage() {
@@ -53,15 +57,8 @@ public class LunaChatBungeeChannelChatEvent extends LunaChatBungeeBaseCancellabl
     }
 
     /**
-     * メッセージに適用されるフォーマットをかえす
-     * @return フォーマット
-     */
-    public String getMessageFormat() {
-        return messageFormat;
-    }
-
-    /**
      * NGワードマスク後のテキストを上書き設定する
+     *
      * @param ngMaskedMessage 上書きする発言内容
      */
     public void setNgMaskedMessage(String ngMaskedMessage) {
@@ -69,7 +66,17 @@ public class LunaChatBungeeChannelChatEvent extends LunaChatBungeeBaseCancellabl
     }
 
     /**
+     * メッセージに適用されるフォーマットをかえす
+     *
+     * @return フォーマット
+     */
+    public String getMessageFormat() {
+        return messageFormat;
+    }
+
+    /**
      * メッセージフォーマットを上書き設定する
+     *
      * @param messageFormat フォーマット
      */
     public void setMessageFormat(String messageFormat) {

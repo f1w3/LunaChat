@@ -5,24 +5,26 @@
  */
 package com.github.ucchyocean.lc3.event;
 
+import com.github.ucchyocean.lc3.member.ChannelMember;
+
 import java.util.List;
 import java.util.Map;
 
-import com.github.ucchyocean.lc3.member.ChannelMember;
-
 /**
  * LunaChatのイベント実行インターフェイス
+ *
  * @author ucchy
  */
 public interface EventSenderInterface {
 
     /**
      * チャンネルチャットのチャットイベント
-     * @param channelName チャンネル名
-     * @param player 発言者
+     *
+     * @param channelName     チャンネル名
+     * @param player          発言者
      * @param originalMessage 発言内容
      * @param ngMaskedMessage 発言内容（NGマスク後）
-     * @param messageFormat 発言に適用されるフォーマット
+     * @param messageFormat   発言に適用されるフォーマット
      * @return イベント実行結果
      */
     public EventResult sendLunaChatChannelChatEvent(
@@ -32,8 +34,9 @@ public interface EventSenderInterface {
 
     /**
      * チャンネル作成イベント
+     *
      * @param channelName チャンネル名
-     * @param member 作成した人
+     * @param member      作成した人
      * @return イベント実行結果
      */
     public EventResult sendLunaChatChannelCreateEvent(
@@ -41,9 +44,10 @@ public interface EventSenderInterface {
 
     /**
      * メンバー変更イベント
+     *
      * @param channelName チャンネル名
-     * @param before 変更前のメンバー
-     * @param after 変更後のメンバー
+     * @param before      変更前のメンバー
+     * @param after       変更後のメンバー
      * @return イベント実行結果
      */
     public EventResult sendLunaChatChannelMemberChangedEvent(
@@ -52,11 +56,12 @@ public interface EventSenderInterface {
 
     /**
      * チャンネルチャットのメッセージイベント。このイベントはキャンセルできない。
-     * @param channelName チャンネル名
-     * @param member 発言者
-     * @param message 発言内容（NGマスクやJapanizeされた後の内容）
-     * @param recipients 受信者
-     * @param displayName 発言者の表示名
+     *
+     * @param channelName     チャンネル名
+     * @param member          発言者
+     * @param message         発言内容（NGマスクやJapanizeされた後の内容）
+     * @param recipients      受信者
+     * @param displayName     発言者の表示名
      * @param originalMessage 発言内容（元々の内容）
      * @return イベント実行結果
      */
@@ -67,9 +72,10 @@ public interface EventSenderInterface {
 
     /**
      * オプション変更イベント
+     *
      * @param channelName チャンネル名
-     * @param member オプションを変更した人
-     * @param options 変更後のオプション
+     * @param member      オプションを変更した人
+     * @param options     変更後のオプション
      * @return イベント実行結果
      */
     public EventResult sendLunaChatChannelOptionChangedEvent(
@@ -78,8 +84,9 @@ public interface EventSenderInterface {
 
     /**
      * チャンネル削除イベント
+     *
      * @param channelName チャンネル名
-     * @param member 削除を実行した人
+     * @param member      削除を実行した人
      * @return イベント実行結果
      */
     public EventResult sendLunaChatChannelRemoveEvent(
@@ -87,10 +94,11 @@ public interface EventSenderInterface {
 
     /**
      * Japanize変換が行われた後に呼び出されるイベント
+     *
      * @param channelName チャンネル名
-     * @param member 発言したメンバー
-     * @param original 変換前の文字列
-     * @param japanized 変換後の文字列
+     * @param member      発言したメンバー
+     * @param original    変換前の文字列
+     * @param japanized   変換後の文字列
      * @return イベント実行結果
      */
     public EventResult sendLunaChatPostJapanizeEvent(
@@ -99,9 +107,10 @@ public interface EventSenderInterface {
 
     /**
      * チャンネルチャットへの発言前に発生するイベント
+     *
      * @param channelName チャンネル名
-     * @param member 発言したメンバー
-     * @param message 発言内容
+     * @param member      発言したメンバー
+     * @param message     発言内容
      * @return イベント実行結果
      */
     public EventResult sendLunaChatPreChatEvent(

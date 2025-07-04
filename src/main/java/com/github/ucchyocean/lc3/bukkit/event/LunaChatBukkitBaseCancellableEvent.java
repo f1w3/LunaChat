@@ -9,6 +9,7 @@ import org.bukkit.event.Cancellable;
 
 /**
  * 基底のキャンセル可能イベントクラス
+ *
  * @author ucchy
  */
 public class LunaChatBukkitBaseCancellableEvent extends LunaChatBukkitBaseEvent implements Cancellable {
@@ -17,6 +18,7 @@ public class LunaChatBukkitBaseCancellableEvent extends LunaChatBukkitBaseEvent 
 
     /**
      * コンストラクタ
+     *
      * @param channelName チャンネル名
      */
     public LunaChatBukkitBaseCancellableEvent(String channelName) {
@@ -25,6 +27,7 @@ public class LunaChatBukkitBaseCancellableEvent extends LunaChatBukkitBaseEvent 
 
     /**
      * イベントがキャンセルされたかどうかをかえす
+     *
      * @see org.bukkit.event.Cancellable#isCancelled()
      */
     @Override
@@ -34,6 +37,7 @@ public class LunaChatBukkitBaseCancellableEvent extends LunaChatBukkitBaseEvent 
 
     /**
      * イベントをキャンセルするかどうかを設定する
+     *
      * @see org.bukkit.event.Cancellable#setCancelled(boolean)
      */
     @Override

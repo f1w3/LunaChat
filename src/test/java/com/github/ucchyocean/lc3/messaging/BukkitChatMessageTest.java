@@ -6,11 +6,9 @@
 package com.github.ucchyocean.lc3.messaging;
 
 import com.github.ucchyocean.lc3.member.ChannelMemberOther;
-
 import junit.framework.TestCase;
 
 /**
- *
  * @author ucchy
  */
 public class BukkitChatMessageTest extends TestCase {

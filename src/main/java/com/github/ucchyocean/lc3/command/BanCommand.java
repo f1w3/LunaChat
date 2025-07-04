@@ -11,6 +11,7 @@ import com.github.ucchyocean.lc3.member.ChannelMember;
 
 /**
  * banコマンドの実行クラス
+ *
  * @author ucchy
  */
 public class BanCommand extends LunaChatSubCommand {
@@ -20,6 +21,7 @@ public class BanCommand extends LunaChatSubCommand {
 
     /**
      * コマンドを取得します。
+     *
      * @return コマンド
      * @see com.github.ucchyocean.lc3.command.LunaChatSubCommand#getCommandName()
      */
@@ -30,6 +32,7 @@ public class BanCommand extends LunaChatSubCommand {
 
     /**
      * パーミッションノードを取得します。
+     *
      * @return パーミッションノード
      * @see com.github.ucchyocean.lc3.command.LunaChatSubCommand#getPermissionNode()
      */
@@ -40,6 +43,7 @@ public class BanCommand extends LunaChatSubCommand {
 
     /**
      * コマンドの種別を取得します。
+     *
      * @return コマンド種別
      * @see com.github.ucchyocean.lc3.command.LunaChatSubCommand#getCommandType()
      */
@@ -50,8 +54,9 @@ public class BanCommand extends LunaChatSubCommand {
 
     /**
      * 使用方法に関するメッセージをsenderに送信します。
+     *
      * @param sender コマンド実行者
-     * @param label 実行ラベル
+     * @param label  実行ラベル
      * @see com.github.ucchyocean.lc3.command.LunaChatSubCommand#sendUsageMessage()
      */
     @Override
@@ -63,9 +68,10 @@ public class BanCommand extends LunaChatSubCommand {
 
     /**
      * コマンドを実行します。
+     *
      * @param sender コマンド実行者
-     * @param label 実行ラベル
-     * @param args 実行時の引数
+     * @param label  実行ラベル
+     * @param args   実行時の引数
      * @return コマンドが実行されたかどうか
      * @see com.github.ucchyocean.lc3.command.LunaChatSubCommand#runCommand(java.lang.String[])
      */
@@ -97,13 +103,13 @@ public class BanCommand extends LunaChatSubCommand {
         }
 
         // モデレーターかどうか確認する
-        if ( !channel.hasModeratorPermission(sender) ) {
+        if (!channel.hasModeratorPermission(sender)) {
             sender.sendMessage(Messages.errmsgNotModerator());
             return true;
         }
 
         // グローバルチャンネルならBANできない
-        if ( channel.isGlobalChannel() ) {
+        if (channel.isGlobalChannel()) {
             sender.sendMessage(Messages.errmsgCannotBANGlobal(channel.getName()));
             return true;
         }
@@ -124,12 +130,12 @@ public class BanCommand extends LunaChatSubCommand {
         // 期限付きBANの場合、期限の指定が正しいかどうかをチェックする
         int expireMinutes = -1;
         if (args.length >= 3 && !isSpecifiedChannel) {
-            if ( !args[2].matches("[0-9]+") ) {
+            if (!args[2].matches("[0-9]+")) {
                 sender.sendMessage(Messages.errmsgInvalidBanExpireParameter());
                 return true;
             }
             expireMinutes = Integer.parseInt(args[2]);
-            if ( expireMinutes < 1 || 43200 < expireMinutes ) {
+            if (expireMinutes < 1 || 43200 < expireMinutes) {
                 sender.sendMessage(Messages.errmsgInvalidBanExpireParameter());
                 return true;
             }
@@ -137,14 +143,14 @@ public class BanCommand extends LunaChatSubCommand {
 
         // BAN実行
         channel.getBanned().add(kicked);
-        if ( expireMinutes != -1 ) {
+        if (expireMinutes != -1) {
             long expire = System.currentTimeMillis() + (long) expireMinutes * 60 * 1000;
             channel.getBanExpires().put(kicked, expire);
         }
         channel.removeMember(kicked);
 
         // senderに通知メッセージを出す
-        if ( expireMinutes != -1 ) {
+        if (expireMinutes != -1) {
             sender.sendMessage(Messages.cmdmsgBanWithExpire(
                     kickedName, channel.getName(), expireMinutes));
         } else {
@@ -153,18 +159,18 @@ public class BanCommand extends LunaChatSubCommand {
         }
 
         // チャンネルに通知メッセージを出す
-        if ( expireMinutes != -1 ) {
+        if (expireMinutes != -1) {
             channel.sendSystemMessage(Messages.banWithExpireMessage(
-                    channel.getColorCode(), channel.getName(), kicked.getName(), expireMinutes),
+                            channel.getColorCode(), channel.getName(), kicked.getName(), expireMinutes),
                     true, "system");
         } else {
             channel.sendSystemMessage(Messages.banMessage(
-                    channel.getColorCode(), channel.getName(), kicked.getName()),
+                            channel.getColorCode(), channel.getName(), kicked.getName()),
                     true, "system");
         }
 
         // BANされた人に通知メッセージを出す
-        if ( kicked != null && kicked.isOnline() ) {
+        if (kicked != null && kicked.isOnline()) {
             kicked.sendMessage(Messages.cmdmsgBanned(channel.getName()));
         }
 

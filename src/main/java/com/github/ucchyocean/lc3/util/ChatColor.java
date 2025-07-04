@@ -10,6 +10,7 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * チャットカラー
+ *
  * @author ucchy
  */
 public final class ChatColor {
@@ -55,7 +56,7 @@ public final class ChatColor {
         this.code = code;
         this.intCode = intCode;
         this.isFormat = isFormat;
-        this.toString = new String(new char[] {COLOR_CHAR, code});
+        this.toString = new String(new char[]{COLOR_CHAR, code});
     }
 
     private ChatColor(String name, String toString) {
@@ -63,34 +64,16 @@ public final class ChatColor {
         this.toString = toString;
         this.isFormat = false;
         this.code = 'c';
-        this.intCode =0xFF;
-    }
-
-    public String name() {
-        return name;
-    }
-
-    public char getChar() {
-        return code;
-    }
-
-    @NotNull
-    @Override
-    public String toString() {
-        return toString;
-    }
-
-    public boolean isFormat() {
-        return isFormat;
+        this.intCode = 0xFF;
     }
 
     public static @Nullable ChatColor getChatColorFromWebColor(String code) {
-        if ( code == null ) return null;
-        if ( code.matches("#[0-9a-fA-F]{3}") ) {
+        if (code == null) return null;
+        if (code.matches("#[0-9a-fA-F]{3}")) {
             return new ChatColor(code, code.replaceAll(
                     "#([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])",
                     "§x\u00A7$1\u00A7$1\u00A7$2\u00A7$2\u00A7$3\u00A7$3"));
-        } else if ( code.matches("#[0-9a-fA-F]{6}") ) {
+        } else if (code.matches("#[0-9a-fA-F]{6}")) {
             return new ChatColor(code, code.replaceAll(
                     "#([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])",
                     "\u00A7x\u00A7$1\u00A7$2\u00A7$3\u00A7$4\u00A7$5\u00A7$6"));
@@ -99,7 +82,7 @@ public final class ChatColor {
     }
 
     public static ChatColor[] values() {
-        return new ChatColor[] {
+        return new ChatColor[]{
                 BLACK,
                 DARK_BLUE,
                 DARK_GREEN,
@@ -126,15 +109,33 @@ public final class ChatColor {
     }
 
     public static ChatColor valueOf(String code) {
-        if ( code.matches("#[0-9a-fA-F]{6}") ) {
+        if (code.matches("#[0-9a-fA-F]{6}")) {
             return new ChatColor(code, code.replaceAll(
                     "#([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])",
                     "\u00A7x\u00A7$1\u00A7$2\u00A7$3\u00A7$4\u00A7$5\u00A7$6"));
         } else {
-            for ( ChatColor v : values() ) {
-                if ( v.name.equals(code) ) return v;
+            for (ChatColor v : values()) {
+                if (v.name.equals(code)) return v;
             }
         }
         return null;
+    }
+
+    public String name() {
+        return name;
+    }
+
+    public char getChar() {
+        return code;
+    }
+
+    @NotNull
+    @Override
+    public String toString() {
+        return toString;
+    }
+
+    public boolean isFormat() {
+        return isFormat;
     }
 }

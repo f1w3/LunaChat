@@ -5,13 +5,11 @@
  */
 package com.github.ucchyocean.lc3.channel;
 
-import org.jetbrains.annotations.Nullable;
-
 import com.github.ucchyocean.lc3.member.ChannelMember;
 import com.github.ucchyocean.lc3.util.ClickableFormat;
+import org.jetbrains.annotations.Nullable;
 
 /**
- *
  * @author ucchy
  */
 public class StandaloneChannel extends Channel {
@@ -22,7 +20,7 @@ public class StandaloneChannel extends Channel {
 
     @Override
     protected void sendMessage(ChannelMember member, String message,
-            @Nullable ClickableFormat format, boolean sendDynmap) {
+                               @Nullable ClickableFormat format, boolean sendDynmap) {
 
         // デバッグ表示メッセージ
         System.out.printf("room=%s, member=%s, format=%s, message=%s%n",

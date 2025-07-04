@@ -1,11 +1,10 @@
 package com.github.ucchyocean.lc3.japanize;
 
-import java.util.Map;
-
-import org.apache.commons.lang3.StringUtils;
-
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSortedMap;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.Map;
 
 /**
  * 「ローマ字」から「かな文字」へ正確に変換するクラス
@@ -19,9 +18,6 @@ public class YukiKanaConverter {
 
     private static final String[] ROMAJI_LIST;
     private static final String[] HIRAGANA_LIST;
-
-    protected YukiKanaConverter() {
-    }
 
     static {
         ImmutableSortedMap.Builder<String, String> builder = ImmutableSortedMap.reverseOrder();
@@ -318,10 +314,10 @@ public class YukiKanaConverter {
         builder.put("n", "ん").put("nn", "ん").put("n'", "ん").put("xn", "ん");
 
         // 促音を追加する
-        for ( Map.Entry<String, String> entry : builder.build().entrySet() ) {
+        for (Map.Entry<String, String> entry : builder.build().entrySet()) {
             String romaji = entry.getKey();
             String hiragana = entry.getValue();
-            if ( canStartFromSokuon(romaji) ) {
+            if (canStartFromSokuon(romaji)) {
                 builder.put(romaji.charAt(0) + romaji, "っ" + hiragana);
             }
         }
@@ -342,6 +338,9 @@ public class YukiKanaConverter {
 
         ROMAJI_LIST = MAP.keySet().toArray(new String[0]);
         HIRAGANA_LIST = MAP.values().toArray(new String[0]);
+    }
+
+    protected YukiKanaConverter() {
     }
 
     /**
@@ -374,8 +373,8 @@ public class YukiKanaConverter {
      * @since 2.8.10
      */
     public static String fixBrackets(String text) {
-        String[] full = new String[] { "（", "）" };
-        String[] half = new String[] { "(", ")" };
+        String[] full = new String[]{"（", "）"};
+        String[] half = new String[]{"(", ")"};
         return StringUtils.replaceEach(text, full, half);
     }
 }

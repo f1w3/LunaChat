@@ -7,12 +7,12 @@ package com.github.ucchyocean.lc3.bungee;
 
 import com.github.ucchyocean.lc3.command.LunaChatReplyCommand;
 import com.github.ucchyocean.lc3.member.ChannelMember;
-
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.plugin.Command;
 
 /**
  * Replyコマンドの処理クラス（Bungee実装）
+ *
  * @author ucchy
  */
 public class ReplyCommandBungee extends Command {
@@ -21,6 +21,7 @@ public class ReplyCommandBungee extends Command {
 
     /**
      * コンストラクタ
+     *
      * @param name
      * @param permission
      * @param aliases
@@ -32,8 +33,9 @@ public class ReplyCommandBungee extends Command {
 
     /**
      * コマンドを実行したときに呼び出されるメソッド
+     *
      * @param sender 実行者
-     * @param args 実行されたコマンドの引数
+     * @param args   実行されたコマンドの引数
      * @see net.md_5.bungee.api.plugin.Command#execute(net.md_5.bungee.api.CommandSender, java.lang.String[])
      */
     @Override

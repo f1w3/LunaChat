@@ -8,7 +8,6 @@ package com.github.ucchyocean.lc3.util;
 import junit.framework.TestCase;
 
 /**
- *
  * @author ucchy
  */
 public class UtilityTest extends TestCase {

@@ -5,14 +5,15 @@
  */
 package com.github.ucchyocean.lc3.command;
 
-import java.util.List;
-
 import com.github.ucchyocean.lc3.Messages;
 import com.github.ucchyocean.lc3.channel.Channel;
 import com.github.ucchyocean.lc3.member.ChannelMember;
 
+import java.util.List;
+
 /**
  * infoコマンドの実行クラス
+ *
  * @author ucchy
  */
 public class InfoCommand extends LunaChatSubCommand {
@@ -22,6 +23,7 @@ public class InfoCommand extends LunaChatSubCommand {
 
     /**
      * コマンドを取得します。
+     *
      * @return コマンド
      * @see com.github.ucchyocean.lc3.command.LunaChatSubCommand#getCommandName()
      */
@@ -32,6 +34,7 @@ public class InfoCommand extends LunaChatSubCommand {
 
     /**
      * パーミッションノードを取得します。
+     *
      * @return パーミッションノード
      * @see com.github.ucchyocean.lc3.command.LunaChatSubCommand#getPermissionNode()
      */
@@ -42,6 +45,7 @@ public class InfoCommand extends LunaChatSubCommand {
 
     /**
      * コマンドの種別を取得します。
+     *
      * @return コマンド種別
      * @see com.github.ucchyocean.lc3.command.LunaChatSubCommand#getCommandType()
      */
@@ -52,8 +56,9 @@ public class InfoCommand extends LunaChatSubCommand {
 
     /**
      * 使用方法に関するメッセージをsenderに送信します。
+     *
      * @param sender コマンド実行者
-     * @param label 実行ラベル
+     * @param label  実行ラベル
      * @see com.github.ucchyocean.lc3.command.LunaChatSubCommand#sendUsageMessage()
      */
     @Override
@@ -64,9 +69,10 @@ public class InfoCommand extends LunaChatSubCommand {
 
     /**
      * コマンドを実行します。
+     *
      * @param sender コマンド実行者
-     * @param label 実行ラベル
-     * @param args 実行時の引数
+     * @param label  実行ラベル
+     * @param args   実行時の引数
      * @return コマンドが実行されたかどうか
      * @see com.github.ucchyocean.lc3.command.LunaChatSubCommand#runCommand(java.lang.String[])
      */
@@ -77,12 +83,12 @@ public class InfoCommand extends LunaChatSubCommand {
         // 引数チェック
         // このコマンドは、デフォルトチャンネルでない人も実行できるが、その場合はチャンネル名を指定する必要がある
         String cname = null;
-        if ( args.length <= 1 ) {
+        if (args.length <= 1) {
             Channel def = api.getDefaultChannel(sender.getName());
-            if ( def != null ) {
+            if (def != null) {
                 cname = def.getName();
             }
-        } else if ( args.length >= 2 ) {
+        } else if (args.length >= 2) {
             cname = args[1];
         } else {
             sender.sendMessage(Messages.errmsgCommand());
@@ -91,13 +97,13 @@ public class InfoCommand extends LunaChatSubCommand {
 
         // チャンネルが存在するかどうか確認する
         Channel channel = api.getChannel(cname);
-        if ( channel == null ) {
+        if (channel == null) {
             sender.sendMessage(Messages.errmsgNotExist());
             return true;
         }
 
         // BANされていないかどうか確認する
-        if ( channel.getBanned().contains(sender) ) {
+        if (channel.getBanned().contains(sender)) {
             sender.sendMessage(Messages.errmsgBanned());
             return true;
         }

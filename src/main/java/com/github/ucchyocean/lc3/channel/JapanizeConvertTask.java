@@ -5,12 +5,6 @@
  */
 package com.github.ucchyocean.lc3.channel;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import com.github.ucchyocean.lc3.LunaChat;
 import com.github.ucchyocean.lc3.event.EventResult;
 import com.github.ucchyocean.lc3.japanize.IMEConverter;
@@ -19,8 +13,15 @@ import com.github.ucchyocean.lc3.japanize.YukiKanaConverter;
 import com.github.ucchyocean.lc3.member.ChannelMember;
 import com.github.ucchyocean.lc3.util.Utility;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Japanize変換を実行して、実行後に発言を行うタスク
+ *
  * @author ucchy
  */
 public class JapanizeConvertTask {
@@ -36,14 +37,15 @@ public class JapanizeConvertTask {
 
     /**
      * コンストラクタ
-     * @param org 変換前の文字列
-     * @param type 変換タイプ
+     *
+     * @param org            変換前の文字列
+     * @param type           変換タイプ
      * @param japanizeFormat 変換後に発言するときの、発言フォーマット
-     * @param channel 変換後に発言する、発言先チャンネル
-     * @param player 発言したプレイヤー
+     * @param channel        変換後に発言する、発言先チャンネル
+     * @param player         発言したプレイヤー
      */
     public JapanizeConvertTask(String org, JapanizeType type, String japanizeFormat,
-            Channel channel, ChannelMember player) {
+                               Channel channel, ChannelMember player) {
         this.org = org;
         this.type = type;
         this.format = japanizeFormat;
@@ -57,6 +59,7 @@ public class JapanizeConvertTask {
 
     /**
      * 同期処理で変換を行います。結果は getResult() で取得してください。
+     *
      * @return 処理を実行したかどうか（イベントでキャンセルされた場合はfalseになります）
      */
     public boolean runSync() {
@@ -64,7 +67,7 @@ public class JapanizeConvertTask {
         // 変換対象外のキーワード
         HashMap<String, String> keywordMap = new HashMap<String, String>();
         ArrayList<String> keywords = new ArrayList<String>();
-        if ( LunaChat.getConfig().isJapanizeIgnorePlayerName() ) {
+        if (LunaChat.getConfig().isJapanizeIgnorePlayerName()) {
             keywords.addAll(LunaChat.getPlugin().getOnlinePlayerNames());
         }
         Map<String, String> dictionary =
@@ -76,16 +79,16 @@ public class JapanizeConvertTask {
         // キーワードをロック
         int index = 0;
         String keywordLocked = deletedURL;
-        for ( String keyword : keywords ) {
-            if ( keywordLocked.contains(keyword) ) {
+        for (String keyword : keywords) {
+            if (keywordLocked.contains(keyword)) {
                 index++;
                 String key = "＜" + makeMultibytesDigit(index) + "＞";
                 keywordLocked = keywordLocked.replace(keyword, key);
                 keywordMap.put(key, keyword);
             }
         }
-        for ( String dickey : dictionary.keySet() ) {
-            if ( keywordLocked.contains(dickey) ) {
+        for (String dickey : dictionary.keySet()) {
+            if (keywordLocked.contains(dickey)) {
                 index++;
                 String key = "＜" + makeMultibytesDigit(index) + "＞";
                 keywordLocked = keywordLocked.replace(dickey, key);
@@ -97,19 +100,19 @@ public class JapanizeConvertTask {
         String japanized = YukiKanaConverter.conv(keywordLocked);
 
         // IME変換
-        if ( type == JapanizeType.GOOGLE_IME ) {
+        if (type == JapanizeType.GOOGLE_IME) {
             japanized = IMEConverter.convByGoogleIME(japanized);
         }
 
         // キーワードのアンロック
-        for ( String key : keywordMap.keySet() ) {
+        for (String key : keywordMap.keySet()) {
             japanized = japanized.replace(key, keywordMap.get(key));
         }
 
         // 変換後の文字列にNGワードが含まれている場合は、マスクする
-        for ( Pattern pattern : LunaChat.getConfig().getNgwordCompiled() ) {
+        for (Pattern pattern : LunaChat.getConfig().getNgwordCompiled()) {
             Matcher matcher = pattern.matcher(japanized);
-            if ( matcher.find() ) {
+            if (matcher.find()) {
                 japanized = matcher.replaceAll(
                         Utility.getAstariskString(matcher.group(0).length()));
             }
@@ -119,7 +122,7 @@ public class JapanizeConvertTask {
         String channelName = (channel == null) ? "" : channel.getName();
         EventResult event = LunaChat.getEventSender().sendLunaChatPostJapanizeEvent(
                 channelName, player, org, japanized);
-        if ( event.isCancelled() ) {
+        if (event.isCancelled()) {
             return false;
         }
         japanized = event.getJapanized();
@@ -133,6 +136,7 @@ public class JapanizeConvertTask {
 
     /**
      * Japanize変換の結果を返します。
+     *
      * @return 変換結果
      */
     public String getResult() {
@@ -141,6 +145,7 @@ public class JapanizeConvertTask {
 
     /**
      * 数値を、全角文字の文字列に変換して返す
+     *
      * @param digit
      * @return
      */
@@ -148,18 +153,38 @@ public class JapanizeConvertTask {
 
         String half = Integer.toString(digit);
         StringBuilder result = new StringBuilder();
-        for ( int index=0; index < half.length(); index++ ) {
-            switch ( half.charAt(index) ) {
-            case '0' : result.append("０"); break;
-            case '1' : result.append("１"); break;
-            case '2' : result.append("２"); break;
-            case '3' : result.append("３"); break;
-            case '4' : result.append("４"); break;
-            case '5' : result.append("５"); break;
-            case '6' : result.append("６"); break;
-            case '7' : result.append("７"); break;
-            case '8' : result.append("８"); break;
-            case '9' : result.append("９"); break;
+        for (int index = 0; index < half.length(); index++) {
+            switch (half.charAt(index)) {
+                case '0':
+                    result.append("０");
+                    break;
+                case '1':
+                    result.append("１");
+                    break;
+                case '2':
+                    result.append("２");
+                    break;
+                case '3':
+                    result.append("３");
+                    break;
+                case '4':
+                    result.append("４");
+                    break;
+                case '5':
+                    result.append("５");
+                    break;
+                case '6':
+                    result.append("６");
+                    break;
+                case '7':
+                    result.append("７");
+                    break;
+                case '8':
+                    result.append("８");
+                    break;
+                case '9':
+                    result.append("９");
+                    break;
             }
         }
         return result.toString();

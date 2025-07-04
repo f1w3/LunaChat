@@ -18,7 +18,7 @@ public class GoogleIME {
      */
     public static String parseJson(String json) {
         StringBuilder result = new StringBuilder();
-        for ( JsonElement response : new Gson().fromJson(json, JsonArray.class) ) {
+        for (JsonElement response : new Gson().fromJson(json, JsonArray.class)) {
             result.append(response.getAsJsonArray().get(1).getAsJsonArray().get(0).getAsString());
         }
         return result.toString();

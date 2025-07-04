@@ -5,37 +5,33 @@
  */
 package com.github.ucchyocean.lc3.channel;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.World;
-import org.bukkit.entity.Player;
-import org.jetbrains.annotations.Nullable;
-
-import com.github.ucchyocean.lc3.LunaChat;
-import com.github.ucchyocean.lc3.LunaChatAPI;
-import com.github.ucchyocean.lc3.LunaChatBukkit;
-import com.github.ucchyocean.lc3.LunaChatConfig;
-import com.github.ucchyocean.lc3.Messages;
+import com.github.ucchyocean.lc3.*;
 import com.github.ucchyocean.lc3.bridge.DynmapBridge;
 import com.github.ucchyocean.lc3.event.EventResult;
 import com.github.ucchyocean.lc3.member.ChannelMember;
 import com.github.ucchyocean.lc3.member.ChannelMemberBukkit;
 import com.github.ucchyocean.lc3.util.ClickableFormat;
 import com.github.ucchyocean.lc3.util.UtilityBukkit;
-
 import net.md_5.bungee.api.chat.BaseComponent;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.entity.Player;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * チャンネルの実装クラス
+ *
  * @author ucchy
  */
 public class BukkitChannel extends Channel {
 
     /**
      * コンストラクタ
+     *
      * @param name チャンネル名
      */
     protected BukkitChannel(String name) {
@@ -44,9 +40,10 @@ public class BukkitChannel extends Channel {
 
     /**
      * メッセージを表示します。指定したプレイヤーの発言として処理されます。
-     * @param player プレイヤー（ワールドチャット、範囲チャットの場合は必須です）
-     * @param message メッセージ
-     * @param format フォーマット
+     *
+     * @param player     プレイヤー（ワールドチャット、範囲チャットの場合は必須です）
+     * @param message    メッセージ
+     * @param format     フォーマット
      * @param sendDynmap dynmapへ送信するかどうか
      */
     @Override
@@ -62,39 +59,39 @@ public class BukkitChannel extends Channel {
         List<ChannelMember> recipients = new ArrayList<ChannelMember>();
         boolean sendNoRecipientMessage = false;
 
-        if ( isBroadcastChannel() ) {
+        if (isBroadcastChannel()) {
             // ブロードキャストチャンネル
 
-            for ( Player p : Bukkit.getOnlinePlayers() ) {
+            for (Player p : Bukkit.getOnlinePlayers()) {
                 ChannelMember cp = ChannelMember.getChannelMember(p);
-                if ( !getHided().contains(cp) ) {
+                if (!getHided().contains(cp)) {
                     recipients.add(cp);
                 }
             }
         } else {
             // 通常チャンネル
 
-            for ( ChannelMember mem : getMembers() ) {
-                if ( mem != null && mem.isOnline() && !getHided().contains(mem) ) {
+            for (ChannelMember mem : getMembers()) {
+                if (mem != null && mem.isOnline() && !getHided().contains(mem)) {
                     recipients.add(mem);
                 }
             }
         }
 
-        if ( isWorldRange() && player.isOnline() && player.getWorldName() != null ) {
+        if (isWorldRange() && player.isOnline() && player.getWorldName() != null) {
             // ワールドチャットや範囲チャットの場合は、範囲外のプレイヤーをrecipientsから抜く
 
             List<ChannelMember> recipientsNew = new ArrayList<>();
 
-            if ( getChatRange() > 0 ) {
+            if (getChatRange() > 0) {
                 // 範囲チャット
 
-                @Nullable Location origin = ((ChannelMemberBukkit)player).getLocation();
-                for ( ChannelMember recipient : recipients ) {
-                    @Nullable Location target = ((ChannelMemberBukkit)recipient).getLocation();
-                    if ( origin != null && target != null &&
+                @Nullable Location origin = ((ChannelMemberBukkit) player).getLocation();
+                for (ChannelMember recipient : recipients) {
+                    @Nullable Location target = ((ChannelMemberBukkit) recipient).getLocation();
+                    if (origin != null && target != null &&
                             origin.getWorld().equals(target.getWorld()) &&
-                            origin.distance(target) <= getChatRange() ) {
+                            origin.distance(target) <= getChatRange()) {
                         recipientsNew.add(recipient);
                     }
                 }
@@ -102,9 +99,9 @@ public class BukkitChannel extends Channel {
             } else {
                 // ワールドチャット
 
-                @Nullable World w = ((ChannelMemberBukkit)player).getWorld();
-                for ( ChannelMember recipient : recipients ) {
-                    @Nullable World target = ((ChannelMemberBukkit)recipient).getWorld();
+                @Nullable World w = ((ChannelMemberBukkit) player).getWorld();
+                for (ChannelMember recipient : recipients) {
+                    @Nullable World target = ((ChannelMemberBukkit) recipient).getWorld();
                     if (w != null && w.equals(target)) {
                         recipientsNew.add(recipient);
                     }
@@ -114,10 +111,10 @@ public class BukkitChannel extends Channel {
             recipients = recipientsNew;
 
             // 受信者が自分以外いない場合は、メッセージを表示する
-            if ( Messages.noRecipientMessage("", "").length > 0 && (
+            if (Messages.noRecipientMessage("", "").length > 0 && (
                     recipients.isEmpty() ||
-                    (recipients.size() == 1 &&
-                     recipients.get(0).getName().equals(player.getName()) ) ) ) {
+                            (recipients.size() == 1 &&
+                                    recipients.get(0).getName().equals(player.getName())))) {
                 sendNoRecipientMessage = true;
             }
         }
@@ -125,11 +122,11 @@ public class BukkitChannel extends Channel {
         // opListenAllChannel 設定がある場合は、
         // パーミッション lunachat-admin.listen-all-channels を持つプレイヤーを
         // 受信者に加える。
-        if ( config.isOpListenAllChannel() ) {
-            for ( Player p : Bukkit.getOnlinePlayers() ) {
+        if (config.isOpListenAllChannel()) {
+            for (Player p : Bukkit.getOnlinePlayers()) {
                 ChannelMember cp = ChannelMember.getChannelMember(p);
-                if ( cp.hasPermission("lunachat-admin.listen-all-channels")
-                        && !recipients.contains(cp) ) {
+                if (cp.hasPermission("lunachat-admin.listen-all-channels")
+                        && !recipients.contains(cp)) {
                     recipients.add(cp);
                 }
             }
@@ -137,7 +134,7 @@ public class BukkitChannel extends Channel {
 
         // hideされている場合は、受信対象者から抜く。
         LunaChatAPI api = LunaChat.getAPI();
-        for ( ChannelMember cp : api.getHidelist(player) )  {
+        for (ChannelMember cp : api.getHidelist(player)) {
             recipients.remove(cp);
         }
 
@@ -150,42 +147,42 @@ public class BukkitChannel extends Channel {
 
         // 通常ブロードキャストなら、設定に応じてdynmapへ送信する
         DynmapBridge dynmap = LunaChatBukkit.getInstance().getDynmap();
-        if ( config.isSendBroadcastChannelChatToDynmap() &&
+        if (config.isSendBroadcastChannelChatToDynmap() &&
                 sendDynmap &&
                 dynmap != null &&
                 isBroadcastChannel() &&
-                !isWorldRange() ) {
+                !isWorldRange()) {
 
             String msg = config.isSendFormattedMessageToDynmap() ? message : originalMessage;
             if (player instanceof ChannelMemberBukkit
                     && ((ChannelMemberBukkit) player).getPlayer() != null) {
-                dynmap.chat(((ChannelMemberBukkit)player).getPlayer(), msg);
+                dynmap.chat(((ChannelMemberBukkit) player).getPlayer(), msg);
             } else {
                 dynmap.broadcast(msg);
             }
         }
 
         // 送信する
-        if ( format != null ) {
+        if (format != null) {
             format.replace("%msg", message);
             BaseComponent[] comps = format.makeTextComponent();
-            for ( ChannelMember p : recipients ) {
+            for (ChannelMember p : recipients) {
                 p.sendMessage(comps);
             }
             message = format.toLegacyText();
         } else {
-            for ( ChannelMember p : recipients ) {
+            for (ChannelMember p : recipients) {
                 p.sendMessage(message);
             }
         }
 
         // 設定に応じて、コンソールに出力する
-        if ( config.isDisplayChatOnConsole() ) {
+        if (config.isDisplayChatOnConsole()) {
             Bukkit.getLogger().info(message);
         }
 
         // 受信者が自分以外いない場合は、メッセージを表示する
-        if ( sendNoRecipientMessage ) {
+        if (sendNoRecipientMessage) {
             player.sendMessage(Messages.noRecipientMessage(getColorCode(), getName()));
         }
 
@@ -195,6 +192,7 @@ public class BukkitChannel extends Channel {
 
     /**
      * チャンネルのオンライン人数を返す
+     *
      * @return オンライン人数
      * @see com.github.ucchyocean.lc3.channel.Channel#getOnlineNum()
      */
@@ -202,7 +200,7 @@ public class BukkitChannel extends Channel {
     public int getOnlineNum() {
 
         // ブロードキャストチャンネルならサーバー接続人数を返す
-        if ( isBroadcastChannel() ) {
+        if (isBroadcastChannel()) {
             return UtilityBukkit.getOnlinePlayersCount();
         }
 
@@ -211,6 +209,7 @@ public class BukkitChannel extends Channel {
 
     /**
      * チャンネルの総参加人数を返す
+     *
      * @return 総参加人数
      * @see com.github.ucchyocean.lc3.channel.Channel#getTotalNum()
      */
@@ -218,7 +217,7 @@ public class BukkitChannel extends Channel {
     public int getTotalNum() {
 
         // ブロードキャストチャンネルならサーバー接続人数を返す
-        if ( isBroadcastChannel() ) {
+        if (isBroadcastChannel()) {
             return UtilityBukkit.getOnlinePlayersCount();
         }
 
@@ -227,6 +226,7 @@ public class BukkitChannel extends Channel {
 
     /**
      * チャンネルのメンバーを返す
+     *
      * @return チャンネルのメンバー
      * @see com.github.ucchyocean.lc3.channel.Channel#getMembers()
      */
@@ -235,9 +235,9 @@ public class BukkitChannel extends Channel {
 
         // ブロードキャストチャンネルなら、
         // 現在サーバーに接続している全プレイヤーをメンバーとして返す
-        if ( isBroadcastChannel() ) {
+        if (isBroadcastChannel()) {
             List<ChannelMember> mem = new ArrayList<ChannelMember>();
-            for ( Player p : Bukkit.getOnlinePlayers() ) {
+            for (Player p : Bukkit.getOnlinePlayers()) {
                 mem.add(ChannelMember.getChannelMember(p));
             }
             return mem;
@@ -248,7 +248,8 @@ public class BukkitChannel extends Channel {
 
     /**
      * ログを記録する
-     * @param name 発言者
+     *
+     * @param name    発言者
      * @param message 記録するメッセージ
      */
     @Override
@@ -256,7 +257,7 @@ public class BukkitChannel extends Channel {
 
         // LunaChatのチャットログへ記録
         LunaChatConfig config = LunaChat.getConfig();
-        if ( config.isLoggingChat() && logger != null ) {
+        if (config.isLoggingChat() && logger != null) {
             logger.log(message, name);
         }
 

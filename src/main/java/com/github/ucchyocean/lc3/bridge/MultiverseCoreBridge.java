@@ -7,7 +7,6 @@ package com.github.ucchyocean.lc3.bridge;
 
 import org.bukkit.World;
 import org.bukkit.plugin.Plugin;
-
 import org.mvplugins.multiverse.core.MultiverseCore;
 import org.mvplugins.multiverse.core.MultiverseCoreApi;
 import org.mvplugins.multiverse.core.world.MultiverseWorld;
@@ -15,23 +14,29 @@ import org.mvplugins.multiverse.external.vavr.control.Option;
 
 /**
  * MultiverseCore連携クラス
+ *
  * @author ucchy
  */
 public class MultiverseCoreBridge {
 
-    /** MultiverseCore API クラス */
+    /**
+     * MultiverseCore API クラス
+     */
     private MultiverseCoreApi mvc;
 
-    /** コンストラクタは使用不可 */
+    /**
+     * コンストラクタは使用不可
+     */
     private MultiverseCoreBridge() {
     }
 
     /**
      * MultiverseCore-apiをロードする
+     *
      * @param plugin MultiverseCoreのプラグインインスタンス
      */
     public static MultiverseCoreBridge load(Plugin plugin) {
-        if ( plugin instanceof MultiverseCore ) {
+        if (plugin instanceof MultiverseCore) {
             MultiverseCoreBridge bridge = new MultiverseCoreBridge();
             bridge.mvc = (MultiverseCoreApi) plugin;
             return bridge;
@@ -42,6 +47,7 @@ public class MultiverseCoreBridge {
 
     /**
      * 指定されたワールドのエイリアス名を取得する
+     *
      * @param worldName ワールド名
      * @return エイリアス名、取得できない場合はnullが返される
      */
@@ -61,6 +67,7 @@ public class MultiverseCoreBridge {
 
     /**
      * 指定されたワールドのエイリアス名を取得する
+     *
      * @param world ワールド
      * @return エイリアス名、取得できない場合はnullが返される
      */

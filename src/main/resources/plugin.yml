@@ -1,68 +1,68 @@
 name: ${project.name}
 main: com.github.ucchyocean.lc3.LunaChatBukkit
 version: ${project.version}
-authors: [ucchy, YukiLeafX, LazyGon, tomo1560]
+authors: [ ucchy, YukiLeafX, LazyGon, tomo1560 ]
 description: ${project.description}
-softdepend: [Vault, dynmap, Multiverse-Core, mcMMO]
+softdepend: [ Vault, dynmap, Multiverse-Core, mcMMO ]
 
 commands:
   lunachat:
     description: lunachat command
-    aliases: [ch, lc]
+    aliases: [ ch, lc ]
     usage: |
-           /<command> join (channel) - join channel.
-           /<command> leave - leave channel.
-           /<command> list - display channel list.
-           /<command> invite (name) [force] - invite the specified player to channel.
-           /<command> accept - accept the invitation.
-           /<command> deny - deny the invitation.
-           /<command> kick (name) [channel] - kick the specified player.
-           /<command> ban (name) [channel] - ban the specified player.
-           /<command> ban (name) [minutes] - ban the specified player with expiration.
-           /<command> pardon (name) [channel] - remove the ban of the specified player.
-           /<command> mute (name) [channel] - deprive the voice of the specified player.
-           /<command> mute (name) [minutes] - deprive the voice of the specified player with expiration.
-           /<command> unmute (name) [channel] - remove the voice deprivation of the specified player.
-           /<command> hide (channel) - mute the specified channel.
-           /<command> hide channel (channel) - mute the specified channel.
-           /<command> hide (player) - mute the specified player.
-           /<command> hide player (player) - mute the specified player.
-           /<command> unhide (channel) - remove the mute of the specified channel.
-           /<command> unhide channel (channel) - remove the mute of the specified channel.
-           /<command> unhide (player) - remove the mute of the specified player.
-           /<command> unhide player (player) - remove the mute of the specified player.
-           /<command> info [channel] - display the information of the channel.
-           /<command> log [channel] [key=value...] - display the logs of the channel.
-           /<command> create (channel) - create the channel.
-           /<command> remove [channel] - remove the channel.
-           /<command> format [channel] (format...) - set the message format of the channel.
-           /<command> moderator [channel] (player...) - set the specified player as the moderator.
-           /<command> dictionary (add (word) (value)|remove (word)) - add/remove the word into the japanize dictionary.
-           /<command> option (key=value...) - set the options of the channel.
-           /<command> template (number) (template...) - set the template of the message format.
-           /<command> set default (player) [channel] - set the channel to which the specified player speaks to the specified channel.
-           /<command> reload - reload config.yml.
-           /<command> help [user|mod|admin] [page] - display the usage.
+      /<command> join (channel) - join channel.
+      /<command> leave - leave channel.
+      /<command> list - display channel list.
+      /<command> invite (name) [force] - invite the specified player to channel.
+      /<command> accept - accept the invitation.
+      /<command> deny - deny the invitation.
+      /<command> kick (name) [channel] - kick the specified player.
+      /<command> ban (name) [channel] - ban the specified player.
+      /<command> ban (name) [minutes] - ban the specified player with expiration.
+      /<command> pardon (name) [channel] - remove the ban of the specified player.
+      /<command> mute (name) [channel] - deprive the voice of the specified player.
+      /<command> mute (name) [minutes] - deprive the voice of the specified player with expiration.
+      /<command> unmute (name) [channel] - remove the voice deprivation of the specified player.
+      /<command> hide (channel) - mute the specified channel.
+      /<command> hide channel (channel) - mute the specified channel.
+      /<command> hide (player) - mute the specified player.
+      /<command> hide player (player) - mute the specified player.
+      /<command> unhide (channel) - remove the mute of the specified channel.
+      /<command> unhide channel (channel) - remove the mute of the specified channel.
+      /<command> unhide (player) - remove the mute of the specified player.
+      /<command> unhide player (player) - remove the mute of the specified player.
+      /<command> info [channel] - display the information of the channel.
+      /<command> log [channel] [key=value...] - display the logs of the channel.
+      /<command> create (channel) - create the channel.
+      /<command> remove [channel] - remove the channel.
+      /<command> format [channel] (format...) - set the message format of the channel.
+      /<command> moderator [channel] (player...) - set the specified player as the moderator.
+      /<command> dictionary (add (word) (value)|remove (word)) - add/remove the word into the japanize dictionary.
+      /<command> option (key=value...) - set the options of the channel.
+      /<command> template (number) (template...) - set the template of the message format.
+      /<command> set default (player) [channel] - set the channel to which the specified player speaks to the specified channel.
+      /<command> reload - reload config.yml.
+      /<command> help [user|mod|admin] [page] - display the usage.
     permission: lunachat.command
     permission-message: You don't have the permission "<permission>".
   tell:
     description: 1 on 1 chat command
-    aliases: [msg, message, m, t]
+    aliases: [ msg, message, m, t ]
     usage: /<command> (name) [message] - send 1 on 1 chat to the specified player.
     permission: lunachat.message
     permission-message: You don't have the permission "<permission>".
   reply:
     description: 1 on 1 chat reply command
-    aliases: [r]
+    aliases: [ r ]
     usage: /<command> [message] - reply to the recieved 1 on 1 chat.
     permission: lunachat.reply
     permission-message: You don't have the permission "<permission>".
   japanize:
     description: turn on/off the japanize conversion
-    aliases: [jp]
+    aliases: [ jp ]
     usage: |
-           /<command> on|off - turn on/off the japanize conversion of your chat.
-           /<command> (player) (on|off) - turn on/off the japanize conversion of the specified player's chat.
+      /<command> on|off - turn on/off the japanize conversion of your chat.
+      /<command> (player) (on|off) - turn on/off the japanize conversion of the specified player's chat.
     permission: lunachat.japanize
     permission-message: You don't have the permission "<permission>".
 

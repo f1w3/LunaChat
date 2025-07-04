@@ -11,6 +11,7 @@ import com.github.ucchyocean.lc3.member.ChannelMember;
 
 /**
  * leaveコマンドの実行クラス
+ *
  * @author ucchy
  */
 public class LeaveCommand extends LunaChatSubCommand {
@@ -20,6 +21,7 @@ public class LeaveCommand extends LunaChatSubCommand {
 
     /**
      * コマンドを取得します。
+     *
      * @return コマンド
      * @see com.github.ucchyocean.lc3.command.LunaChatSubCommand#getCommandName()
      */
@@ -30,6 +32,7 @@ public class LeaveCommand extends LunaChatSubCommand {
 
     /**
      * パーミッションノードを取得します。
+     *
      * @return パーミッションノード
      * @see com.github.ucchyocean.lc3.command.LunaChatSubCommand#getPermissionNode()
      */
@@ -40,6 +43,7 @@ public class LeaveCommand extends LunaChatSubCommand {
 
     /**
      * コマンドの種別を取得します。
+     *
      * @return コマンド種別
      * @see com.github.ucchyocean.lc3.command.LunaChatSubCommand#getCommandType()
      */
@@ -50,8 +54,9 @@ public class LeaveCommand extends LunaChatSubCommand {
 
     /**
      * 使用方法に関するメッセージをsenderに送信します。
+     *
      * @param sender コマンド実行者
-     * @param label 実行ラベル
+     * @param label  実行ラベル
      * @see com.github.ucchyocean.lc3.command.LunaChatSubCommand#sendUsageMessage()
      */
     @Override
@@ -62,9 +67,10 @@ public class LeaveCommand extends LunaChatSubCommand {
 
     /**
      * コマンドを実行します。
+     *
      * @param sender コマンド実行者
-     * @param label 実行ラベル
-     * @param args 実行時の引数
+     * @param label  実行ラベル
+     * @param args   実行時の引数
      * @return コマンドが実行されたかどうか
      * @see com.github.ucchyocean.lc3.command.LunaChatSubCommand#runCommand(java.lang.String[])
      */
@@ -76,7 +82,7 @@ public class LeaveCommand extends LunaChatSubCommand {
         // 指定が無いならデフォルトの発言先にする
         Channel def = api.getDefaultChannel(sender.getName());
         String channelName = null;
-        if ( def != null ) {
+        if (def != null) {
             channelName = def.getName();
         }
         if (args.length >= 2) {
@@ -86,7 +92,7 @@ public class LeaveCommand extends LunaChatSubCommand {
         Channel channel = api.getChannel(channelName);
 
         // チャンネルが存在するかどうかをチェックする
-        if ( channel == null ) {
+        if (channel == null) {
             sender.sendMessage(Messages.errmsgNotExist());
             return true;
         }
@@ -101,13 +107,13 @@ public class LeaveCommand extends LunaChatSubCommand {
         }
 
         // グローバルチャンネルなら退出できない
-        if ( channel.isGlobalChannel() ) {
+        if (channel.isGlobalChannel()) {
             sender.sendMessage(Messages.errmsgCannotLeaveGlobal(channelName));
             return true;
         }
 
         // 強制参加チャンネルなら退出できない
-        if ( channel.isForceJoinChannel() ) {
+        if (channel.isForceJoinChannel()) {
             sender.sendMessage(Messages.errmsgCannotLeaveForceJoin(channelName));
             return true;
         }

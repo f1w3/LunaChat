@@ -8,26 +8,36 @@ package com.github.ucchyocean.lc3;
 
 /**
  * NGワードを発言した人に与えるアクションの設定の種類
+ *
  * @author ucchy
  */
 public enum NGWordAction {
 
-    /** マスクするのみ */
+    /**
+     * マスクするのみ
+     */
     MASK("mask"),
 
-    /** マスクしつつ、チャンネルからMuteする */
+    /**
+     * マスクしつつ、チャンネルからMuteする
+     */
     MUTE("mute"),
 
-    /** マスクしつつ、チャンネルからキックする */
+    /**
+     * マスクしつつ、チャンネルからキックする
+     */
     KICK("kick"),
 
-    /** マスクしつつ、チャンネルからBANする */
+    /**
+     * マスクしつつ、チャンネルからBANする
+     */
     BAN("ban");
 
     private final String id;
 
     /**
      * コンストラクタ
+     *
      * @param id ID
      */
     NGWordAction(String id) {
@@ -35,22 +45,14 @@ public enum NGWordAction {
     }
 
     /**
-     * 識別文字列を返す
-     * @see java.lang.Enum#toString()
-     */
-    @Override
-    public String toString() {
-        return id;
-    }
-
-    /**
      * 識別文字列から、NGWordActionを作成して返す。
      * 無効な文字列が指定された場合は、nullが返される。
+     *
      * @param id 識別文字列
      * @return 対応したNGWordAction
      */
     public static NGWordAction fromID(String id) {
-        if ( id == null ) {
+        if (id == null) {
             return null;
         }
         for (NGWordAction value : values()) {
@@ -59,5 +61,15 @@ public enum NGWordAction {
             }
         }
         return null;
+    }
+
+    /**
+     * 識別文字列を返す
+     *
+     * @see java.lang.Enum#toString()
+     */
+    @Override
+    public String toString() {
+        return id;
     }
 }

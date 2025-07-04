@@ -1,14 +1,13 @@
 package com.github.ucchyocean.lc3.member;
 
+import com.github.ucchyocean.lc3.util.BlockLocation;
+import net.md_5.bungee.api.chat.BaseComponent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import com.github.ucchyocean.lc3.util.BlockLocation;
-
-import net.md_5.bungee.api.chat.BaseComponent;
-
 /**
  * 任意の内容を設定できるChannelMember
+ *
  * @author ucchy
  */
 public class ChannelMemberOther extends ChannelMember {
@@ -31,19 +30,19 @@ public class ChannelMemberOther extends ChannelMember {
     }
 
     public ChannelMemberOther(@NotNull String name, @NotNull String displayName,
-            @NotNull String prefix, @NotNull String suffix) {
+                              @NotNull String prefix, @NotNull String suffix) {
         this(name, displayName, prefix, suffix, null);
     }
 
     public ChannelMemberOther(@NotNull String name, @NotNull String displayName,
-            @NotNull String prefix, @NotNull String suffix,
-            @Nullable BlockLocation location) {
+                              @NotNull String prefix, @NotNull String suffix,
+                              @Nullable BlockLocation location) {
         this(name, displayName, prefix, suffix, location, null);
     }
 
     public ChannelMemberOther(@NotNull String name, @NotNull String displayName,
-            @NotNull String prefix, @NotNull String suffix,
-            @Nullable BlockLocation location, @Nullable String id) {
+                              @NotNull String prefix, @NotNull String suffix,
+                              @Nullable BlockLocation location, @Nullable String id) {
         this.name = name;
         this.displayName = displayName;
         this.prefix = prefix;
@@ -89,8 +88,8 @@ public class ChannelMemberOther extends ChannelMember {
 
     @Override
     public String getWorldName() {
-        if ( worldName != null ) return worldName;
-        if ( location != null ) return location.getWorldName();
+        if (worldName != null) return worldName;
+        if (location != null) return location.getWorldName();
         return "";
     }
 
@@ -121,7 +120,7 @@ public class ChannelMemberOther extends ChannelMember {
 
     @Override
     public String toString() {
-        if ( id != null ) return "$" + id;
+        if (id != null) return "$" + id;
         return name;
     }
 

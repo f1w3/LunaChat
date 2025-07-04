@@ -9,6 +9,7 @@ import net.md_5.bungee.api.chat.BaseComponent;
 
 /**
  * テスト用のダミーメンバー
+ *
  * @author ucchy
  */
 public class ChannelMemberDummy extends ChannelMember {
@@ -73,7 +74,7 @@ public class ChannelMemberDummy extends ChannelMember {
      */
     @Override
     public void sendMessage(BaseComponent[] message) {
-        for ( BaseComponent comp : message ) {
+        for (BaseComponent comp : message) {
             System.out.print(comp.toLegacyText());
         }
         System.out.println();

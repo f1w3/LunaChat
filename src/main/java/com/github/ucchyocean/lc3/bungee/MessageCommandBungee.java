@@ -7,13 +7,13 @@ package com.github.ucchyocean.lc3.bungee;
 
 import com.github.ucchyocean.lc3.command.LunaChatMessageCommand;
 import com.github.ucchyocean.lc3.member.ChannelMember;
-
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.TabExecutor;
 
 /**
  * Tellコマンドの処理クラス（Bungee実装）
+ *
  * @author ucchy
  */
 public class MessageCommandBungee extends Command implements TabExecutor {
@@ -22,6 +22,7 @@ public class MessageCommandBungee extends Command implements TabExecutor {
 
     /**
      * コンストラクタ
+     *
      * @param name
      * @param permission
      * @param aliases
@@ -33,8 +34,9 @@ public class MessageCommandBungee extends Command implements TabExecutor {
 
     /**
      * コマンドを実行したときに呼び出されるメソッド
+     *
      * @param sender 実行者
-     * @param args 実行されたコマンドの引数
+     * @param args   実行されたコマンドの引数
      * @see net.md_5.bungee.api.plugin.Command#execute(net.md_5.bungee.api.CommandSender, java.lang.String[])
      */
     @Override
@@ -44,8 +46,9 @@ public class MessageCommandBungee extends Command implements TabExecutor {
 
     /**
      * TABキー補完が実行されたときに呼び出されるメソッド
+     *
      * @param sender 実行者
-     * @param args 実行されたコマンドの引数
+     * @param args   実行されたコマンドの引数
      * @return 補完候補
      * @see net.md_5.bungee.api.plugin.TabExecutor#onTabComplete(net.md_5.bungee.api.CommandSender, java.lang.String[])
      */

@@ -5,6 +5,10 @@
  */
 package com.github.ucchyocean.lc3.bridge;
 
+import com.github.ucchyocean.lc3.LunaChat;
+import com.github.ucchyocean.lc3.LunaChatAPI;
+import com.github.ucchyocean.lc3.LunaChatConfig;
+import com.github.ucchyocean.lc3.channel.Channel;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -12,34 +16,35 @@ import org.bukkit.plugin.Plugin;
 import org.dynmap.DynmapAPI;
 import org.dynmap.DynmapWebChatEvent;
 
-import com.github.ucchyocean.lc3.LunaChat;
-import com.github.ucchyocean.lc3.LunaChatAPI;
-import com.github.ucchyocean.lc3.LunaChatConfig;
-import com.github.ucchyocean.lc3.channel.Channel;
-
 /**
  * dynmap連携クラス
+ *
  * @author ucchy
  */
 public class DynmapBridge implements Listener {
 
-    /** dynmap-apiクラス */
+    /**
+     * dynmap-apiクラス
+     */
     private DynmapAPI dynmap;
 
-    /** コンストラクタは使用不可 */
+    /**
+     * コンストラクタは使用不可
+     */
     private DynmapBridge() {
     }
 
     /**
      * dynmap-apiをロードする
-     * @param plugin dynmap-apiのプラグインインスタンス
+     *
+     * @param plugin    dynmap-apiのプラグインインスタンス
      * @param ロードしたかどうか
      */
     public static DynmapBridge load(Plugin plugin) {
 
-        if ( plugin instanceof DynmapAPI ) {
+        if (plugin instanceof DynmapAPI) {
             DynmapBridge bridge = new DynmapBridge();
-            bridge.dynmap = (DynmapAPI)plugin;
+            bridge.dynmap = (DynmapAPI) plugin;
             return bridge;
         } else {
             return null;
@@ -48,7 +53,8 @@ public class DynmapBridge implements Listener {
 
     /**
      * dynmapにプレイヤーのチャットを流す
-     * @param player プレイヤー
+     *
+     * @param player  プレイヤー
      * @param message 発言内容
      */
     public void chat(Player player, String message) {
@@ -58,6 +64,7 @@ public class DynmapBridge implements Listener {
 
     /**
      * dynmapにブロードキャストメッセージを流す
+     *
      * @param message メッセージ
      */
     public void broadcast(String message) {
@@ -67,6 +74,7 @@ public class DynmapBridge implements Listener {
 
     /**
      * DynmapのWebUIからチャット発言されたときのイベント
+     *
      * @param event
      */
     @EventHandler
@@ -77,13 +85,13 @@ public class DynmapBridge implements Listener {
         String dchannel = config.getDynmapChannel();
         Channel channel = null;
 
-        if ( !dchannel.equals("") ) {
+        if (!dchannel.equals("")) {
             // dynmapChannelが設定されている場合
             channel = api.getChannel(dchannel);
 
         } else {
             String gchannel = config.getGlobalChannel();
-            if ( !gchannel.equals("") ) {
+            if (!gchannel.equals("")) {
                 // dynmapChannelが設定されていなくて、
                 // globalChannelが設定されている場合
                 channel = api.getChannel(gchannel);
@@ -91,7 +99,7 @@ public class DynmapBridge implements Listener {
             }
         }
 
-        if ( channel != null ) {
+        if (channel != null) {
             // チャンネルへ送信
             channel.chatFromOtherSource(
                     event.getName(), event.getSource(), event.getMessage());

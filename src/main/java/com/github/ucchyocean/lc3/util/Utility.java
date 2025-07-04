@@ -5,35 +5,30 @@
  */
 package com.github.ucchyocean.lc3.util;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import com.github.ucchyocean.lc3.LunaChat;
+import com.github.ucchyocean.lc3.LunaChatMode;
+import com.google.common.io.Files;
+
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
 
-import com.github.ucchyocean.lc3.LunaChat;
-import com.github.ucchyocean.lc3.LunaChatMode;
-import com.google.common.io.Files;
-
 /**
  * ユーティリティクラス
+ *
  * @author ucchy
  */
 public class Utility {
 
     /**
      * jarファイルの中に格納されているファイルを、jarファイルの外にコピーするメソッド
-     * @param jarFile jarファイル
-     * @param targetFile コピー先
+     *
+     * @param jarFile        jarファイル
+     * @param targetFile     コピー先
      * @param sourceFilePath コピー元
-     * @param isBinary バイナリファイルかどうか
+     * @param isBinary       バイナリファイルかどうか
      */
     public static void copyFileFromJar(
             File jarFile, File targetFile, String sourceFilePath, boolean isBinary) {
@@ -43,7 +38,7 @@ public class Utility {
             parent.mkdirs();
         }
 
-        if ( jarFile.isDirectory() ) {
+        if (jarFile.isDirectory()) {
             File file = new File(jarFile, sourceFilePath);
 
             try {
@@ -54,11 +49,11 @@ public class Utility {
 
         } else {
 
-            try ( JarFile jar = new JarFile(jarFile) ) {
+            try (JarFile jar = new JarFile(jarFile)) {
                 ZipEntry zipEntry = jar.getEntry(sourceFilePath);
                 InputStream is = jar.getInputStream(zipEntry);
 
-                try ( FileOutputStream fos = new FileOutputStream(targetFile) ) {
+                try (FileOutputStream fos = new FileOutputStream(targetFile)) {
 
                     if (isBinary) {
                         byte[] buf = new byte[8192];
@@ -70,7 +65,7 @@ public class Utility {
                     } else {
 
                         try (BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
-                             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fos, StandardCharsets.UTF_8)) ) {
+                             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fos, StandardCharsets.UTF_8))) {
 
                             String line;
                             while ((line = reader.readLine()) != null) {
@@ -88,6 +83,7 @@ public class Utility {
 
     /**
      * 文字列内のカラーコード候補（&a）を、カラーコード（§a）に置き換えする
+     *
      * @param source 置き換え元の文字列
      * @return 置き換え後の文字列
      */
@@ -99,6 +95,7 @@ public class Utility {
 
     /**
      * Webカラーコード（#99AABBなど）を、カラーコードに置き換えする
+     *
      * @param source 置き換え元の文字列
      * @return 置き換え後の文字列
      */
@@ -114,6 +111,7 @@ public class Utility {
 
     /**
      * 文字列に含まれているカラーコード（§a）やカラーコード候補（&aや#99AABB）を除去して返す
+     *
      * @param source 置き換え元の文字列
      * @return 置き換え後の文字列
      */
@@ -124,6 +122,7 @@ public class Utility {
 
     /**
      * 文字列に含まれているカラーコード候補（&aや#99AABB）を除去して返す
+     *
      * @param source 置き換え元の文字列
      * @return 置き換え後の文字列
      */
@@ -135,6 +134,7 @@ public class Utility {
 
     /**
      * カラーコード（§a）かどうかを判断する
+     *
      * @param code カラーコード
      * @return カラーコードかどうか
      */
@@ -145,6 +145,7 @@ public class Utility {
 
     /**
      * カラーコード候補（&aや#99AABB）かどうかを判断する
+     *
      * @param color カラーコード候補
      * @return カラーコード候補かどうか
      */
@@ -155,11 +156,12 @@ public class Utility {
 
     /**
      * ChatColorで指定可能な色（REDとかGREENとか）かどうかを判断する
+     *
      * @param color カラー表記の文字列
      * @return 指定可能かどうか
      */
     public static boolean isValidColor(String color) {
-        if ( color == null ) return false;
+        if (color == null) return false;
         for (ChatColor c : ChatColor.values()) {
             if (c.name().equals(color.toUpperCase())) {
                 return true;
@@ -170,6 +172,7 @@ public class Utility {
 
     /**
      * カラー表記の文字列（REDとかGREENとか）を、カラーコード候補（&a）に変換する
+     *
      * @param color カラー表記の文字列
      * @return カラーコード候補
      */
@@ -179,6 +182,7 @@ public class Utility {
 
     /**
      * カラー表記の文字列を、ChatColorクラスに変換する
+     *
      * @param color カラー表記の文字列
      * @return ChatColorクラス
      */
@@ -191,6 +195,7 @@ public class Utility {
 
     /**
      * 指定された文字数のアスタリスクの文字列を返す
+     *
      * @param length アスタリスクの個数
      * @return 指定された文字数のアスタリスク
      */
@@ -200,14 +205,15 @@ public class Utility {
 
     /**
      * 指定された名前のプレイヤーが接続したことがあるかどうかを検索する
+     *
      * @param name プレイヤー名
      * @return 接続したことがあるかどうか
      */
     public static boolean existsOfflinePlayer(String name) {
-        if ( LunaChat.getUUIDCacheData().getUUIDFromName(name) != null ) {
+        if (LunaChat.getUUIDCacheData().getUUIDFromName(name) != null) {
             return true;
         }
-        if ( LunaChat.getMode() == LunaChatMode.BUKKIT ) {
+        if (LunaChat.getMode() == LunaChatMode.BUKKIT) {
             return UtilityBukkit.existsOfflinePlayer(name);
         }
         return false;
@@ -215,11 +221,12 @@ public class Utility {
 
     /**
      * 動作環境のロケールを取得する。
+     *
      * @return 動作環境のロケール
      */
     public static Locale getDefaultLocale() {
         Locale locale = Locale.getDefault();
-        if ( locale == null ) return Locale.ENGLISH;
+        if (locale == null) return Locale.ENGLISH;
         return locale;
     }
 }

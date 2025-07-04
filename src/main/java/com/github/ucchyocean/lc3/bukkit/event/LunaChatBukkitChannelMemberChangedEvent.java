@@ -5,12 +5,13 @@
  */
 package com.github.ucchyocean.lc3.bukkit.event;
 
-import java.util.List;
-
 import com.github.ucchyocean.lc3.member.ChannelMember;
+
+import java.util.List;
 
 /**
  * メンバー変更イベント
+ *
  * @author ucchy
  */
 public class LunaChatBukkitChannelMemberChangedEvent extends LunaChatBukkitBaseCancellableEvent {
@@ -20,9 +21,10 @@ public class LunaChatBukkitChannelMemberChangedEvent extends LunaChatBukkitBaseC
 
     /**
      * コンストラクタ
+     *
      * @param channelName チャンネル名
-     * @param before 変更前のメンバー
-     * @param after 変更後のメンバー
+     * @param before      変更前のメンバー
+     * @param after       変更後のメンバー
      */
     public LunaChatBukkitChannelMemberChangedEvent(
             String channelName, List<ChannelMember> before, List<ChannelMember> after) {
@@ -33,6 +35,7 @@ public class LunaChatBukkitChannelMemberChangedEvent extends LunaChatBukkitBaseC
 
     /**
      * 変更前のメンバーリストをかえす
+     *
      * @return
      */
     public List<ChannelMember> getMembersBefore() {
@@ -41,6 +44,7 @@ public class LunaChatBukkitChannelMemberChangedEvent extends LunaChatBukkitBaseC
 
     /**
      * 変更後のメンバーリストをかえす
+     *
      * @return
      */
     public List<ChannelMember> getMembersAfter() {

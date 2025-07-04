@@ -9,6 +9,7 @@ import com.github.ucchyocean.lc3.member.ChannelMember;
 
 /**
  * Japanize変換が行われた後に呼び出されるイベント
+ *
  * @author ucchy
  */
 public class LunaChatBukkitPostJapanizeEvent extends LunaChatBukkitBaseCancellableEvent {
@@ -19,13 +20,14 @@ public class LunaChatBukkitPostJapanizeEvent extends LunaChatBukkitBaseCancellab
 
     /**
      * コンストラクタ
+     *
      * @param channelName チャンネル名
-     * @param member 発言したプレイヤー
-     * @param original 変換前の文字列
-     * @param japanized 変換後の文字列
+     * @param member      発言したプレイヤー
+     * @param original    変換前の文字列
+     * @param japanized   変換後の文字列
      */
     public LunaChatBukkitPostJapanizeEvent(String channelName, ChannelMember member,
-            String original, String japanized) {
+                                           String original, String japanized) {
         super(channelName);
         this.member = member;
         this.original = original;
@@ -34,6 +36,7 @@ public class LunaChatBukkitPostJapanizeEvent extends LunaChatBukkitBaseCancellab
 
     /**
      * 発言を行ったプレイヤーを取得します。
+     *
      * @return 発言したプレイヤー
      */
     public ChannelMember getMember() {
@@ -42,6 +45,7 @@ public class LunaChatBukkitPostJapanizeEvent extends LunaChatBukkitBaseCancellab
 
     /**
      * Japanize変換後の文字列を返す
+     *
      * @return 変換後の文字列
      */
     public String getJapanized() {
@@ -50,6 +54,7 @@ public class LunaChatBukkitPostJapanizeEvent extends LunaChatBukkitBaseCancellab
 
     /**
      * Japanize変換後の文字列を差し替える
+     *
      * @param japanized 変換後の文字列
      */
     public void setJapanized(String japanized) {
@@ -58,6 +63,7 @@ public class LunaChatBukkitPostJapanizeEvent extends LunaChatBukkitBaseCancellab
 
     /**
      * Japanize変換前の文字列を返す
+     *
      * @return 変換前の文字列
      */
     public String getOriginal() {

@@ -11,6 +11,7 @@ import com.github.ucchyocean.lc3.member.ChannelMember;
 
 /**
  * inviteコマンドの実行クラス
+ *
  * @author ucchy
  */
 public class InviteCommand extends LunaChatSubCommand {
@@ -23,6 +24,7 @@ public class InviteCommand extends LunaChatSubCommand {
 
     /**
      * コマンドを取得します。
+     *
      * @return コマンド
      * @see com.github.ucchyocean.lc3.command.LunaChatSubCommand#getCommandName()
      */
@@ -33,6 +35,7 @@ public class InviteCommand extends LunaChatSubCommand {
 
     /**
      * パーミッションノードを取得します。
+     *
      * @return パーミッションノード
      * @see com.github.ucchyocean.lc3.command.LunaChatSubCommand#getPermissionNode()
      */
@@ -43,6 +46,7 @@ public class InviteCommand extends LunaChatSubCommand {
 
     /**
      * コマンドの種別を取得します。
+     *
      * @return コマンド種別
      * @see com.github.ucchyocean.lc3.command.LunaChatSubCommand#getCommandType()
      */
@@ -53,8 +57,9 @@ public class InviteCommand extends LunaChatSubCommand {
 
     /**
      * 使用方法に関するメッセージをsenderに送信します。
+     *
      * @param sender コマンド実行者
-     * @param label 実行ラベル
+     * @param label  実行ラベル
      * @see com.github.ucchyocean.lc3.command.LunaChatSubCommand#sendUsageMessage()
      */
     @Override
@@ -65,16 +70,17 @@ public class InviteCommand extends LunaChatSubCommand {
 
     /**
      * コマンドを実行します。
+     *
      * @param sender コマンド実行者
-     * @param label 実行ラベル
-     * @param args 実行時の引数
+     * @param label  実行ラベル
+     * @param args   実行時の引数
      * @return コマンドが実行されたかどうか
      * @see com.github.ucchyocean.lc3.command.LunaChatSubCommand#runCommand(java.lang.String[])
      */
     @Override
     public boolean runCommand(ChannelMember sender, String label, String[] args) {
 
-        if ( args.length >= 3 && args[2].equalsIgnoreCase("force") ) {
+        if (args.length >= 3 && args[2].equalsIgnoreCase("force")) {
             return runForceInviteCommand(sender, label, args);
         }
 
@@ -83,6 +89,7 @@ public class InviteCommand extends LunaChatSubCommand {
 
     /**
      * 通常のinviteコマンドを処理する
+     *
      * @param sender
      * @param label
      * @param args
@@ -92,7 +99,7 @@ public class InviteCommand extends LunaChatSubCommand {
 
         // デフォルトの発言先を取得する
         Channel channel = api.getDefaultChannel(sender.getName());
-        if ( channel == null ) {
+        if (channel == null) {
             sender.sendMessage(Messages.errmsgNoJoin());
             return true;
         }
@@ -107,14 +114,14 @@ public class InviteCommand extends LunaChatSubCommand {
         }
 
         // モデレーターかどうか確認する
-        if ( !channel.hasModeratorPermission(sender) ) {
+        if (!channel.hasModeratorPermission(sender)) {
             sender.sendMessage(Messages.errmsgNotModerator());
             return true;
         }
 
         // 招待相手が存在するかどうかを確認する
         ChannelMember invited = ChannelMember.getChannelMember(invitedName);
-        if ( invited == null || !invited.isOnline() ) {
+        if (invited == null || !invited.isOnline()) {
             sender.sendMessage(Messages.errmsgNotfoundPlayer(invitedName));
             return true;
         }
@@ -137,6 +144,7 @@ public class InviteCommand extends LunaChatSubCommand {
 
     /**
      * 強制入室コマンドを処理する
+     *
      * @param sender
      * @param label
      * @param args
@@ -145,7 +153,7 @@ public class InviteCommand extends LunaChatSubCommand {
     private boolean runForceInviteCommand(ChannelMember sender, String label, String[] args) {
 
         // パーミッションチェック
-        if ( !sender.hasPermission(PERMISSION_NODE_FORCE_INVITE) ) {
+        if (!sender.hasPermission(PERMISSION_NODE_FORCE_INVITE)) {
             sender.sendMessage(Messages.errmsgPermission(PERMISSION_NODE_FORCE_INVITE));
             return true;
         }
@@ -153,12 +161,12 @@ public class InviteCommand extends LunaChatSubCommand {
         // 引数チェック
         // このコマンドは、デフォルトチャンネルでない人も実行できるが、その場合はチャンネル名を指定する必要がある
         String cname = null;
-        if ( args.length <= 3 ) {
+        if (args.length <= 3) {
             Channel def = api.getDefaultChannel(sender.getName());
-            if ( def != null ) {
+            if (def != null) {
                 cname = def.getName();
             }
-        } else if ( args.length >= 4 ) {
+        } else if (args.length >= 4) {
             cname = args[3];
         } else {
             sender.sendMessage(Messages.errmsgCommand());
@@ -167,7 +175,7 @@ public class InviteCommand extends LunaChatSubCommand {
 
         // チャンネルが存在するかどうか確認する
         Channel channel = api.getChannel(cname);
-        if ( channel == null ) {
+        if (channel == null) {
             sender.sendMessage(Messages.errmsgNotExist());
             return true;
         }
@@ -175,7 +183,7 @@ public class InviteCommand extends LunaChatSubCommand {
         // 招待相手が存在するかどうかを確認する
         String invitedName = args[1];
         ChannelMember invited = ChannelMember.getChannelMember(invitedName);
-        if ( invited == null || !invited.isOnline() ) {
+        if (invited == null || !invited.isOnline()) {
             sender.sendMessage(Messages.errmsgNotfoundPlayer(invitedName));
             return true;
         }

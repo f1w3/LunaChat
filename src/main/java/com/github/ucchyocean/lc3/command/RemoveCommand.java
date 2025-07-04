@@ -11,6 +11,7 @@ import com.github.ucchyocean.lc3.member.ChannelMember;
 
 /**
  * removeコマンドの実行クラス
+ *
  * @author ucchy
  */
 public class RemoveCommand extends LunaChatSubCommand {
@@ -20,6 +21,7 @@ public class RemoveCommand extends LunaChatSubCommand {
 
     /**
      * コマンドを取得します。
+     *
      * @return コマンド
      * @see com.github.ucchyocean.lc3.command.LunaChatSubCommand#getCommandName()
      */
@@ -30,6 +32,7 @@ public class RemoveCommand extends LunaChatSubCommand {
 
     /**
      * パーミッションノードを取得します。
+     *
      * @return パーミッションノード
      * @see com.github.ucchyocean.lc3.command.LunaChatSubCommand#getPermissionNode()
      */
@@ -40,6 +43,7 @@ public class RemoveCommand extends LunaChatSubCommand {
 
     /**
      * コマンドの種別を取得します。
+     *
      * @return コマンド種別
      * @see com.github.ucchyocean.lc3.command.LunaChatSubCommand#getCommandType()
      */
@@ -50,8 +54,9 @@ public class RemoveCommand extends LunaChatSubCommand {
 
     /**
      * 使用方法に関するメッセージをsenderに送信します。
+     *
      * @param sender コマンド実行者
-     * @param label 実行ラベル
+     * @param label  実行ラベル
      * @see com.github.ucchyocean.lc3.command.LunaChatSubCommand#sendUsageMessage()
      */
     @Override
@@ -62,9 +67,10 @@ public class RemoveCommand extends LunaChatSubCommand {
 
     /**
      * コマンドを実行します。
+     *
      * @param sender コマンド実行者
-     * @param label 実行ラベル
-     * @param args 実行時の引数
+     * @param label  実行ラベル
+     * @param args   実行時の引数
      * @return コマンドが実行されたかどうか
      * @see com.github.ucchyocean.lc3.command.LunaChatSubCommand#runCommand(java.lang.String[])
      */
@@ -75,12 +81,12 @@ public class RemoveCommand extends LunaChatSubCommand {
         // 引数チェック
         // このコマンドは、デフォルトチャンネルでない人も実行できるが、その場合はチャンネル名を指定する必要がある
         String cname = null;
-        if ( args.length <= 1 ) {
+        if (args.length <= 1) {
             Channel def = api.getDefaultChannel(sender.getName());
-            if ( def != null ) {
+            if (def != null) {
                 cname = def.getName();
             }
-        } else if ( args.length >= 2 ) {
+        } else if (args.length >= 2) {
             cname = args[1];
         } else {
             sender.sendMessage(Messages.errmsgCommand());
@@ -89,25 +95,25 @@ public class RemoveCommand extends LunaChatSubCommand {
 
         // チャンネルが存在するかどうか確認する
         Channel channel = api.getChannel(cname);
-        if ( channel == null ) {
+        if (channel == null) {
             sender.sendMessage(Messages.errmsgNotExist());
             return true;
         }
 
         // モデレーターかどうか確認する
-        if ( !channel.hasModeratorPermission(sender) ) {
+        if (!channel.hasModeratorPermission(sender)) {
             sender.sendMessage(Messages.errmsgNotModerator());
             return true;
         }
 
         // グローバルチャンネルなら削除できない
-        if ( channel.isGlobalChannel() ) {
+        if (channel.isGlobalChannel()) {
             sender.sendMessage(Messages.errmsgCannotRemoveGlobal(channel.getName()));
             return true;
         }
 
         // チャンネル削除
-        if ( api.removeChannel(cname, sender) ) {
+        if (api.removeChannel(cname, sender)) {
             sender.sendMessage(Messages.cmdmsgRemove(cname));
         }
         return true;

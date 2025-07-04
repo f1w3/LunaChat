@@ -5,14 +5,15 @@
  */
 package com.github.ucchyocean.lc3.command;
 
-import java.util.List;
-
 import com.github.ucchyocean.lc3.Messages;
 import com.github.ucchyocean.lc3.channel.Channel;
 import com.github.ucchyocean.lc3.member.ChannelMember;
 
+import java.util.List;
+
 /**
  * formatコマンドの実行クラス
+ *
  * @author ucchy
  */
 public class FormatCommand extends LunaChatSubCommand {
@@ -22,6 +23,7 @@ public class FormatCommand extends LunaChatSubCommand {
 
     /**
      * コマンドを取得します。
+     *
      * @return コマンド
      * @see com.github.ucchyocean.lc3.command.LunaChatSubCommand#getCommandName()
      */
@@ -32,6 +34,7 @@ public class FormatCommand extends LunaChatSubCommand {
 
     /**
      * パーミッションノードを取得します。
+     *
      * @return パーミッションノード
      * @see com.github.ucchyocean.lc3.command.LunaChatSubCommand#getPermissionNode()
      */
@@ -42,6 +45,7 @@ public class FormatCommand extends LunaChatSubCommand {
 
     /**
      * コマンドの種別を取得します。
+     *
      * @return コマンド種別
      * @see com.github.ucchyocean.lc3.command.LunaChatSubCommand#getCommandType()
      */
@@ -52,8 +56,9 @@ public class FormatCommand extends LunaChatSubCommand {
 
     /**
      * 使用方法に関するメッセージをsenderに送信します。
+     *
      * @param sender コマンド実行者
-     * @param label 実行ラベル
+     * @param label  実行ラベル
      * @see com.github.ucchyocean.lc3.command.LunaChatSubCommand#sendUsageMessage()
      */
     @Override
@@ -64,9 +69,10 @@ public class FormatCommand extends LunaChatSubCommand {
 
     /**
      * コマンドを実行します。
+     *
      * @param sender コマンド実行者
-     * @param label 実行ラベル
-     * @param args 実行時の引数
+     * @param label  実行ラベル
+     * @param args   実行時の引数
      * @return コマンドが実行されたかどうか
      * @see com.github.ucchyocean.lc3.command.LunaChatSubCommand#runCommand(java.lang.String[])
      */
@@ -78,15 +84,15 @@ public class FormatCommand extends LunaChatSubCommand {
         // このコマンドは、デフォルトチャンネルでない人も実行できるが、その場合はチャンネル名を指定する必要がある
         String format = "";
         String cname = null;
-        if ( args.length >= 2 ) {
+        if (args.length >= 2) {
             Channel def = api.getDefaultChannel(sender.getName());
-            if ( def != null ) {
+            if (def != null) {
                 cname = def.getName();
             }
             for (int i = 1; i < args.length; i++) {
                 format = format + args[i] + " ";
             }
-        } else if ( args.length >= 3 ) {
+        } else if (args.length >= 3) {
             cname = args[1];
             for (int i = 2; i < args.length; i++) {
                 format = format + args[i] + " ";
@@ -99,13 +105,13 @@ public class FormatCommand extends LunaChatSubCommand {
 
         // チャンネルが存在するかどうかをチェックする
         Channel channel = api.getChannel(cname);
-        if ( channel == null ) {
+        if (channel == null) {
             sender.sendMessage(Messages.errmsgNotExist());
             return true;
         }
 
         // モデレーターかどうか確認する
-        if ( !channel.hasModeratorPermission(sender) ) {
+        if (!channel.hasModeratorPermission(sender)) {
             sender.sendMessage(Messages.errmsgNotModerator());
             return true;
         }
@@ -113,15 +119,15 @@ public class FormatCommand extends LunaChatSubCommand {
         // 制約キーワードを確認する
         List<String> constraints = config.getFormatConstraint();
         String tempFormat = new String(format);
-        for ( int i=0; i<=9; i++ ) {
+        for (int i = 0; i <= 9; i++) {
             String key = "%" + i;
-            if ( tempFormat.contains(key) && api.getTemplate(i + "") != null ) {
+            if (tempFormat.contains(key) && api.getTemplate(i + "") != null) {
                 tempFormat = tempFormat.replace(key, api.getTemplate("" + i));
                 break;
             }
         }
-        for ( String constraint : constraints ) {
-            if ( !tempFormat.contains(constraint) ) {
+        for (String constraint : constraints) {
+            if (!tempFormat.contains(constraint)) {
                 sender.sendMessage(Messages.errmsgFormatConstraint(constraint));
                 return true;
             }

@@ -7,11 +7,11 @@ package com.github.ucchyocean.lc3.bungee.event;
 
 import com.github.ucchyocean.lc3.LunaChat;
 import com.github.ucchyocean.lc3.channel.Channel;
-
 import net.md_5.bungee.api.plugin.Event;
 
 /**
  * 基底イベントクラス
+ *
  * @author ucchy
  */
 public abstract class LunaChatBungeeBaseEvent extends Event {
@@ -20,6 +20,7 @@ public abstract class LunaChatBungeeBaseEvent extends Event {
 
     /**
      * コンストラクタ
+     *
      * @param channelName チャンネル名
      */
     public LunaChatBungeeBaseEvent(String channelName) {
@@ -28,6 +29,7 @@ public abstract class LunaChatBungeeBaseEvent extends Event {
 
     /**
      * チャンネル名を取得する
+     *
      * @return チャンネル名
      */
     public String getChannelName() {
@@ -36,6 +38,7 @@ public abstract class LunaChatBungeeBaseEvent extends Event {
 
     /**
      * チャンネルを取得する
+     *
      * @return チャンネル
      */
     public Channel getChannel() {

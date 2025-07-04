@@ -10,6 +10,7 @@ import net.md_5.bungee.api.plugin.Plugin;
 
 /**
  * BungeePerms連携クラス
+ *
  * @author ucchy
  */
 public class BungeePermsBridge {
@@ -20,6 +21,7 @@ public class BungeePermsBridge {
 
     /**
      * BungeePermsをロードする
+     *
      * @param plugin BungeePermsのインスタンス
      * @return ロードされたBungeePermsBridge
      */
@@ -34,9 +36,10 @@ public class BungeePermsBridge {
 
     /**
      * Gets the full prefix of the player
+     *
      * @param nameoruuid the username or uuid of the player
-     * @param server the server; may be null; if server == "" then the current server is used or null if BungeeCord
-     * @param world the world; may be null
+     * @param server     the server; may be null; if server == "" then the current server is used or null if BungeeCord
+     * @param world      the world; may be null
      * @return the full prefix; may be null
      */
     public String userPrefix(String nameoruuid, String server, String world) {
@@ -46,9 +49,10 @@ public class BungeePermsBridge {
 
     /**
      * Gets the full suffix of the player
+     *
      * @param nameoruuid the username or uuid of the player
-     * @param server the server; may be null; if server == "" then the current server is used or null if BungeeCord
-     * @param world the world; may be null
+     * @param server     the server; may be null; if server == "" then the current server is used or null if BungeeCord
+     * @param world      the world; may be null
      * @return the full suffix; may be null
      */
     public String userSuffix(String nameoruuid, String server, String world) {

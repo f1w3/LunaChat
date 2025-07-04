@@ -5,20 +5,18 @@
  */
 package com.github.ucchyocean.lc3.util;
 
-import java.io.File;
-
 import com.github.ucchyocean.lc3.LunaChatStandalone;
 import com.github.ucchyocean.lc3.Messages;
 import com.github.ucchyocean.lc3.channel.Channel;
 import com.github.ucchyocean.lc3.channel.StandaloneChannel;
 import com.github.ucchyocean.lc3.member.ChannelMember;
 import com.github.ucchyocean.lc3.member.ChannelMemberDummy;
-
 import junit.framework.TestCase;
 import net.md_5.bungee.api.chat.BaseComponent;
 
+import java.io.File;
+
 /**
- *
  * @author ucchy
  */
 public class ClickableFormatTest extends TestCase {
@@ -26,11 +24,19 @@ public class ClickableFormatTest extends TestCase {
     private static final String DATA_FOLDER = "target" + File.separator + "LunaChatTest";
     private static final String MESSAGES_FOLDER = "target" + File.separator + "classes";
 
+    private static String makeLegacyText(BaseComponent[] comps) {
+        StringBuilder builder = new StringBuilder();
+        for (BaseComponent comp : comps) {
+            builder.append(comp.toLegacyText());
+        }
+        return builder.toString();
+    }
+
     public void testChannelChatKeyword() {
 
         File dataFolder = new File(DATA_FOLDER);
         System.out.println("dataFolder : " + dataFolder.getAbsolutePath());
-        if ( !dataFolder.exists() ) {
+        if (!dataFolder.exists()) {
             dataFolder.mkdirs();
         }
 
@@ -55,7 +61,7 @@ public class ClickableFormatTest extends TestCase {
         BaseComponent[] comps = f.makeTextComponent();
 
         System.out.println("post : comps len = " + comps.length + ", legacy text = " + makeLegacyText(comps));
-        for ( BaseComponent comp : comps ) {
+        for (BaseComponent comp : comps) {
             System.out.println(comp.toString());
         }
 
@@ -76,18 +82,10 @@ public class ClickableFormatTest extends TestCase {
         BaseComponent[] comps = f.makeTextComponent();
 
         System.out.println("post : comps len = " + comps.length + ", legacy text = " + makeLegacyText(comps));
-        for ( BaseComponent comp : comps ) {
+        for (BaseComponent comp : comps) {
             System.out.println(comp.toString());
         }
 
 //        assertTrue(f.toLegacyText().equals(makeLegacyText(comps)));
-    }
-
-    private static String makeLegacyText(BaseComponent[] comps) {
-        StringBuilder builder = new StringBuilder();
-        for ( BaseComponent comp : comps ) {
-            builder.append(comp.toLegacyText());
-        }
-        return builder.toString();
     }
 }

@@ -5,29 +5,20 @@
  */
 package com.github.ucchyocean.lc;
 
+import com.github.ucchyocean.lc.channel.*;
+import com.github.ucchyocean.lc.japanize.JapanizeType;
+import com.github.ucchyocean.lc3.member.*;
+import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
-import org.bukkit.Bukkit;
-import org.bukkit.command.CommandSender;
-
-import com.github.ucchyocean.lc.channel.Channel;
-import com.github.ucchyocean.lc.channel.ChannelPlayer;
-import com.github.ucchyocean.lc.channel.ChannelPlayerBlock;
-import com.github.ucchyocean.lc.channel.ChannelPlayerConsole;
-import com.github.ucchyocean.lc.channel.ChannelPlayerName;
-import com.github.ucchyocean.lc.channel.ChannelPlayerUUID;
-import com.github.ucchyocean.lc.japanize.JapanizeType;
-import com.github.ucchyocean.lc3.member.ChannelMember;
-import com.github.ucchyocean.lc3.member.ChannelMemberBlock;
-import com.github.ucchyocean.lc3.member.ChannelMemberBukkitConsole;
-import com.github.ucchyocean.lc3.member.ChannelMemberBungee;
-import com.github.ucchyocean.lc3.member.ChannelMemberPlayer;
-
 /**
  * LunaChat API実装クラス
+ *
  * @author ucchy
  */
 @SuppressWarnings("deprecation")
@@ -35,6 +26,7 @@ class LunaChatAPIImpl implements LunaChatAPI {
 
     /**
      * 指定したチャンネル名が存在するかどうかを返す
+     *
      * @param channelName チャンネル名
      * @return 存在するかどうか
      * @deprecated Legacy Version
@@ -45,13 +37,14 @@ class LunaChatAPIImpl implements LunaChatAPI {
 
     /**
      * 全てのチャンネルを返す
+     *
      * @return 全てのチャンネル
      * @deprecated Legacy Version
      */
     public Collection<Channel> getChannels() {
         Collection<Channel> result = new ArrayList<Channel>();
-        for ( com.github.ucchyocean.lc3.channel.Channel c :
-                com.github.ucchyocean.lc3.LunaChat.getAPI().getChannels() ) {
+        for (com.github.ucchyocean.lc3.channel.Channel c :
+                com.github.ucchyocean.lc3.LunaChat.getAPI().getChannels()) {
             result.add(new Channel(c));
         }
         return result;
@@ -59,14 +52,15 @@ class LunaChatAPIImpl implements LunaChatAPI {
 
     /**
      * プレイヤーが参加しているチャンネルを返す
+     *
      * @param playerName プレイヤー名
      * @return チャンネル
      * @deprecated Legacy Version
      */
     public Collection<Channel> getChannelsByPlayer(String playerName) {
         Collection<Channel> result = new ArrayList<Channel>();
-        for ( com.github.ucchyocean.lc3.channel.Channel c :
-                com.github.ucchyocean.lc3.LunaChat.getAPI().getChannelsByPlayer(playerName) ) {
+        for (com.github.ucchyocean.lc3.channel.Channel c :
+                com.github.ucchyocean.lc3.LunaChat.getAPI().getChannelsByPlayer(playerName)) {
             result.add(new Channel(c));
         }
         return result;
@@ -74,6 +68,7 @@ class LunaChatAPIImpl implements LunaChatAPI {
 
     /**
      * プレイヤーが参加しているデフォルトのチャンネルを返す
+     *
      * @param playerName プレイヤー
      * @return チャンネル
      * @deprecated Legacy Version
@@ -81,13 +76,14 @@ class LunaChatAPIImpl implements LunaChatAPI {
     public Channel getDefaultChannel(String playerName) {
         com.github.ucchyocean.lc3.channel.Channel c =
                 com.github.ucchyocean.lc3.LunaChat.getAPI().getDefaultChannel(playerName);
-        if ( c != null ) return new Channel(c);
+        if (c != null) return new Channel(c);
         return null;
     }
 
     /**
      * プレイヤーのデフォルトチャンネルを設定する
-     * @param playerName プレイヤー
+     *
+     * @param playerName  プレイヤー
      * @param channelName チャンネル名
      * @deprecated Legacy Version
      */
@@ -97,6 +93,7 @@ class LunaChatAPIImpl implements LunaChatAPI {
 
     /**
      * 指定した名前のプレイヤーに設定されている、デフォルトチャンネルを削除する
+     *
      * @param playerName プレイヤー名
      * @deprecated Legacy Version
      */
@@ -106,6 +103,7 @@ class LunaChatAPIImpl implements LunaChatAPI {
 
     /**
      * チャンネルを取得する
+     *
      * @param channelName チャンネル名
      * @return チャンネル
      * @deprecated Legacy Version
@@ -113,12 +111,13 @@ class LunaChatAPIImpl implements LunaChatAPI {
     public Channel getChannel(String channelName) {
         com.github.ucchyocean.lc3.channel.Channel c =
                 com.github.ucchyocean.lc3.LunaChat.getAPI().getChannel(channelName);
-        if ( c != null ) return new Channel(c);
+        if (c != null) return new Channel(c);
         return null;
     }
 
     /**
      * 新しいチャンネルを作成する
+     *
      * @param channelName チャンネル名
      * @return 作成されたチャンネル
      * @deprecated Legacy Version
@@ -126,14 +125,15 @@ class LunaChatAPIImpl implements LunaChatAPI {
     public Channel createChannel(String channelName) {
         com.github.ucchyocean.lc3.channel.Channel c =
                 com.github.ucchyocean.lc3.LunaChat.getAPI().createChannel(channelName);
-        if ( c != null ) return new Channel(c);
+        if (c != null) return new Channel(c);
         return null;
     }
 
     /**
      * 新しいチャンネルを作成する
+     *
      * @param channelName チャンネル名
-     * @param sender チャンネルを作成した人
+     * @param sender      チャンネルを作成した人
      * @return 作成されたチャンネル
      * @deprecated Legacy Version
      */
@@ -141,12 +141,13 @@ class LunaChatAPIImpl implements LunaChatAPI {
         com.github.ucchyocean.lc3.channel.Channel c =
                 com.github.ucchyocean.lc3.LunaChat.getAPI().createChannel(
                         channelName, ChannelMember.getChannelMember(sender));
-        if ( c != null ) return new Channel(c);
+        if (c != null) return new Channel(c);
         return null;
     }
 
     /**
      * チャンネルを削除する
+     *
      * @param channelName 削除するチャンネル名
      * @return 削除したかどうか
      * @deprecated Legacy Version
@@ -157,8 +158,9 @@ class LunaChatAPIImpl implements LunaChatAPI {
 
     /**
      * チャンネルを削除する
+     *
      * @param channelName 削除するチャンネル名
-     * @param sender チャンネルを削除した人
+     * @param sender      チャンネルを削除した人
      * @return 削除したかどうか
      * @deprecated Legacy Version
      */
@@ -169,6 +171,7 @@ class LunaChatAPIImpl implements LunaChatAPI {
 
     /**
      * テンプレートを取得する
+     *
      * @param id テンプレートID
      * @return テンプレート
      * @deprecated Legacy Version
@@ -179,7 +182,8 @@ class LunaChatAPIImpl implements LunaChatAPI {
 
     /**
      * テンプレートを登録する
-     * @param id テンプレートID
+     *
+     * @param id       テンプレートID
      * @param template テンプレート
      * @deprecated Legacy Version
      */
@@ -189,6 +193,7 @@ class LunaChatAPIImpl implements LunaChatAPI {
 
     /**
      * テンプレートを削除する
+     *
      * @param id テンプレートID
      * @deprecated Legacy Version
      */
@@ -198,6 +203,7 @@ class LunaChatAPIImpl implements LunaChatAPI {
 
     /**
      * 辞書データを全て取得する
+     *
      * @return 辞書データ
      * @deprecated Legacy Version
      */
@@ -208,7 +214,8 @@ class LunaChatAPIImpl implements LunaChatAPI {
 
     /**
      * 新しい辞書データを追加する
-     * @param key キー
+     *
+     * @param key   キー
      * @param value 値
      * @deprecated Legacy Version
      */
@@ -218,6 +225,7 @@ class LunaChatAPIImpl implements LunaChatAPI {
 
     /**
      * 指定したキーの辞書データを削除する
+     *
      * @param key キー
      * @deprecated Legacy Version
      */
@@ -227,6 +235,7 @@ class LunaChatAPIImpl implements LunaChatAPI {
 
     /**
      * 該当のプレイヤーに関連するhidelistを取得する。
+     *
      * @param key プレイヤー
      * @return 指定されたプレイヤーをhideしているプレイヤー(非null)
      * @deprecated Legacy Version
@@ -234,16 +243,17 @@ class LunaChatAPIImpl implements LunaChatAPI {
     public List<ChannelPlayer> getHidelist(ChannelPlayer key) {
         List<ChannelPlayer> result = new ArrayList<ChannelPlayer>();
         ChannelMember mem = convertChannelPlayerToChannelMember(key);
-        if ( mem == null ) return result;
-        for ( ChannelMember m : com.github.ucchyocean.lc3.LunaChat.getAPI().getHidelist(mem) ) {
+        if (mem == null) return result;
+        for (ChannelMember m : com.github.ucchyocean.lc3.LunaChat.getAPI().getHidelist(mem)) {
             ChannelPlayer p = convertChannelMemberToChannelPlayer(m);
-            if ( p != null ) result.add(p);
+            if (p != null) result.add(p);
         }
         return result;
     }
 
     /**
      * 該当のプレイヤーがhideしているプレイヤーのリストを返す。
+     *
      * @param player プレイヤー
      * @return 指定したプレイヤーがhideしているプレイヤーのリスト
      * @deprecated Legacy Version
@@ -251,57 +261,61 @@ class LunaChatAPIImpl implements LunaChatAPI {
     public ArrayList<ChannelPlayer> getHideinfo(ChannelPlayer player) {
         ArrayList<ChannelPlayer> result = new ArrayList<ChannelPlayer>();
         ChannelMember mem = convertChannelPlayerToChannelMember(player);
-        if ( mem == null ) return result;
-        for ( ChannelMember m : com.github.ucchyocean.lc3.LunaChat.getAPI().getHideinfo(mem) ) {
+        if (mem == null) return result;
+        for (ChannelMember m : com.github.ucchyocean.lc3.LunaChat.getAPI().getHideinfo(mem)) {
             ChannelPlayer p = convertChannelMemberToChannelPlayer(m);
-            if ( p != null ) result.add(p);
+            if (p != null) result.add(p);
         }
         return result;
     }
 
     /**
      * 指定されたプレイヤーが、指定されたプレイヤーをhideするように設定する。
+     *
      * @param player hideする側のプレイヤー
-     * @param hided hideされる側のプレイヤー
+     * @param hided  hideされる側のプレイヤー
      * @deprecated Legacy Version
      */
     public void addHidelist(ChannelPlayer player, ChannelPlayer hided) {
         ChannelMember memPlayer = convertChannelPlayerToChannelMember(player);
         ChannelMember memHided = convertChannelPlayerToChannelMember(hided);
-        if ( memPlayer == null || memHided == null ) return;
+        if (memPlayer == null || memHided == null) return;
         com.github.ucchyocean.lc3.LunaChat.getAPI().addHidelist(memPlayer, memHided);
     }
 
     /**
      * 指定されたプレイヤーが、指定されたプレイヤーのhideを解除するように設定する。
+     *
      * @param player hideしていた側のプレイヤー
-     * @param hided hideされていた側のプレイヤー
+     * @param hided  hideされていた側のプレイヤー
      * @deprecated Legacy Version
      */
     public void removeHidelist(ChannelPlayer player, ChannelPlayer hided) {
         ChannelMember memPlayer = convertChannelPlayerToChannelMember(player);
         ChannelMember memHided = convertChannelPlayerToChannelMember(hided);
-        if ( memPlayer == null || memHided == null ) return;
+        if (memPlayer == null || memHided == null) return;
         com.github.ucchyocean.lc3.LunaChat.getAPI().removeHidelist(memPlayer, memHided);
     }
 
     /**
      * Japanize変換を行う
+     *
      * @param message 変換するメッセージ
-     * @param type 変換タイプ
+     * @param type    変換タイプ
      * @return 変換後のメッセージ、ただしイベントでキャンセルされた場合はnullが返されるので注意
      * @deprecated Legacy Version
      */
     public String japanize(String message, JapanizeType type) {
         String value = (type != null) ? type.name() : "";
         com.github.ucchyocean.lc3.japanize.JapanizeType t =
-            com.github.ucchyocean.lc3.japanize.JapanizeType.fromID(value,
-                    com.github.ucchyocean.lc3.japanize.JapanizeType.GOOGLE_IME);
+                com.github.ucchyocean.lc3.japanize.JapanizeType.fromID(value,
+                        com.github.ucchyocean.lc3.japanize.JapanizeType.GOOGLE_IME);
         return com.github.ucchyocean.lc3.LunaChat.getAPI().japanize(message, t);
     }
 
     /**
      * 該当プレイヤーのJapanize変換をオン/オフする
+     *
      * @param playerName 設定するプレイヤー名
      * @param doJapanize Japanize変換するかどうか
      * @deprecated Legacy Version
@@ -312,6 +326,7 @@ class LunaChatAPIImpl implements LunaChatAPI {
 
     /**
      * プレイヤーのJapanize設定を返す
+     *
      * @param playerName プレイヤー名
      * @return Japanize設定
      * @deprecated Legacy Version
@@ -322,17 +337,18 @@ class LunaChatAPIImpl implements LunaChatAPI {
 
     /**
      * ChannelPlayerをChannelMemberに変換する
+     *
      * @param cp
      * @return
      */
     private ChannelMember convertChannelPlayerToChannelMember(ChannelPlayer cp) {
-        if ( cp == null ) return null;
-        if ( cp instanceof ChannelPlayerName || cp instanceof ChannelPlayerUUID ) {
+        if (cp == null) return null;
+        if (cp instanceof ChannelPlayerName || cp instanceof ChannelPlayerUUID) {
             return ChannelMember.getChannelMember(cp.toString());
-        } else if ( cp instanceof ChannelPlayerConsole ) {
+        } else if (cp instanceof ChannelPlayerConsole) {
             return new ChannelMemberBukkitConsole(Bukkit.getConsoleSender());
         } else if (cp instanceof ChannelPlayerBlock cpb) {
-            if ( cpb.getBlockCommandSender() != null ) {
+            if (cpb.getBlockCommandSender() != null) {
                 return new ChannelMemberBlock(cpb.getBlockCommandSender());
             }
         }
@@ -341,18 +357,19 @@ class LunaChatAPIImpl implements LunaChatAPI {
 
     /**
      * ChannelMemberをChannelPlayerに変換する
+     *
      * @param cp
      * @return
      */
     private ChannelPlayer convertChannelMemberToChannelPlayer(ChannelMember cm) {
-        if ( cm == null ) return null;
-        if ( cm instanceof ChannelMemberBungee ) return null; // Bungeeモードの場合は変換できない
-        if ( cm instanceof ChannelMemberPlayer ) {
+        if (cm == null) return null;
+        if (cm instanceof ChannelMemberBungee) return null; // Bungeeモードの場合は変換できない
+        if (cm instanceof ChannelMemberPlayer) {
             return ChannelPlayer.getChannelPlayer(cm.toString());
-        } else if ( cm instanceof ChannelMemberBukkitConsole ) {
+        } else if (cm instanceof ChannelMemberBukkitConsole) {
             return new ChannelPlayerConsole(Bukkit.getConsoleSender());
         } else if (cm instanceof ChannelMemberBlock cmb) {
-            if ( cmb.getBlockCommandSender() != null ) {
+            if (cmb.getBlockCommandSender() != null) {
                 return new ChannelPlayerBlock(cmb.getBlockCommandSender());
             }
         }

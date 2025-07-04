@@ -8,7 +8,6 @@ package com.github.ucchyocean.lc3.util;
 import junit.framework.TestCase;
 
 /**
- *
  * @author ucchy
  */
 public class KeywordReplacerTest extends TestCase {
@@ -18,14 +17,14 @@ public class KeywordReplacerTest extends TestCase {
     public void testSpeedOfReplacement() {
 
         StringBuilder testee = new StringBuilder();
-        for ( int i=1; i<=MAX; i++ ) {
+        for (int i = 1; i <= MAX; i++) {
             testee.append(String.format("%%test%d%%%d", i, i));
         }
 
 
         String test1 = testee.toString();
         long start = System.currentTimeMillis();
-        for ( int i=1; i<=MAX; i++ ) {
+        for (int i = 1; i <= MAX; i++) {
             test1 = test1.replace("%test" + i + "%", i + "");
         }
         long time = System.currentTimeMillis() - start;
@@ -34,7 +33,7 @@ public class KeywordReplacerTest extends TestCase {
 
         KeywordReplacer test2 = new KeywordReplacer(testee.toString());
         start = System.currentTimeMillis();
-        for ( int i=1; i<=MAX; i++ ) {
+        for (int i = 1; i <= MAX; i++) {
             test2.replace("%test" + i + "%", i + "");
         }
         time = System.currentTimeMillis() - start;

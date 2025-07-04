@@ -5,12 +5,12 @@
  */
 package com.github.ucchyocean.lc.event;
 
-import org.bukkit.command.CommandSender;
-
 import com.github.ucchyocean.lc.channel.Channel;
+import org.bukkit.command.CommandSender;
 
 /**
  * チャンネル作成イベント
+ *
  * @author ucchy
  * @deprecated Legacy Version
  */
@@ -25,6 +25,7 @@ public class LunaChatChannelCreateEvent extends LunaChatBaseCancellableEvent {
 
     /**
      * 作成するチャンネルのチャンネル名を上書き設定する
+     *
      * @param channelName 設定するチャンネル名
      */
     public void setChannelName(String channelName) {
@@ -33,6 +34,7 @@ public class LunaChatChannelCreateEvent extends LunaChatBaseCancellableEvent {
 
     /**
      * チャンネルを作成した人を取得する。
+     *
      * @return チャンネルを作成したCommandSender
      */
     public CommandSender getSender() {
@@ -40,9 +42,9 @@ public class LunaChatChannelCreateEvent extends LunaChatBaseCancellableEvent {
     }
 
     /**
+     * @see com.github.ucchyocean.lc.event.LunaChatBaseEvent#getChannel()
      * @deprecated チャンネル作成イベントは、チャンネルを作成する前に呼び出されるので、
      * このメソッドの戻り値は必ずnullになります。
-     * @see com.github.ucchyocean.lc.event.LunaChatBaseEvent#getChannel()
      */
     @Override
     public Channel getChannel() {

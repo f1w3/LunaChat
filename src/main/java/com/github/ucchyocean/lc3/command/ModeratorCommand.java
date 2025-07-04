@@ -5,14 +5,15 @@
  */
 package com.github.ucchyocean.lc3.command;
 
-import java.util.ArrayList;
-
 import com.github.ucchyocean.lc3.Messages;
 import com.github.ucchyocean.lc3.channel.Channel;
 import com.github.ucchyocean.lc3.member.ChannelMember;
 
+import java.util.ArrayList;
+
 /**
  * moderatorコマンドの実行クラス
+ *
  * @author ucchy
  */
 public class ModeratorCommand extends LunaChatSubCommand {
@@ -22,6 +23,7 @@ public class ModeratorCommand extends LunaChatSubCommand {
 
     /**
      * コマンドを取得します。
+     *
      * @return コマンド
      * @see com.github.ucchyocean.lc3.command.LunaChatSubCommand#getCommandName()
      */
@@ -32,6 +34,7 @@ public class ModeratorCommand extends LunaChatSubCommand {
 
     /**
      * パーミッションノードを取得します。
+     *
      * @return パーミッションノード
      * @see com.github.ucchyocean.lc3.command.LunaChatSubCommand#getPermissionNode()
      */
@@ -42,6 +45,7 @@ public class ModeratorCommand extends LunaChatSubCommand {
 
     /**
      * コマンドの種別を取得します。
+     *
      * @return コマンド種別
      * @see com.github.ucchyocean.lc3.command.LunaChatSubCommand#getCommandType()
      */
@@ -52,8 +56,9 @@ public class ModeratorCommand extends LunaChatSubCommand {
 
     /**
      * 使用方法に関するメッセージをsenderに送信します。
+     *
      * @param sender コマンド実行者
-     * @param label 実行ラベル
+     * @param label  実行ラベル
      * @see com.github.ucchyocean.lc3.command.LunaChatSubCommand#sendUsageMessage()
      */
     @Override
@@ -64,9 +69,10 @@ public class ModeratorCommand extends LunaChatSubCommand {
 
     /**
      * コマンドを実行します。
+     *
      * @param sender コマンド実行者
-     * @param label 実行ラベル
-     * @param args 実行時の引数
+     * @param label  実行ラベル
+     * @param args   実行時の引数
      * @return コマンドが実行されたかどうか
      * @see com.github.ucchyocean.lc3.command.LunaChatSubCommand#runCommand(java.lang.String[])
      */
@@ -78,15 +84,15 @@ public class ModeratorCommand extends LunaChatSubCommand {
         // このコマンドは、デフォルトチャンネルでない人も実行できるが、その場合はチャンネル名を指定する必要がある
         String cname = null;
         ArrayList<String> moderator = new ArrayList<String>();
-        if ( args.length >= 2 ) {
+        if (args.length >= 2) {
             Channel def = api.getDefaultChannel(sender.getName());
-            if ( def != null ) {
+            if (def != null) {
                 cname = def.getName();
             }
             for (int i = 1; i < args.length; i++) {
                 moderator.add(args[i]);
             }
-        } else if ( args.length >= 3 ) {
+        } else if (args.length >= 3) {
             cname = args[1];
             for (int i = 2; i < args.length; i++) {
                 moderator.add(args[i]);
@@ -99,7 +105,7 @@ public class ModeratorCommand extends LunaChatSubCommand {
         Channel channel = api.getChannel(cname);
 
         // チャンネルが存在するかどうかをチェックする
-        if ( channel == null ) {
+        if (channel == null) {
             sender.sendMessage(Messages.errmsgNotExist());
             return true;
         }
@@ -107,20 +113,20 @@ public class ModeratorCommand extends LunaChatSubCommand {
         cname = channel.getName();
 
         // モデレーターかどうか確認する
-        if ( !channel.hasModeratorPermission(sender) ) {
+        if (!channel.hasModeratorPermission(sender)) {
             sender.sendMessage(Messages.errmsgNotModerator());
             return true;
         }
 
         // グローバルチャンネルなら設定できない
-        if ( channel.isGlobalChannel() ) {
+        if (channel.isGlobalChannel()) {
             sender.sendMessage(Messages.errmsgCannotModeratorGlobal(channel.getName()));
             return true;
         }
 
         // 設定する
-        for ( String mod : moderator ) {
-            if ( mod.startsWith("-") ) {
+        for (String mod : moderator) {
+            if (mod.startsWith("-")) {
                 String name = mod.substring(1);
                 ChannelMember cp = ChannelMember.getChannelMember(name);
                 channel.removeModerator(cp);

@@ -7,6 +7,10 @@ public class ChannelMemberSystem extends ChannelMember {
     private static final String NAME = "system";
     private static final ChannelMember instance = new ChannelMemberSystem();
 
+    public static ChannelMember getInstance() {
+        return instance;
+    }
+
     @Override
     public boolean isOnline() {
         return true;
@@ -70,9 +74,5 @@ public class ChannelMemberSystem extends ChannelMember {
     @Override
     public void chat(String message) {
         // do nothing.
-    }
-
-    public static ChannelMember getInstance() {
-        return instance;
     }
 }

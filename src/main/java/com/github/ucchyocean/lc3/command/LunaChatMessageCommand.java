@@ -5,26 +5,28 @@
  */
 package com.github.ucchyocean.lc3.command;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.github.ucchyocean.lc3.LunaChat;
 import com.github.ucchyocean.lc3.LunaChatAPI;
 import com.github.ucchyocean.lc3.Messages;
 import com.github.ucchyocean.lc3.channel.Channel;
 import com.github.ucchyocean.lc3.member.ChannelMember;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 1:1チャット送信コマンド
+ *
  * @author ucchy
  */
 public class LunaChatMessageCommand {
 
     /**
      * コマンドを実行したときに呼び出されるメソッド
+     *
      * @param sender 実行者
-     * @param label 実行されたコマンドのラベル
-     * @param args 実行されたコマンドの引数
+     * @param label  実行されたコマンドのラベル
+     * @param args   実行されたコマンドの引数
      * @return 実行したかどうか（falseを返した場合、サーバーがUsageを表示する）
      */
     public boolean execute(ChannelMember sender, String label, String[] args) {
@@ -43,8 +45,8 @@ public class LunaChatMessageCommand {
         StringBuilder message = new StringBuilder();
         if (args.length >= 1) {
             invitedName = args[0];
-            if ( args.length >= 2 ) {
-                for ( int i=1; i<args.length; i++ ) {
+            if (args.length >= 2) {
+                for (int i = 1; i < args.length; i++) {
                     message.append(args[i] + " ");
                 }
             }
@@ -61,6 +63,7 @@ public class LunaChatMessageCommand {
 
     /**
      * Tellコマンドの実行処理を行う
+     *
      * @param inviter
      * @param invitedName
      * @param message
@@ -69,7 +72,7 @@ public class LunaChatMessageCommand {
 
         // 招待相手が存在するかどうかを確認する
         ChannelMember invited = ChannelMember.getChannelMember(invitedName);
-        if ( invited == null || !invited.isOnline() ) {
+        if (invited == null || !invited.isOnline()) {
             inviter.sendMessage(Messages.errmsgNotfoundPlayer(invitedName));
             return;
         }
@@ -84,7 +87,7 @@ public class LunaChatMessageCommand {
         LunaChatAPI api = LunaChat.getAPI();
         String cname = inviter.getName() + ">" + invited.getName();
         Channel channel = api.getChannel(cname);
-        if ( channel == null ) {
+        if (channel == null) {
             // チャンネルを作成して、送信者、受信者をメンバーにする
             channel = api.createChannel(cname, inviter);
             channel.setVisible(false);
@@ -94,7 +97,7 @@ public class LunaChatMessageCommand {
         }
 
         // メッセージがあるなら送信する
-        if ( message.trim().length() > 0 ) {
+        if (message.trim().length() > 0) {
             channel.chat(inviter, message);
         }
 
@@ -109,6 +112,7 @@ public class LunaChatMessageCommand {
 
     /**
      * コマンドの使い方を senderに送る
+     *
      * @param sender
      * @param label
      */
@@ -118,13 +122,14 @@ public class LunaChatMessageCommand {
 
     /**
      * TABキー補完が実行されたときに呼び出されるメソッド
+     *
      * @param sender TABキー補完の実行者
-     * @param label 実行されたコマンドのラベル
-     * @param args 実行されたコマンドの引数
+     * @param label  実行されたコマンドのラベル
+     * @param args   実行されたコマンドの引数
      * @return 補完候補
      */
     public List<String> onTabComplete(ChannelMember sender, String label, String[] args) {
-        if ( args.length == 1 ) {
+        if (args.length == 1) {
             // プレイヤー名で補完する
             String arg = args[0].toLowerCase();
             return getListPlayerNames(arg);
@@ -135,14 +140,15 @@ public class LunaChatMessageCommand {
 
     /**
      * 送信者以外のオンラインプレイヤーのうち、プレイヤー名が指定された文字列と前方一致するものをリストにして返す
+     *
      * @param pre 検索キー
      * @return プレイヤー名リスト
      */
     private List<String> getListPlayerNames(String pre) {
         String prefix = pre.toLowerCase();
         List<String> items = new ArrayList<String>();
-        for ( String pname : LunaChat.getPlugin().getOnlinePlayerNames() ) {
-            if ( pname.toLowerCase().startsWith(prefix) ) {
+        for (String pname : LunaChat.getPlugin().getOnlinePlayerNames()) {
+            if (pname.toLowerCase().startsWith(prefix)) {
                 items.add(pname);
             }
         }

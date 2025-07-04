@@ -52,10 +52,10 @@ globalChannel: ''
 # A channel(s) that users who join the server must join.
 # Can be specified separately from the global channel.
 # Multiple channels can be set. Example) forceJoinChannels: ['L','M','N']
-forceJoinChannels: []
+forceJoinChannels: [ ]
 
 # A keyword that must be included when executing the format command.
-formatConstraint: ['%username','%msg']
+formatConstraint: [ '%username','%msg' ]
 
 # The format settings that are set by default when you create a channel.
 # The following keywords can be used for formatting.
@@ -136,7 +136,7 @@ dynmapChannel: ''
 
 # NG word setting. You can specify a regular expression.
 #The NG word part is masked by the player who speaks the word set here.
-ngword: []
+ngword: [ ]
 
 # NG Word operation setting when speaking. You can set any of four: mask, mute, kick, ban.
 # mask: mask NG words

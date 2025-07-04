@@ -10,6 +10,7 @@ import com.github.ucchyocean.lc3.member.ChannelMember;
 
 /**
  * dictionaryコマンドのエイリアス実行クラス、名前のみが異なるが、他は全て一緒。
+ *
  * @author ucchy
  */
 public class DicCommand extends DictionaryCommand {
@@ -18,6 +19,7 @@ public class DicCommand extends DictionaryCommand {
 
     /**
      * コマンドを取得します。
+     *
      * @return コマンド
      * @see com.github.ucchyocean.lc3.command.LunaChatSubCommand#getCommandName()
      */
@@ -28,8 +30,9 @@ public class DicCommand extends DictionaryCommand {
 
     /**
      * 使用方法に関するメッセージをsenderに送信します。
+     *
      * @param sender コマンド実行者
-     * @param label 実行ラベル
+     * @param label  実行ラベル
      * @see com.github.ucchyocean.lc3.command.LunaChatSubCommand#sendUsageMessage()
      */
     @Override
