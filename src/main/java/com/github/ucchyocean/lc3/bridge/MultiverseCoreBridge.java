@@ -5,8 +5,10 @@
  */
 package com.github.ucchyocean.lc3.bridge;
 
+import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.mvplugins.multiverse.core.MultiverseCore;
 import org.mvplugins.multiverse.core.MultiverseCoreApi;
 import org.mvplugins.multiverse.core.world.MultiverseWorld;
@@ -27,7 +29,8 @@ public class MultiverseCoreBridge {
     /**
      * コンストラクタは使用不可
      */
-    private MultiverseCoreBridge() {
+    private MultiverseCoreBridge(MultiverseCoreApi mvc) {
+        this.mvc = mvc;
     }
 
     /**
@@ -36,52 +39,45 @@ public class MultiverseCoreBridge {
      * @param plugin MultiverseCoreのプラグインインスタンス
      */
     public static MultiverseCoreBridge load(Plugin plugin) {
-        if (plugin instanceof MultiverseCore) {
-            MultiverseCoreBridge bridge = new MultiverseCoreBridge();
-            bridge.mvc = (MultiverseCoreApi) plugin;
-            return bridge;
-        } else {
-            return null;
+        try {
+            RegisteredServiceProvider<MultiverseCoreApi> rsp =
+                    Bukkit.getServicesManager().getRegistration(MultiverseCoreApi.class);
+            if (rsp != null && rsp.getProvider() != null) {
+                if (plugin != null) {
+                    plugin.getLogger().info("[LunaChat] Multiverse-Core API (v5) に正常に接続しました。");
+                }
+                return new MultiverseCoreBridge(rsp.getProvider());
+            }
+        } catch (Throwable t) {
+            if (plugin != null) {
+                plugin.getLogger().warning("[LunaChat] Multiverse-Core APIの取得に失敗しました: " + t);
+            }
         }
+        if (plugin != null) {
+            plugin.getLogger().warning("[LunaChat] Multiverse-Core API が見つかりませんでした。MVブリッジは無効化されます。");
+        }
+        return null;
     }
 
-    /**
-     * 指定されたワールドのエイリアス名を取得する
-     *
-     * @param worldName ワールド名
-     * @return エイリアス名、取得できない場合はnullが返される
-     */
+    /** ワールド名からエイリアス取得（無ければ名前、見つからなければ null） */
     public String getWorldAlias(String worldName) {
-        Option<MultiverseWorld> option = mvc.getWorldManager().getWorld(worldName);
-        if (option.isDefined()) {
-            MultiverseWorld mvworld = option.get();
-            if (!mvworld.getAlias().isEmpty()) {
-                return mvworld.getAlias();
-            } else {
-                return mvworld.getName();
-            }
-        } else {
-            return null;
+        Option<MultiverseWorld> opt = mvc.getWorldManager().getWorld(worldName);
+        if (opt.isDefined()) {
+            MultiverseWorld mvw = opt.get();
+            String alias = mvw.getAlias();
+            return (alias != null && !alias.isEmpty()) ? alias : mvw.getName();
         }
+        return null;
     }
 
-    /**
-     * 指定されたワールドのエイリアス名を取得する
-     *
-     * @param world ワールド
-     * @return エイリアス名、取得できない場合はnullが返される
-     */
+    /** World からエイリアス取得（無ければ名前、見つからなければ null） */
     public String getWorldAlias(World world) {
-        Option<MultiverseWorld> option = mvc.getWorldManager().getWorld(world);
-        if (option.isDefined()) {
-            MultiverseWorld mvworld = option.get();
-            if (!mvworld.getAlias().isEmpty()) {
-                return mvworld.getAlias();
-            } else {
-                return mvworld.getName();
-            }
-        } else {
-            return null;
+        Option<MultiverseWorld> opt = mvc.getWorldManager().getWorld(world);
+        if (opt.isDefined()) {
+            MultiverseWorld mvw = opt.get();
+            String alias = mvw.getAlias();
+            return (alias != null && !alias.isEmpty()) ? alias : mvw.getName();
         }
+        return null;
     }
 }
