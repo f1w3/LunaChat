@@ -13,7 +13,7 @@ import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Plugin;
 import org.bstats.bungeecord.Metrics;
-
+import org.bstats.charts.DrilldownPie;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
@@ -65,7 +65,7 @@ public class LunaChatBungee extends Plugin implements PluginInterface {
 
         // Metrics
         Metrics metrics = new Metrics(this, 7936);
-        metrics.addCustomChart(new Metrics.DrilldownPie(
+        metrics.addCustomChart(new DrilldownPie(
                 "minecraft_server_version", new Callable<Map<String, Map<String, Integer>>>() {
             public Map<String, Map<String, Integer>> call() throws Exception {
                 Map<String, Map<String, Integer>> map = new HashMap<>();
