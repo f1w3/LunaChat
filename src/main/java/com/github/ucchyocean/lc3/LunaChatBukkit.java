@@ -22,10 +22,15 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.server.ServiceRegisterEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 import org.bstats.charts.DrilldownPie;
+import org.mvplugins.multiverse.core.MultiverseCoreApi;
+
 import java.io.File;
 import java.util.*;
 import java.util.logging.Level;
@@ -74,13 +79,28 @@ public class LunaChatBukkit extends JavaPlugin implements PluginInterface {
      */
     @Override
     public void onEnable() {
+        multiverse = MultiverseCoreBridge.load(this);
+
+        getServer().getPluginManager().registerEvents(new Listener() {
+            @EventHandler
+            public void onServiceRegister(ServiceRegisterEvent e) {
+                if (e.getProvider().getService().equals(MultiverseCoreApi.class)) {
+                    var b = MultiverseCoreBridge.load(LunaChatBukkit.getInstance());
+                    if (b != null) {
+                        multiverse = b;
+                        getLogger().info("後からMultiverse-Core APIを検出しました。ブリッジを有効化しました。");
+                        org.bukkit.event.HandlerList.unregisterAll(this);
+                    }
+                }
+            }
+        }, this);
+
         LunaChat.setPlugin(this);
         LunaChat.setMode(LunaChatMode.BUKKIT);
 
         // Metrics
         Metrics metrics = new Metrics(this, 7936);
-        metrics.addCustomChart(new DrilldownPie(
-                "minecraft_server_version", () -> {
+        metrics.addCustomChart(new DrilldownPie("minecraft_server_version", () -> {
             Map<String, Map<String, Integer>> map = new HashMap<>();
             Map<String, Integer> sub = new HashMap<>();
             sub.put(Bukkit.getVersion(), 1);
@@ -94,6 +114,8 @@ public class LunaChatBukkit extends JavaPlugin implements PluginInterface {
         Messages.initialize(new File(getDataFolder(), "messages"), getFile(), config.getLang());
         manager = new ChannelManager();
         normalChatLogger = new LunaChatLogger("==normalchat");
+        if (!config.isEnableChannelChat()) manager.removeAllDefaultChannels();
+
 
         // チャンネルチャット無効なら、デフォルト発言先をクリアする(see issue #59)
         if (!config.isEnableChannelChat()) {
@@ -113,12 +135,6 @@ public class LunaChatBukkit extends JavaPlugin implements PluginInterface {
             if (dynmap != null) {
                 getServer().getPluginManager().registerEvents(dynmap, this);
             }
-        }
-
-        // MultiverseCore のロード
-        temp = getServer().getPluginManager().getPlugin("Multiverse-Core");
-        if (temp != null) {
-            multiverse = MultiverseCoreBridge.load(temp);
         }
 
         // mcMMOのロード
