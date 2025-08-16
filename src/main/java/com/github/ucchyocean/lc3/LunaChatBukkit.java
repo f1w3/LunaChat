@@ -88,7 +88,6 @@ public class LunaChatBukkit extends JavaPlugin implements PluginInterface {
                     var b = MultiverseCoreBridge.load(LunaChatBukkit.getInstance());
                     if (b != null) {
                         multiverse = b;
-                        getLogger().info("後からMultiverse-Core APIを検出しました。ブリッジを有効化しました。");
                         org.bukkit.event.HandlerList.unregisterAll(this);
                     }
                 }
