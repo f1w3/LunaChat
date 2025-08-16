@@ -44,17 +44,16 @@ public class MultiverseCoreBridge {
                     Bukkit.getServicesManager().getRegistration(MultiverseCoreApi.class);
             if (rsp != null && rsp.getProvider() != null) {
                 if (plugin != null) {
-                    plugin.getLogger().info("[LunaChat] Multiverse-Core API (v5) に正常に接続しました。");
                 }
                 return new MultiverseCoreBridge(rsp.getProvider());
             }
         } catch (Throwable t) {
             if (plugin != null) {
-                plugin.getLogger().warning("[LunaChat] Multiverse-Core APIの取得に失敗しました: " + t);
+                plugin.getLogger().warning("Multiverse-Core APIの取得に失敗しました: " + t);
             }
         }
         if (plugin != null) {
-            plugin.getLogger().warning("[LunaChat] Multiverse-Core API が見つかりませんでした。MVブリッジは無効化されます。");
+            plugin.getLogger().severe("Multiverse-Core API が見つかりませんでした。");
         }
         return null;
     }

@@ -38,7 +38,7 @@ public class DynmapBridge implements Listener {
      * dynmap-apiをロードする
      *
      * @param plugin    dynmap-apiのプラグインインスタンス
-     * @param ロードしたかどうか
+     * @param // ロードしたかどうか
      */
     public static DynmapBridge load(Plugin plugin) {
 
@@ -75,7 +75,7 @@ public class DynmapBridge implements Listener {
     /**
      * DynmapのWebUIからチャット発言されたときのイベント
      *
-     * @param event
+     * @param //event
      */
     @EventHandler
     public void onDynmapWebChat(DynmapWebChatEvent event) {
