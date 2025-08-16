@@ -39,6 +39,11 @@ public class LunaChatConfig {
     private EventPriority playerChatEventListenerPriority;
 
     /**
+     * プラグインの匿名利用統計（bStats）送信を無効化するかどうか。
+     */
+    private boolean metricsDisabled;
+
+    /**
      * チャンネルチャットに入っていない人の発言を、グローバルとして扱うかどうか
      */
     private boolean noJoinAsGlobal;
@@ -295,6 +300,7 @@ public class LunaChatConfig {
         enableChannelChat = config.getBoolean("enableChannelChat", true);
         playerChatEventListenerPriority
                 = getEventPriority(config.getString("playerChatEventListenerPriority"));
+        metricsDisabled = config.getBoolean("metricsDisabled", false);
         noJoinAsGlobal = config.getBoolean("noJoinAsGlobal", true);
         loggingChat = config.getBoolean("loggingChat", true);
         displayChatOnConsole = config.getBoolean("displayChatOnConsole", true);
@@ -414,6 +420,15 @@ public class LunaChatConfig {
      */
     public EventPriority getPlayerChatEventListenerPriority() {
         return playerChatEventListenerPriority;
+    }
+
+    /**
+     * プラグインの匿名利用統計（bStats）送信を無効化するかどうか。
+     *
+     * @return metricsDisabledを返す
+     */
+    public boolean getMetricsDisabled() {
+        return metricsDisabled;
     }
 
     /**

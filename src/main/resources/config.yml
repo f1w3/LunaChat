@@ -18,6 +18,9 @@ enableChannelChat: true
 # Leave the default HIGH if you're not sure.
 playerChatEventListenerPriority: 'HIGH'
 
+# Whether to disable the plugin's anonymous usage statistics (bStats) reporting.
+metricsDisabled: false
+
 
 # -------------------- Channel chat settings --------------------
 

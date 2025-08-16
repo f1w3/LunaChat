@@ -18,6 +18,9 @@ enableChannelChat: true
 # LOWEST, LOW, NORMAL, HIGH, HIGHEST のどれかを指定できます。
 playerChatEventListenerPriority: 'HIGHEST'
 
+# プラグインの匿名利用統計（bStats）送信を無効化するかどうか。
+metricsDisabled: false
+
 
 # -------------------- チャンネルチャット設定 --------------------
 

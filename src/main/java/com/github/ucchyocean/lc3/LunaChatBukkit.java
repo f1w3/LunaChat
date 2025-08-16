@@ -97,15 +97,18 @@ public class LunaChatBukkit extends JavaPlugin implements PluginInterface {
         LunaChat.setPlugin(this);
         LunaChat.setMode(LunaChatMode.BUKKIT);
 
+
         // Metrics
-        Metrics metrics = new Metrics(this, 7936);
-        metrics.addCustomChart(new DrilldownPie("minecraft_server_version", () -> {
-            Map<String, Map<String, Integer>> map = new HashMap<>();
-            Map<String, Integer> sub = new HashMap<>();
-            sub.put(Bukkit.getVersion(), 1);
-            map.put(Bukkit.getName(), sub);
-            return map;
-        }));
+        if (!config.getMetricsDisabled()) {
+            Metrics metrics = new Metrics(this, 7936);
+            metrics.addCustomChart(new DrilldownPie("minecraft_server_version", () -> {
+                Map<String, Map<String, Integer>> map = new HashMap<>();
+                Map<String, Integer> sub = new HashMap<>();
+                sub.put(Bukkit.getVersion(), 1);
+                map.put(Bukkit.getName(), sub);
+                return map;
+            }));
+        }
 
         // 変数などの初期化
         config = new LunaChatConfig(getDataFolder(), getFile());
