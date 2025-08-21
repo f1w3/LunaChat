@@ -203,6 +203,13 @@
             <optional>true</optional>
         </dependency>
         <dependency>
+            <groupId>net.alpenblock</groupId>
+            <artifactId>BungeePerms</artifactId>
+            <version>4.0-dev-108</version>
+            <scope>provided</scope>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
             <groupId>org.mvplugins.multiverse.core</groupId>
             <artifactId>multiverse-core</artifactId>
             <version>5.2.0</version>
@@ -264,11 +271,6 @@
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
             <version>24.1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>net.alpenblock</groupId>
-            <artifactId>BungeePerms</artifactId>
-            <version>4.0-dev-108</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
