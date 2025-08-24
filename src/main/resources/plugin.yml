@@ -4,7 +4,7 @@ version: ${project.version}
 authors: [ ucchy, YukiLeafX, LazyGon, tomo1560 ]
 description: ${project.description}
 softdepend: [ Vault, dynmap, mcMMO, PlaceholderAPI, ProtocolLib, Multiverse-Core, WorldEdit]
-api-version: 1.20
+api-version: 1.18
 load: POSTWORLD
 commands:
   lunachat:
