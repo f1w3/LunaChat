@@ -12,12 +12,12 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: '17'
-          distribution: 'adopt'
+          distribution: 'temurin' # adopt は旧称、temurin が推奨
           cache: maven
       - name: Build with Maven
         run: mvn --batch-mode --update-snapshots verify
-      - run: mkdir staging && cp target/*.jar staging
-      - uses: actions/upload-artifact@v3
+      - run: mkdir -p staging && cp target/*.jar staging
+      - uses: actions/upload-artifact@v4
         with:
           name: Package
           path: staging
