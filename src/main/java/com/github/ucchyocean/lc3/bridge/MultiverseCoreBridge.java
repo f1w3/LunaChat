@@ -5,6 +5,7 @@
  */
 package com.github.ucchyocean.lc3.bridge;
 
+import net.milkbowl.vault.chat.Chat;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.plugin.Plugin;
@@ -35,22 +36,13 @@ public class MultiverseCoreBridge {
     /**
      * MultiverseCore-apiをロードする
      *
-     * @param plugin MultiverseCoreのプラグインインスタンス
+     * @return ロードしたブリッジのインスタンス
      */
-    public static MultiverseCoreBridge load(Plugin plugin) {
-        try {
-            RegisteredServiceProvider<MultiverseCoreApi> rsp =
-                    Bukkit.getServicesManager().getRegistration(MultiverseCoreApi.class);
-            if (rsp != null) {
-                return new MultiverseCoreBridge(rsp.getProvider());
-            }
-        } catch (Throwable t) {
-            if (plugin != null) {
-                plugin.getLogger().warning("Multiverse-Core APIの取得に失敗しました: " + t);
-            }
-        }
-        if (plugin != null) {
-            plugin.getLogger().severe("Multiverse-Core API が見つかりませんでした。");
+    public static MultiverseCoreBridge load() {
+        RegisteredServiceProvider<MultiverseCoreApi> rsp =
+                Bukkit.getServicesManager().getRegistration(MultiverseCoreApi.class);
+        if (rsp != null) {
+            return new MultiverseCoreBridge(rsp.getProvider());
         }
         return null;
     }

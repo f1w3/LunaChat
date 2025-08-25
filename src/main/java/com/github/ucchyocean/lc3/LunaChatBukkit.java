@@ -22,15 +22,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.server.ServiceRegisterEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 import org.bstats.charts.DrilldownPie;
 import org.jetbrains.annotations.NotNull;
-import org.mvplugins.multiverse.core.MultiverseCoreApi;
 
 import java.io.File;
 import java.util.*;
@@ -80,20 +76,6 @@ public class LunaChatBukkit extends JavaPlugin implements PluginInterface {
      */
     @Override
     public void onEnable() {
-        multiverse = MultiverseCoreBridge.load(this);
-
-        getServer().getPluginManager().registerEvents(new Listener() {
-            @EventHandler
-            public void onServiceRegister(ServiceRegisterEvent e) {
-                if (e.getProvider().getService().equals(MultiverseCoreApi.class)) {
-                    var b = MultiverseCoreBridge.load(LunaChatBukkit.getInstance());
-                    if (b != null) {
-                        multiverse = b;
-                        org.bukkit.event.HandlerList.unregisterAll(this);
-                    }
-                }
-            }
-        }, this);
 
         LunaChat.setPlugin(this);
         LunaChat.setMode(LunaChatMode.BUKKIT);
@@ -141,6 +123,11 @@ public class LunaChatBukkit extends JavaPlugin implements PluginInterface {
         // mcMMOのロード
         if (getServer().getPluginManager().isPluginEnabled("mcMMO")) {
             getServer().getPluginManager().registerEvents(new McMMOBridge(), this);
+        }
+
+        // MultiverseCore のロード
+        if (getServer().getPluginManager().isPluginEnabled("Multiverse-Core")) {
+            multiverse = MultiverseCoreBridge.load();
         }
 
         // リスナーの登録
