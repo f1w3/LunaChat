@@ -136,7 +136,7 @@ public class BukkitEventSender implements EventSenderInterface {
         Bukkit.getPluginManager().callEvent(event);
 
         ArrayList<ChannelPlayer> recipientsTemp =
-                new ArrayList<ChannelPlayer>(convertMemberListToPlayerList(event.getRecipients()));
+                new ArrayList<>(convertMemberListToPlayerList(event.getRecipients()));
         LunaChatChannelMessageEvent legacy =
                 new LunaChatChannelMessageEvent(
                         channelName, convertChannelMemberToChannelPlayer(member),
@@ -169,7 +169,7 @@ public class BukkitEventSender implements EventSenderInterface {
         LunaChatChannelOptionChangedEvent legacy =
                 new LunaChatChannelOptionChangedEvent(
                         channelName, convertChannelMemberToCommandSender(member),
-                        new HashMap<String, String>(options));
+                        new HashMap<>(options));
         legacy.setCancelled(event.isCancelled());
         Bukkit.getPluginManager().callEvent(legacy);
 
@@ -330,7 +330,7 @@ public class BukkitEventSender implements EventSenderInterface {
      * @return List<ChannelPlayer>
      */
     private List<ChannelPlayer> convertMemberListToPlayerList(List<ChannelMember> list) {
-        List<ChannelPlayer> result = new ArrayList<ChannelPlayer>();
+        List<ChannelPlayer> result = new ArrayList<>();
         for (ChannelMember member : list) {
             ChannelPlayer player = convertChannelMemberToChannelPlayer(member);
             if (player != null) result.add(player);
@@ -345,7 +345,7 @@ public class BukkitEventSender implements EventSenderInterface {
      * @return List<ChannelMember>
      */
     private List<ChannelMember> convertPlayerListToMemberList(List<ChannelPlayer> list) {
-        List<ChannelMember> result = new ArrayList<ChannelMember>();
+        List<ChannelMember> result = new ArrayList<>();
         for (ChannelPlayer player : list) {
             ChannelMember member = convertChannelPlayerToChannelMember(player);
             if (member != null) result.add(member);

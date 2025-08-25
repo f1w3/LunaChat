@@ -9,7 +9,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
-import org.mvplugins.multiverse.core.MultiverseCore;
 import org.mvplugins.multiverse.core.MultiverseCoreApi;
 import org.mvplugins.multiverse.core.world.MultiverseWorld;
 import org.mvplugins.multiverse.external.vavr.control.Option;
@@ -24,7 +23,7 @@ public class MultiverseCoreBridge {
     /**
      * MultiverseCore API クラス
      */
-    private MultiverseCoreApi mvc;
+    private final MultiverseCoreApi mvc;
 
     /**
      * コンストラクタは使用不可
@@ -42,9 +41,7 @@ public class MultiverseCoreBridge {
         try {
             RegisteredServiceProvider<MultiverseCoreApi> rsp =
                     Bukkit.getServicesManager().getRegistration(MultiverseCoreApi.class);
-            if (rsp != null && rsp.getProvider() != null) {
-                if (plugin != null) {
-                }
+            if (rsp != null) {
                 return new MultiverseCoreBridge(rsp.getProvider());
             }
         } catch (Throwable t) {

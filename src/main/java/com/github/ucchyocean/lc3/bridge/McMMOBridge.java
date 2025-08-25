@@ -123,7 +123,6 @@ public class McMMOBridge implements Listener {
         // 1) getSender()
         o = invokeNoArg(event, "getSender");
         if (o instanceof CommandSender cs) return cs;
-        if (o instanceof Player p1) return p1;
 
         // 2) getPlayer()
         o = invokeNoArg(event, "getPlayer");
@@ -132,7 +131,6 @@ public class McMMOBridge implements Listener {
         // 3) getAuthor()
         o = invokeNoArg(event, "getAuthor");
         if (o instanceof CommandSender cs2) return cs2;
-        if (o instanceof Player p3) return p3;
 
         // 4) 名前系: getSenderName / getPlayerName / getAuthorName
         for (String nameGetter : new String[]{"getSenderName", "getPlayerName", "getAuthorName"}) {

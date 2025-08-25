@@ -163,7 +163,7 @@ public class BukkitEventListener implements Listener {
 
         // お互いがオフラインになるPMチャンネルがある場合は
         // チャンネルをクリアする
-        ArrayList<Channel> deleteList = new ArrayList<Channel>();
+        ArrayList<Channel> deleteList = new ArrayList<>();
 
         for (Channel channel : LunaChat.getAPI().getChannels()) {
             String cname = channel.getName();
@@ -239,10 +239,7 @@ public class BukkitEventListener implements Listener {
             if (event.getMessage().contains(separator)) {
                 String[] temp = event.getMessage().split(separator, 2);
                 String name = temp[0];
-                String value = "";
-                if (temp.length > 0) {
-                    value = temp[1];
-                }
+                String value = temp[1];
 
                 Channel channel = api.getChannel(name);
                 if (channel != null && !channel.isPersonalChat()) {
@@ -272,13 +269,12 @@ public class BukkitEventListener implements Listener {
             if (config.isNoJoinAsGlobal()) {
                 // グローバル発言にする
                 chatGlobal(event);
-                return;
 
             } else {
                 // 発言をキャンセルして終了する
                 event.setCancelled(true);
-                return;
             }
+            return;
         }
 
         chatToChannelWithEvent(player, channel, event.getMessage());
@@ -321,9 +317,6 @@ public class BukkitEventListener implements Listener {
 
             // もとのイベントをキャンセル
             event.setCancelled(true);
-
-            return;
-
         } else {
             // グローバルチャンネル設定が無い場合
 
@@ -404,15 +397,15 @@ public class BukkitEventListener implements Listener {
 
                 // チャットフォーマット装飾の適用
                 ClickableFormat format;
+                String f;
                 if (config.isEnableNormalChatMessageFormat()) {
-                    String f = config.getNormalChatMessageFormat();
-                    format = ClickableFormat.makeFormat(f, ChannelMember.getChannelMember(event.getPlayer()));
+                    f = config.getNormalChatMessageFormat();
                 } else {
-                    String f = event.getFormat()
+                    f = event.getFormat()
                             .replace("%1$s", "%displayName")
                             .replace("%2$s", "%msg");
-                    format = ClickableFormat.makeFormat(f, ChannelMember.getChannelMember(event.getPlayer()));
                 }
+                format = ClickableFormat.makeFormat(f, ChannelMember.getChannelMember(event.getPlayer()));
 
                 // 発言内容の送信
                 format.replace("%msg", message);
@@ -449,8 +442,6 @@ public class BukkitEventListener implements Listener {
 
             // ロギング
             logNormalChat(message, player.getName());
-
-            return;
         }
     }
 
@@ -469,7 +460,7 @@ public class BukkitEventListener implements Listener {
         // チャンネルが存在しない場合は作成する
         Channel global = api.getChannel(gcName);
         if (global == null) {
-            global = api.createChannel(gcName, ChannelMember.getChannelMember(player));
+            api.createChannel(gcName, ChannelMember.getChannelMember(player));
         }
 
         // デフォルト発言先が無いなら、グローバルチャンネルに設定する
@@ -532,11 +523,9 @@ public class BukkitEventListener implements Listener {
 
         // チャンネル一覧を取得して、参加人数でソートする
         ArrayList<Channel> channels = new ArrayList<>(api.getChannels());
-        Collections.sort(channels, new Comparator<Channel>() {
-            public int compare(Channel c1, Channel c2) {
-                if (c1.getOnlineNum() == c2.getOnlineNum()) return c1.getName().compareTo(c2.getName());
-                return c2.getOnlineNum() - c1.getOnlineNum();
-            }
+        channels.sort((c1, c2) -> {
+            if (c1.getOnlineNum() == c2.getOnlineNum()) return c1.getName().compareTo(c2.getName());
+            return c2.getOnlineNum() - c1.getOnlineNum();
         });
 
         int count = 0;

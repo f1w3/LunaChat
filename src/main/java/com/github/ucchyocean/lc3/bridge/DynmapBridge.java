@@ -38,7 +38,6 @@ public class DynmapBridge implements Listener {
      * dynmap-apiをロードする
      *
      * @param plugin    dynmap-apiのプラグインインスタンス
-     * @param // ロードしたかどうか
      */
     public static DynmapBridge load(Plugin plugin) {
 
@@ -75,7 +74,7 @@ public class DynmapBridge implements Listener {
     /**
      * DynmapのWebUIからチャット発言されたときのイベント
      *
-     * @param //event
+     * @param event DynmapWebChatEvent
      */
     @EventHandler
     public void onDynmapWebChat(DynmapWebChatEvent event) {
@@ -85,13 +84,13 @@ public class DynmapBridge implements Listener {
         String dchannel = config.getDynmapChannel();
         Channel channel = null;
 
-        if (!dchannel.equals("")) {
+        if (!dchannel.isEmpty()) {
             // dynmapChannelが設定されている場合
             channel = api.getChannel(dchannel);
 
         } else {
             String gchannel = config.getGlobalChannel();
-            if (!gchannel.equals("")) {
+            if (!gchannel.isEmpty()) {
                 // dynmapChannelが設定されていなくて、
                 // globalChannelが設定されている場合
                 channel = api.getChannel(gchannel);
