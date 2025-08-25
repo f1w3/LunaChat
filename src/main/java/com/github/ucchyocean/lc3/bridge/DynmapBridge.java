@@ -45,10 +45,10 @@ public class DynmapBridge implements Listener {
      */
     public static DynmapBridge load() {
 
-        RegisteredServiceProvider<DynmapAPI> dynmapAPIProvider =
+        RegisteredServiceProvider<DynmapAPI> rsp =
                 Bukkit.getServicesManager().getRegistration(DynmapAPI.class);
-        if (dynmapAPIProvider != null) {
-            return new DynmapBridge(dynmapAPIProvider.getProvider());
+        if (rsp != null) {
+            return new DynmapBridge(rsp.getProvider());
         }
 
         return null;

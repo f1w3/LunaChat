@@ -36,10 +36,10 @@ public class VaultChatBridge {
      */
     public static VaultChatBridge load() {
 
-        RegisteredServiceProvider<Chat> chatProvider =
+        RegisteredServiceProvider<Chat> rsp =
                 Bukkit.getServicesManager().getRegistration(Chat.class);
-        if (chatProvider != null) {
-            return new VaultChatBridge(chatProvider.getProvider());
+        if (rsp != null) {
+            return new VaultChatBridge(rsp.getProvider());
         }
 
         return null;
