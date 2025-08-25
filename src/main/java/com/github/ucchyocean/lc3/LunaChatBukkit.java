@@ -98,6 +98,13 @@ public class LunaChatBukkit extends JavaPlugin implements PluginInterface {
         LunaChat.setPlugin(this);
         LunaChat.setMode(LunaChatMode.BUKKIT);
 
+        // 変数などの初期化
+        config = new LunaChatConfig(getDataFolder(), getFile());
+        uuidCacheData = new UUIDCacheData(getDataFolder());
+        Messages.initialize(new File(getDataFolder(), "messages"), getFile(), config.getLang());
+        manager = new ChannelManager();
+        normalChatLogger = new LunaChatLogger("==normalchat");
+        if (!config.isEnableChannelChat()) manager.removeAllDefaultChannels();
 
         // Metrics
         if (!config.getMetricsDisabled()) {
@@ -110,15 +117,6 @@ public class LunaChatBukkit extends JavaPlugin implements PluginInterface {
                 return map;
             }));
         }
-
-        // 変数などの初期化
-        config = new LunaChatConfig(getDataFolder(), getFile());
-        uuidCacheData = new UUIDCacheData(getDataFolder());
-        Messages.initialize(new File(getDataFolder(), "messages"), getFile(), config.getLang());
-        manager = new ChannelManager();
-        normalChatLogger = new LunaChatLogger("==normalchat");
-        if (!config.isEnableChannelChat()) manager.removeAllDefaultChannels();
-
 
         // チャンネルチャット無効なら、デフォルト発言先をクリアする(see issue #59)
         if (!config.isEnableChannelChat()) {
