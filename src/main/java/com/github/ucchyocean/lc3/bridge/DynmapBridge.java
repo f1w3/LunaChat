@@ -9,10 +9,13 @@ import com.github.ucchyocean.lc3.LunaChat;
 import com.github.ucchyocean.lc3.LunaChatAPI;
 import com.github.ucchyocean.lc3.LunaChatConfig;
 import com.github.ucchyocean.lc3.channel.Channel;
+import net.milkbowl.vault.chat.Chat;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.dynmap.DynmapAPI;
 import org.dynmap.DynmapWebChatEvent;
 
@@ -26,28 +29,29 @@ public class DynmapBridge implements Listener {
     /**
      * dynmap-apiクラス
      */
-    private DynmapAPI dynmap;
+    private final DynmapAPI dynmap;
 
     /**
      * コンストラクタは使用不可
      */
-    private DynmapBridge() {
+    private DynmapBridge(DynmapAPI dynmapapi) {
+        this.dynmap = dynmapapi;
     }
 
     /**
      * dynmap-apiをロードする
      *
-     * @param plugin    dynmap-apiのプラグインインスタンス
+     * @return ロードしたブリッジのインスタンス
      */
-    public static DynmapBridge load(Plugin plugin) {
+    public static DynmapBridge load() {
 
-        if (plugin instanceof DynmapAPI) {
-            DynmapBridge bridge = new DynmapBridge();
-            bridge.dynmap = (DynmapAPI) plugin;
-            return bridge;
-        } else {
-            return null;
+        RegisteredServiceProvider<DynmapAPI> dynmapAPIProvider =
+                Bukkit.getServicesManager().getRegistration(DynmapAPI.class);
+        if (dynmapAPIProvider != null) {
+            return new DynmapBridge(dynmapAPIProvider.getProvider());
         }
+
+        return null;
     }
 
     /**

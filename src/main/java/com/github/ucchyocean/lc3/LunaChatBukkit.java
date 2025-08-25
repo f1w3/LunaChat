@@ -106,15 +106,13 @@ public class LunaChatBukkit extends JavaPlugin implements PluginInterface {
         }
 
         // Vault のロード
-        Plugin temp;
         if (getServer().getPluginManager().isPluginEnabled("Vault")) {
             vaultchat = VaultChatBridge.load();
         }
 
         // Dynmap のロード
-        temp = getServer().getPluginManager().getPlugin("dynmap");
-        if (temp != null) {
-            dynmap = DynmapBridge.load(temp);
+        if (getServer().getPluginManager().isPluginEnabled("dynmap")) {
+            dynmap = DynmapBridge.load();
             if (dynmap != null) {
                 getServer().getPluginManager().registerEvents(dynmap, this);
             }
