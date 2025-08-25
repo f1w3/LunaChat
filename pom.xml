@@ -46,6 +46,17 @@
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.3.0</version>
+                <configuration>
+                    <archive>
+                        <addMavenDescriptor>false</addMavenDescriptor>
+                    </archive>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>3.7.0</version>
                 <configuration>
@@ -69,6 +80,17 @@
                 <configuration>
                     <createDependencyReducedPom>false</createDependencyReducedPom>
                     <minimizeJar>true</minimizeJar>
+                    <shadedArtifactAttached>false</shadedArtifactAttached>
+                    <filters>
+                        <filter>
+                            <artifact>*:*</artifact>
+                            <excludes>
+                                <exclude>META-INF/maven/**</exclude>
+                                <exclude>META-INF/proguard/**</exclude>
+                                <exclude>META-INF/versions/**</exclude>
+                            </excludes>
+                        </filter>
+                    </filters>
                 </configuration>
                 <executions>
                     <execution>
@@ -78,19 +100,15 @@
                             <relocations>
                                 <relocation>
                                     <pattern>com.google.gson</pattern>
-                                    <shadedPattern>com.github.ucchyocean.lc.lib.com.google.gson</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>org.apache.commons.lang3</pattern>
-                                    <shadedPattern>com.github.ucchyocean.lc.lib.org.apache.commons.lang3</shadedPattern>
+                                    <shadedPattern>com.github.ucchyocean.lib.com.google.gson</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>org.jetbrains</pattern>
-                                    <shadedPattern>com.github.ucchyocean.lc.lib.org.jetbrains</shadedPattern>
+                                    <shadedPattern>com.github.ucchyocean.lib.org.jetbrains</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>org.bstats</pattern>
-                                    <shadedPattern>com.github.ucchyocean.lc.lib.org.bstats</shadedPattern>
+                                    <shadedPattern>com.github.ucchyocean.lib.org.bstats</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
@@ -256,11 +274,6 @@
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.11.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.18.0</version>
         </dependency>
         <dependency>
             <groupId>org.jetbrains</groupId>

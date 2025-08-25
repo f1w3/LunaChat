@@ -2,7 +2,6 @@ package com.github.ucchyocean.lc3.japanize;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSortedMap;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;
 
@@ -358,6 +357,14 @@ public class YukiKanaConverter {
         return first != 'a' && first != 'i' && first != 'u' && first != 'e' && first != 'o' && first != 'n';
     }
 
+    private static String replaceEach(String text, String[] search, String[] replace) {
+        String result = text;
+        for (int i = 0; i < search.length; i++) {
+            result = result.replace(search[i], replace[i]);
+        }
+        return result;
+    }
+
     /**
      * 「ローマ字」から「かな文字」に変換する
      *
@@ -366,7 +373,7 @@ public class YukiKanaConverter {
      * @since 2.8.10
      */
     public static String conv(String romaji) {
-        return StringUtils.replaceEach(romaji, ROMAJI_LIST, HIRAGANA_LIST);
+        return replaceEach(romaji, ROMAJI_LIST, HIRAGANA_LIST);
     }
 
     /**
@@ -377,8 +384,6 @@ public class YukiKanaConverter {
      * @since 2.8.10
      */
     public static String fixBrackets(String text) {
-        String[] full = new String[]{"（", "）"};
-        String[] half = new String[]{"(", ")"};
-        return StringUtils.replaceEach(text, full, half);
+        return replaceEach(text, new String[]{"（", "）"}, new String[]{"(", ")"});
     }
 }

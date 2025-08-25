@@ -6,6 +6,9 @@
 package com.github.ucchyocean.lc3.japanize;
 
 import com.google.common.io.CharStreams;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -84,7 +87,7 @@ public class IMEConverter {
 //              parsed = YukiKanaConverter.fixBrackets(parsed);
 //          }
 
-            return GoogleIME.parseJson(json);
+            return parseJson(json);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -110,5 +113,13 @@ public class IMEConverter {
         System.out.println("kana : " + YukiKanaConverter.conv(testee));
         System.out.println("GoogleIME : " + convByGoogleIME(YukiKanaConverter.conv(testee)));
         System.out.println("SocialIME : " + convBySocialIME(YukiKanaConverter.conv(testee)));
+    }
+
+    private static String parseJson(String json) {
+        StringBuilder result = new StringBuilder();
+        for (JsonElement response : new Gson().fromJson(json, JsonArray.class)) {
+            result.append(response.getAsJsonArray().get(1).getAsJsonArray().get(0).getAsString());
+        }
+        return result.toString();
     }
 }
