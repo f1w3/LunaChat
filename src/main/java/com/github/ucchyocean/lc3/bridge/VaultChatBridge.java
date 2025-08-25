@@ -20,12 +20,13 @@ public class VaultChatBridge {
     /**
      * vault-chatクラス
      */
-    private Chat chatPlugin;
+    private final Chat chatPlugin;
 
     /**
      * コンストラクタは使用不可
      */
-    private VaultChatBridge() {
+    private VaultChatBridge(Chat vc) {
+        this.chatPlugin = vc;
     }
 
     /**
@@ -35,11 +36,10 @@ public class VaultChatBridge {
      */
     public static VaultChatBridge load() {
 
-        RegisteredServiceProvider<Chat> chatProvider = Bukkit.getServicesManager().getRegistration(Chat.class);
+        RegisteredServiceProvider<Chat> chatProvider =
+                Bukkit.getServicesManager().getRegistration(Chat.class);
         if (chatProvider != null) {
-            VaultChatBridge bridge = new VaultChatBridge();
-            bridge.chatPlugin = chatProvider.getProvider();
-            return bridge;
+            return new VaultChatBridge(chatProvider.getProvider());
         }
 
         return null;
