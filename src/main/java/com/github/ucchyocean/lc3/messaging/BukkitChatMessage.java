@@ -7,6 +7,7 @@ package com.github.ucchyocean.lc3.messaging;
 
 import com.github.ucchyocean.lc3.member.ChannelMemberOther;
 import com.github.ucchyocean.lc3.util.BlockLocation;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.*;
@@ -16,10 +17,7 @@ import java.io.*;
  *
  * @author ucchy
  */
-public class BukkitChatMessage {
-
-    private final ChannelMemberOther member;
-    private final String message;
+public record BukkitChatMessage(ChannelMemberOther member, String message) {
 
     /**
      * コンストラクタ
@@ -27,9 +25,7 @@ public class BukkitChatMessage {
      * @param member  発言者
      * @param message 発言内容
      */
-    public BukkitChatMessage(ChannelMemberOther member, String message) {
-        this.member = member;
-        this.message = message;
+    public BukkitChatMessage {
     }
 
     /**
@@ -61,7 +57,8 @@ public class BukkitChatMessage {
      *
      * @return member
      */
-    public ChannelMemberOther getMember() {
+    @Override
+    public ChannelMemberOther member() {
         return member;
     }
 
@@ -70,7 +67,8 @@ public class BukkitChatMessage {
      *
      * @return message
      */
-    public String getMessage() {
+    @Override
+    public String message() {
         return message;
     }
 
@@ -97,7 +95,7 @@ public class BukkitChatMessage {
     }
 
     @Override
-    public String toString() {
+    public @NotNull String toString() {
         return String.format("n=%s, d=%s, p=%s, s=%s, m=%s",
                 member.getName(), member.getDisplayName(), member.getPrefix(), member.getSuffix(), message);
     }

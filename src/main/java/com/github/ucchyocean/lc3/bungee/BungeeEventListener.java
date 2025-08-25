@@ -63,7 +63,7 @@ public class BungeeEventListener implements Listener {
     /**
      * プレイヤーがチャット発言したときに呼び出されるメソッド
      *
-     * @param event
+     * @param event ChatEvent
      */
     @EventHandler(priority = EventPriority.LOWEST)
     public void onAsyncPlayerChatLowest(ChatEvent event) {
@@ -76,7 +76,7 @@ public class BungeeEventListener implements Listener {
     /**
      * プレイヤーがチャット発言したときに呼び出されるメソッド
      *
-     * @param event
+     * @param event ChatEvent
      */
     @EventHandler(priority = EventPriority.LOW)
     public void onAsyncPlayerChatLow(ChatEvent event) {
@@ -89,7 +89,7 @@ public class BungeeEventListener implements Listener {
     /**
      * プレイヤーがチャット発言したときに呼び出されるメソッド
      *
-     * @param event
+     * @param event ChatEvent
      */
     @EventHandler(priority = EventPriority.NORMAL)
     public void onAsyncPlayerChatNormal(ChatEvent event) {
@@ -102,7 +102,7 @@ public class BungeeEventListener implements Listener {
     /**
      * プレイヤーがチャット発言したときに呼び出されるメソッド
      *
-     * @param event
+     * @param event ChatEvent
      */
     @EventHandler(priority = EventPriority.HIGH)
     public void onAsyncPlayerChatHigh(ChatEvent event) {
@@ -115,7 +115,7 @@ public class BungeeEventListener implements Listener {
     /**
      * プレイヤーがチャット発言したときに呼び出されるメソッド
      *
-     * @param event
+     * @param event ChatEvent
      */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onAsyncPlayerChatHighest(ChatEvent event) {
@@ -169,7 +169,7 @@ public class BungeeEventListener implements Listener {
 
         // お互いがオフラインになるPMチャンネルがある場合は
         // チャンネルをクリアする
-        ArrayList<Channel> deleteList = new ArrayList<Channel>();
+        ArrayList<Channel> deleteList = new ArrayList<>();
 
         for (Channel channel : LunaChat.getAPI().getChannels()) {
             String cname = channel.getName();
@@ -195,7 +195,7 @@ public class BungeeEventListener implements Listener {
     /**
      * プラグインメッセージを受信したときに呼び出される
      *
-     * @param event
+     * @param event PluginMessageEvent
      */
     @EventHandler
     public void onPluginMessageReceived(PluginMessageEvent event) {
@@ -211,7 +211,7 @@ public class BungeeEventListener implements Listener {
 
         // 受信者と発言者が一致しない場合は無視する
         if (event.getReceiver() instanceof ProxiedPlayer receiver) {
-            if (!receiver.getName().equals(msg.getMember().getName())) {
+            if (!receiver.getName().equals(msg.member().getName())) {
                 return;
             }
         } else {
@@ -219,14 +219,14 @@ public class BungeeEventListener implements Listener {
         }
 
         // 発言者を取得する　サーバー名を設定できる場合は設定する
-        ChannelMemberOther member = msg.getMember();
+        ChannelMemberOther member = msg.member();
         ProxiedPlayer player = ProxyServer.getInstance().getPlayer(member.getName());
         if (player != null) {
             member.setServerName(player.getServer().getInfo().getName());
         }
 
         // 発言処理する
-        processChat(member, msg.getMessage());
+        processChat(member, msg.message());
     }
 
     /**
@@ -252,11 +252,7 @@ public class BungeeEventListener implements Listener {
         }
 
         // 発言内容を非同期で処理する
-        ProxyServer.getInstance().getScheduler().runAsync(LunaChatBungee.getInstance(), new Runnable() {
-            public void run() {
-                processChat(ChannelMember.getChannelMember(event.getSender()), event.getMessage());
-            }
-        });
+        ProxyServer.getInstance().getScheduler().runAsync(LunaChatBungee.getInstance(), () -> processChat(ChannelMember.getChannelMember(event.getSender()), event.getMessage()));
 
         // イベントをキャンセル
         event.setCancelled(true);
@@ -283,10 +279,7 @@ public class BungeeEventListener implements Listener {
             if (message.contains(separator)) {
                 String[] temp = message.split(separator, 2);
                 String name = temp[0];
-                String value = "";
-                if (temp.length > 0) {
-                    value = temp[1];
-                }
+                String value = temp[1];
 
                 Channel channel = api.getChannel(name);
                 if (channel != null) {
@@ -312,12 +305,8 @@ public class BungeeEventListener implements Listener {
             if (config.isNoJoinAsGlobal()) {
                 // グローバル発言にする
                 chatGlobal(member, message);
-                return;
-
-            } else {
-                // 何もせずに終了する
-                return;
             }
+            return;
         }
 
         chatToChannelWithEvent(member, channel, message);
@@ -344,8 +333,6 @@ public class BungeeEventListener implements Listener {
 
             // チャンネルチャット発言
             chatToChannelWithEvent(member, global, message);
-
-            return;
 
         } else {
             // グローバルチャンネル設定が無い場合
@@ -518,7 +505,7 @@ public class BungeeEventListener implements Listener {
         // チャンネルが存在しない場合は作成する
         Channel global = api.getChannel(gcName);
         if (global == null) {
-            global = api.createChannel(gcName, ChannelMember.getChannelMember(player));
+            api.createChannel(gcName, ChannelMember.getChannelMember(player));
         }
 
         // デフォルト発言先が無いなら、グローバルチャンネルに設定する
@@ -548,11 +535,9 @@ public class BungeeEventListener implements Listener {
 
         // チャンネル一覧を取得して、参加人数でソートする
         ArrayList<Channel> channels = new ArrayList<>(api.getChannels());
-        channels.sort(new Comparator<Channel>() {
-            public int compare(Channel c1, Channel c2) {
-                if (c1.getOnlineNum() == c2.getOnlineNum()) return c1.getName().compareTo(c2.getName());
-                return c2.getOnlineNum() - c1.getOnlineNum();
-            }
+        channels.sort((c1, c2) -> {
+            if (c1.getOnlineNum() == c2.getOnlineNum()) return c1.getName().compareTo(c2.getName());
+            return c2.getOnlineNum() - c1.getOnlineNum();
         });
 
         int count = 0;

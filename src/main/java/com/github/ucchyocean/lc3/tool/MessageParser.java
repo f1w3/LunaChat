@@ -31,11 +31,10 @@ public class MessageParser {
 
     static {
         CLICKABLE_MESSAGES = new ArrayList<>();
-        Collections.addAll(CLICKABLE_MESSAGES, new String[]{
-                "joinMessage", "quitMessage", "banMessage", "kickMessage",
+        Collections.addAll(CLICKABLE_MESSAGES, "joinMessage", "quitMessage", "banMessage", "kickMessage",
                 "muteMessage", "banNGWordMessage", "kickNGWordMessage", "muteNGWordMessage", "banWithExpireMessage",
                 "muteWithExpireMessage", "pardonMessage", "unmuteMessage", "expiredBanMessage", "expiredMuteMessage",
-                "addModeratorMessage", "removeModeratorMessage", "noRecipientMessage", "listFormat",});
+                "addModeratorMessage", "removeModeratorMessage", "noRecipientMessage", "listFormat");
     }
 
     public static void main(String[] args) {
@@ -113,7 +112,7 @@ public class MessageParser {
                 result.add("     * " + value);
                 result.add("     */");
                 result.add(String.format(
-                        "    public static String %s(%s) {", key, arguments.toString()));
+                        "    public static String %s(%s) {", key, arguments));
                 result.add(String.format(
                         "        String msg = resources.getString(\"%s\");", key));
                 result.add(String.format(
@@ -138,7 +137,7 @@ public class MessageParser {
                 result.add("     * " + value);
                 result.add("     */");
                 result.add(String.format(
-                        "    public static BaseComponent[] %s(%s) {", key, arguments.toString()));
+                        "    public static BaseComponent[] %s(%s) {", key, arguments));
                 result.add(String.format(
                         "        String msg = resources.getString(\"%s\");", key));
                 result.add(String.format(

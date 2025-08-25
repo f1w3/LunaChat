@@ -19,7 +19,7 @@ import net.md_5.bungee.api.connection.Server;
  */
 public class ChannelMemberBungeeConsole extends ChannelMemberBungee {
 
-    private CommandSender sender;
+    private final CommandSender sender;
 
     /**
      * コンストラクタ

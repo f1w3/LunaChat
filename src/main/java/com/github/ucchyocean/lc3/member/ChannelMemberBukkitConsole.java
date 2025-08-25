@@ -179,7 +179,7 @@ public class ChannelMemberBukkitConsole extends ChannelMemberBukkit {
      * IDを返す
      *
      * @return 名前をそのまま返す
-     * @see com.github.ucchyocean.lc.channel.ChannelPlayer#getID()
+     * @see com.github.ucchyocean.lc.channel.ChannelPlayer#toString()
      */
     @Override
     public String toString() {

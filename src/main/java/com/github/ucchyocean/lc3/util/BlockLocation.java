@@ -5,6 +5,7 @@
  */
 package com.github.ucchyocean.lc3.util;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -12,12 +13,7 @@ import org.jetbrains.annotations.Nullable;
  *
  * @author ucchy
  */
-public class BlockLocation {
-
-    private final String worldName;
-    private final int x;
-    private final int y;
-    private final int z;
+public record BlockLocation(String worldName, int x, int y, int z) {
 
     /**
      * コンストラクタ
@@ -27,11 +23,7 @@ public class BlockLocation {
      * @param y         Y座標
      * @param z         Z座標
      */
-    public BlockLocation(String worldName, int x, int y, int z) {
-        this.worldName = worldName;
-        this.x = x;
-        this.y = y;
-        this.z = z;
+    public BlockLocation {
     }
 
     /**
@@ -62,7 +54,8 @@ public class BlockLocation {
      *
      * @return worldName
      */
-    public String getWorldName() {
+    @Override
+    public String worldName() {
         return worldName;
     }
 
@@ -71,7 +64,8 @@ public class BlockLocation {
      *
      * @return x
      */
-    public int getX() {
+    @Override
+    public int x() {
         return x;
     }
 
@@ -80,7 +74,8 @@ public class BlockLocation {
      *
      * @return y
      */
-    public int getY() {
+    @Override
+    public int y() {
         return y;
     }
 
@@ -89,7 +84,8 @@ public class BlockLocation {
      *
      * @return z
      */
-    public int getZ() {
+    @Override
+    public int z() {
         return z;
     }
 
@@ -97,10 +93,10 @@ public class BlockLocation {
      * 文字列に変換する
      *
      * @return 文字列
-     * @see java.lang.Object#toString()
+     * @see Object#toString()
      */
     @Override
-    public String toString() {
+    public @NotNull String toString() {
         return String.format("%s,%d,%d,%d", worldName, x, y, z);
     }
 }

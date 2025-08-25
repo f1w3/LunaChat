@@ -20,7 +20,6 @@ import net.md_5.bungee.api.chat.TextComponent;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -160,19 +159,19 @@ public abstract class Channel {
         this.name = name;
         this.alias = "";
         this.description = "";
-        this.members = new ArrayList<ChannelMember>();
-        this.banned = new ArrayList<ChannelMember>();
-        this.muted = new ArrayList<ChannelMember>();
-        this.hided = new ArrayList<ChannelMember>();
-        this.moderator = new ArrayList<ChannelMember>();
+        this.members = new ArrayList<>();
+        this.banned = new ArrayList<>();
+        this.muted = new ArrayList<>();
+        this.hided = new ArrayList<>();
+        this.moderator = new ArrayList<>();
         this.password = "";
         this.visible = true;
         this.colorCode = "";
         this.broadcastChannel = false;
         this.isWorldRange = false;
         this.chatRange = 0;
-        this.banExpires = new HashMap<ChannelMember, Long>();
-        this.muteExpires = new HashMap<ChannelMember, Long>();
+        this.banExpires = new HashMap<>();
+        this.muteExpires = new HashMap<>();
         this.privateMessageTo = null;
         this.allowcc = true;
 
@@ -196,12 +195,12 @@ public abstract class Channel {
      */
     public static Channel deserialize(Map<String, Object> data) {
 
-        String name = castWithDefault(data.get(KEY_NAME), (String) null);
+        String name = castWithDefault(data.get(KEY_NAME), null);
         if (name == null) {
             return null;
         }
 
-        Channel channel = null;
+        Channel channel;
         if (LunaChat.getMode() == LunaChatMode.BUKKIT) {
             channel = new BukkitChannel(name);
         } else if (LunaChat.getMode() == LunaChatMode.BUNGEE) {
@@ -242,21 +241,16 @@ public abstract class Channel {
         File folder = new File(
                 LunaChat.getDataFolder(), FOLDER_NAME_CHANNELS);
         if (!folder.exists()) {
-            return new HashMap<String, Channel>();
+            return new HashMap<>();
         }
 
-        File[] files = folder.listFiles(new FilenameFilter() {
-            @Override
-            public boolean accept(File dir, String name) {
-                return name.endsWith(".yml");
-            }
-        });
+        File[] files = folder.listFiles((dir, name) -> name.endsWith(".yml"));
         if (files == null) files = new File[0];
 
-        HashMap<String, Channel> result = new HashMap<String, Channel>();
+        HashMap<String, Channel> result = new HashMap<>();
         for (File file : files) {
             YamlConfig config = YamlConfig.load(file);
-            Map<String, Object> data = new HashMap<String, Object>();
+            Map<String, Object> data = new HashMap<>();
             for (String key : config.getKeys(false)) {
                 data.put(key, config.get(key));
             }
@@ -275,7 +269,7 @@ public abstract class Channel {
      */
     private static List<String> getStringList(List<ChannelMember> org) {
 
-        List<String> result = new ArrayList<String>();
+        List<String> result = new ArrayList<>();
         for (ChannelMember cp : org) {
             if (cp != null) result.add(cp.toString());
         }
@@ -290,7 +284,7 @@ public abstract class Channel {
      */
     private static Map<String, Long> getStringLongMap(Map<ChannelMember, Long> org) {
 
-        HashMap<String, Long> result = new HashMap<String, Long>();
+        HashMap<String, Long> result = new HashMap<>();
         for (ChannelMember cp : org.keySet()) {
             if (cp != null) result.put(cp.toString(), org.get(cp));
         }
@@ -322,7 +316,7 @@ public abstract class Channel {
     private static List<ChannelMember> castToChannelMemberList(Object obj) {
 
         List<String> entries = castToStringList(obj);
-        ArrayList<ChannelMember> players = new ArrayList<ChannelMember>();
+        ArrayList<ChannelMember> players = new ArrayList<>();
 
         for (String entry : entries) {
             players.add(ChannelMember.getChannelMember(entry));
@@ -341,10 +335,10 @@ public abstract class Channel {
     private static List<String> castToStringList(Object obj) {
 
         if (obj == null) {
-            return new ArrayList<String>();
+            return new ArrayList<>();
         }
         if (!(obj instanceof List<?>)) {
-            return new ArrayList<String>();
+            return new ArrayList<>();
         }
         return (List<String>) obj;
     }
@@ -358,7 +352,7 @@ public abstract class Channel {
     private static Map<ChannelMember, Long> castToChannelMemberLongMap(Object obj) {
 
         Map<String, Long> entries = castToStringLongMap(obj);
-        HashMap<ChannelMember, Long> map = new HashMap<ChannelMember, Long>();
+        HashMap<ChannelMember, Long> map = new HashMap<>();
 
         for (String key : entries.keySet()) {
             ChannelMember cp = ChannelMember.getChannelMember(key);
@@ -378,10 +372,10 @@ public abstract class Channel {
     private static Map<String, Long> castToStringLongMap(Object obj) {
 
         if (obj == null) {
-            return new HashMap<String, Long>();
+            return new HashMap<>();
         }
         if (!(obj instanceof HashMap<?, ?>)) {
-            return new HashMap<String, Long>();
+            return new HashMap<>();
         }
         return (Map<String, Long>) obj;
     }
@@ -724,7 +718,7 @@ public abstract class Channel {
         }
 
         // 変更後のメンバーリストを作成
-        ArrayList<ChannelMember> after = new ArrayList<ChannelMember>(members);
+        ArrayList<ChannelMember> after = new ArrayList<>(members);
         after.add(player);
 
         // LunaChatChannelMemberChangedEvent イベントコール
@@ -759,7 +753,7 @@ public abstract class Channel {
         }
 
         // 変更後のメンバーリストを作成
-        ArrayList<ChannelMember> after = new ArrayList<ChannelMember>(members);
+        ArrayList<ChannelMember> after = new ArrayList<>(members);
         after.remove(player);
 
         // LunaChatChannelMemberChangedEvent イベントコール
@@ -785,20 +779,16 @@ public abstract class Channel {
 
         // 0人で削除する設定がオンで、0人になったなら、チャンネルを削除する
         LunaChatConfig config = LunaChat.getConfig();
-        if (config.isZeroMemberRemove() && members.size() <= 0) {
+        if (config.isZeroMemberRemove() && members.isEmpty()) {
             api.removeChannel(this.name);
             return;
         }
 
         // 非表示設定プレイヤーだったら、リストから削除する
-        if (hided.contains(player)) {
-            hided.remove(player);
-        }
+        hided.remove(player);
 
         // モデレーターだった場合は、モデレーターから除去する
-        if (moderator.contains(player)) {
-            moderator.remove(player);
-        }
+        moderator.remove(player);
 
         save();
     }
@@ -887,7 +877,7 @@ public abstract class Channel {
      */
     public List<String> getInfo(boolean forModerator) {
 
-        ArrayList<String> info = new ArrayList<String>();
+        ArrayList<String> info = new ArrayList<>();
         info.add(Messages.channelInfoFirstLine());
 
         // チャンネル名、参加人数、総人数、チャンネル説明文
@@ -906,14 +896,14 @@ public abstract class Channel {
             info.add(Messages.channelInfoBroadcast());
         } else {
             // メンバーを、5人ごとに表示する
-            StringBuffer buf = new StringBuffer();
+            StringBuilder buf = new StringBuilder();
             buf.append(Messages.channelInfoPrefix());
 
             for (int i = 0; i < getMembers().size(); i++) {
 
                 if (i % 5 == 0 && i != 0) {
                     info.add(buf.toString());
-                    buf = new StringBuffer();
+                    buf = new StringBuilder();
                     buf.append(Messages.channelInfoPrefix());
                 }
 
@@ -969,14 +959,14 @@ public abstract class Channel {
                 info.add(Messages.channelInfoMuted());
 
                 StringBuilder buf = new StringBuilder();
-                buf.append(Messages.channelInfoPrefix() + ChatColor.WHITE);
+                buf.append(Messages.channelInfoPrefix()).append(ChatColor.WHITE);
                 for (int i = 0; i < getMuted().size(); i++) {
                     if (i % 5 == 0 && i != 0) {
                         info.add(buf.toString());
                         buf = new StringBuilder();
-                        buf.append(Messages.channelInfoPrefix() + ChatColor.WHITE);
+                        buf.append(Messages.channelInfoPrefix()).append(ChatColor.WHITE);
                     }
-                    buf.append(getMuted().get(i).getName() + ",");
+                    buf.append(getMuted().get(i).getName()).append(",");
                 }
 
                 info.add(buf.toString());
@@ -987,14 +977,14 @@ public abstract class Channel {
                 info.add(Messages.channelInfoBanned());
 
                 StringBuilder buf = new StringBuilder();
-                buf.append(Messages.channelInfoPrefix() + ChatColor.WHITE);
+                buf.append(Messages.channelInfoPrefix()).append(ChatColor.WHITE);
                 for (int i = 0; i < getBanned().size(); i++) {
                     if (i % 5 == 0 && i != 0) {
                         info.add(buf.toString());
                         buf = new StringBuilder();
-                        buf.append(Messages.channelInfoPrefix() + ChatColor.WHITE);
+                        buf.append(Messages.channelInfoPrefix()).append(ChatColor.WHITE);
                     }
-                    buf.append(getBanned().get(i).getName() + ",");
+                    buf.append(getBanned().get(i).getName()).append(",");
                 }
 
                 info.add(buf.toString());
@@ -1111,7 +1101,7 @@ public abstract class Channel {
      */
     public Map<String, Object> serialize() {
 
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<>();
         map.put(KEY_NAME, name);
         map.put(KEY_ALIAS, alias);
         map.put(KEY_DESC, description);

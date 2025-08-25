@@ -65,8 +65,8 @@ public class JapanizeConvertTask {
     public boolean runSync() {
 
         // 変換対象外のキーワード
-        HashMap<String, String> keywordMap = new HashMap<String, String>();
-        ArrayList<String> keywords = new ArrayList<String>();
+        HashMap<String, String> keywordMap = new HashMap<>();
+        ArrayList<String> keywords = new ArrayList<>();
         if (LunaChat.getConfig().isJapanizeIgnorePlayerName()) {
             keywords.addAll(LunaChat.getPlugin().getOnlinePlayerNames());
         }
@@ -146,8 +146,8 @@ public class JapanizeConvertTask {
     /**
      * 数値を、全角文字の文字列に変換して返す
      *
-     * @param digit
-     * @return
+     * @param digit int
+     * @return String
      */
     private String makeMultibytesDigit(int digit) {
 

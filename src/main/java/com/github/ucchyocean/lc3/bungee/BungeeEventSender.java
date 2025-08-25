@@ -25,7 +25,7 @@ public class BungeeEventSender implements EventSenderInterface {
      * チャンネルチャットのチャットイベント
      *
      * @param channelName     チャンネル名
-     * @param player          発言者
+     * @param member          発言者
      * @param originalMessage 発言内容
      * @param ngMaskedMessage 発言内容（NGマスク後）
      * @param messageFormat   発言に適用されるフォーマット

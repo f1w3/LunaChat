@@ -29,6 +29,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 import org.bstats.charts.DrilldownPie;
+import org.jetbrains.annotations.NotNull;
 import org.mvplugins.multiverse.core.MultiverseCoreApi;
 
 import java.io.File;
@@ -183,8 +184,7 @@ public class LunaChatBukkit extends JavaPlugin implements PluginInterface {
      * @see org.bukkit.plugin.java.JavaPlugin#onCommand(org.bukkit.command.CommandSender, org.bukkit.command.Command, java.lang.String, java.lang.String[])
      */
     @Override
-    public boolean onCommand(
-            CommandSender sender, Command command, String label, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, Command command, @NotNull String label, String[] args) {
 
         return switch (command.getName()) {
             case "lunachat" -> lunachatCommand.execute(ChannelMember.getChannelMember(sender), label, args);
@@ -202,8 +202,7 @@ public class LunaChatBukkit extends JavaPlugin implements PluginInterface {
      * @see org.bukkit.plugin.java.JavaPlugin#onTabComplete(org.bukkit.command.CommandSender, org.bukkit.command.Command, java.lang.String, java.lang.String[])
      */
     @Override
-    public List<String> onTabComplete(
-            CommandSender sender, Command command, String label, String[] args) {
+    public List<String> onTabComplete(@NotNull CommandSender sender, Command command, @NotNull String label, String[] args) {
 
         List<String> completeList = null;
         if (command.getName().equals("lunachat")) {

@@ -49,8 +49,8 @@ public class YamlSection {
     /**
      * 指定されたkeyにvalueを設定する
      *
-     * @param key
-     * @param value
+     * @param key String
+     * @param value Object
      */
     public void set(String key, Object value) {
         if (key.contains(".")) {
@@ -69,7 +69,7 @@ public class YamlSection {
     /**
      * 指定されたkeyの値を取得する
      *
-     * @param key
+     * @param key String
      * @return keyに対応する値（値が無い場合はnullが返される）
      */
     public @Nullable Object get(String key) {
@@ -79,7 +79,7 @@ public class YamlSection {
     /**
      * 指定されたkeyの値を取得する
      *
-     * @param key
+     * @param key String
      * @param defaultValue デフォルト値
      * @return keyに対応する値（値が無い場合はdefaultValueが返される）
      */
@@ -99,7 +99,7 @@ public class YamlSection {
     /**
      * 指定されたkeyの値をbooleanに変換して返す
      *
-     * @param key
+     * @param key String
      * @return keyに対応する値（値が無いかbooleanに変換できない場合はfalseが返される）
      */
     public boolean getBoolean(String key) {
@@ -109,7 +109,7 @@ public class YamlSection {
     /**
      * 指定されたkeyの値をbooleanに変換して返す
      *
-     * @param key
+     * @param key String
      * @param defaultValue デフォルト値
      * @return keyに対応する値（値が無いかbooleanに変換できない場合はdefaultValueが返される）
      */
@@ -121,7 +121,7 @@ public class YamlSection {
     /**
      * 指定されたkeyの値をintに変換して返す
      *
-     * @param key
+     * @param key String
      * @return keyに対応する値（値が無いかintに変換できない場合は0が返される）
      */
     public int getInt(String key) {
@@ -131,7 +131,7 @@ public class YamlSection {
     /**
      * 指定されたkeyの値をintに変換して返す
      *
-     * @param key
+     * @param key String
      * @param defaultValue デフォルト値
      * @return keyに対応する値（値が無いかintに変換できない場合はdefaultValueが返される）
      */
@@ -143,7 +143,7 @@ public class YamlSection {
     /**
      * 指定されたkeyの値をStringに変換して返す
      *
-     * @param key
+     * @param key String
      * @return keyに対応する値（値が無いかStringに変換できない場合は0が返される）
      */
     public @Nullable String getString(String key) {
@@ -153,7 +153,7 @@ public class YamlSection {
     /**
      * 指定されたkeyの値をStringに変換して返す
      *
-     * @param key
+     * @param key String
      * @param defaultValue デフォルト値
      * @return keyに対応する値（値が無いかStringに変換できない場合はdefaultValueが返される）
      */
@@ -165,7 +165,7 @@ public class YamlSection {
     /**
      * 指定されたkeyの値をList&lt;String&gt;に変換して返す
      *
-     * @param key
+     * @param key String
      * @return keyに対応する値（値が無いかList&lt;String&gt;に変換できない場合はnullが返される）
      */
     public @Nullable List<String> getStringList(String key) {
@@ -175,7 +175,7 @@ public class YamlSection {
     /**
      * 指定されたkeyの値をList&lt;String&gt;に変換して返す
      *
-     * @param key
+     * @param key String
      * @param defaultValue デフォルト値
      * @return keyに対応する値（値が無いかList&lt;String&gt;に変換できない場合はdefaultValueが返される）
      */
@@ -188,7 +188,7 @@ public class YamlSection {
     /**
      * 指定されたkeyの値をMap&lt;String, Object&gt;に変換して返す
      *
-     * @param key
+     * @param key String
      * @return keyに対応する値（値が無いかMap&lt;String, Object&gt;に変換できない場合はnullが返される）
      */
     public @Nullable Map<String, Object> getMap(String key) {
@@ -198,7 +198,7 @@ public class YamlSection {
     /**
      * 指定されたkeyの値をMap&lt;String, Object&gt;に変換して返す
      *
-     * @param key
+     * @param key String
      * @param defaultValue デフォルト値
      * @return keyに対応する値（値が無いかMap&lt;String, Object&gt;に変換できない場合はdefaultValueが返される）
      */
@@ -211,7 +211,7 @@ public class YamlSection {
     /**
      * 指定されたkeyの値をYamlSectionに変換して返す
      *
-     * @param key
+     * @param key String
      * @return YamlSection（値が無いかMap&lt;String, Object&gt;に変換できない場合はnullが返される）
      */
     public @Nullable YamlSection getSection(String key) {
@@ -221,7 +221,7 @@ public class YamlSection {
     /**
      * 指定されたkeyの値をYamlSectionに変換して返す
      *
-     * @param key
+     * @param key String
      * @param defaultValue デフォルト値
      * @return YamlSection（値が無いかMap&lt;String, Object&gt;に変換できない場合はdefaultValueが返される）
      */
@@ -234,7 +234,7 @@ public class YamlSection {
     /**
      * 指定されたkeyの値があるかどうか判定する
      *
-     * @param key
+     * @param key String
      * @return 値があるかどうか
      */
     public boolean contains(String key) {
@@ -252,7 +252,7 @@ public class YamlSection {
     /**
      * 指定されたkeyに対応するサブセクションがあるかどうか判定する
      *
-     * @param key
+     * @param key String
      * @return サブセクションがあるかどうか
      */
     public boolean containsSection(String key) {
@@ -264,12 +264,12 @@ public class YamlSection {
      * 注意：階層構造指定でセクションを作成した場合、最下層のセクションが戻り値として返されることに注意すること。<br/>
      * 例えば、createSection("aa.bb.cc") の戻り値は "cc" のセクションとなる。
      *
-     * @param key
+     * @param key String
      * @return サブセクション
      */
     public YamlSection createSection(String key) {
         if (containsSection(key)) return getSection(key);
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<>();
         set(key, map);
         return new YamlSection(map);
     }
@@ -284,7 +284,7 @@ public class YamlSection {
         if (!deeps) {
             return map.keySet();
         } else {
-            Set<String> result = new TreeSet<String>();
+            Set<String> result = new TreeSet<>();
             for (String key : map.keySet()) {
                 result.add(key);
                 if (containsSection(key)) {
@@ -305,7 +305,7 @@ public class YamlSection {
      */
     public void addDefaults(YamlSection defaults) {
         if (defaults == null) {
-            this.defaults = new HashMap<String, Object>();
+            this.defaults = new HashMap<>();
         } else {
             this.defaults = defaults.map;
         }

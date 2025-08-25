@@ -146,7 +146,7 @@ public class Utility {
     /**
      * カラーコード候補（&aや#99AABB）かどうかを判断する
      *
-     * @param color カラーコード候補
+     * @param code カラーコード候補
      * @return カラーコード候補かどうか
      */
     public static boolean isAltColorCode(String code) {

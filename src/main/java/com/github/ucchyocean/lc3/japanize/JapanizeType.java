@@ -27,7 +27,7 @@ public enum JapanizeType {
     /**
      * コンストラクタ
      *
-     * @param id
+     * @param id String
      */
     JapanizeType(String id) {
         this.id = id;
@@ -38,7 +38,7 @@ public enum JapanizeType {
      *
      * @param id  ID
      * @param def デフォルト
-     * @return
+     * @return JapanizeType
      */
     public static JapanizeType fromID(String id, JapanizeType def) {
         if (id == null) return def;

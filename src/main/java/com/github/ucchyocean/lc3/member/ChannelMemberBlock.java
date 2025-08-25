@@ -88,7 +88,7 @@ public class ChannelMemberBlock extends ChannelMemberBukkit {
     /**
      * メッセージを送る、実際は何もせずにメッセージを捨てる
      *
-     * @param message
+     * @param message String
      * @see com.github.ucchyocean.lc.channel.ChannelPlayer#sendMessage(java.lang.String)
      */
     @Override
@@ -180,7 +180,7 @@ public class ChannelMemberBlock extends ChannelMemberBukkit {
      * IDを返す
      *
      * @return 名前をそのまま返す
-     * @see com.github.ucchyocean.lc.channel.ChannelPlayer#getID()
+     * @see com.github.ucchyocean.lc.channel.ChannelPlayer#toString()
      */
     @Override
     public String toString() {

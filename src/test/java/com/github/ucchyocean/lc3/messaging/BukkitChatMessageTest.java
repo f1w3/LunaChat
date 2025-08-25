@@ -30,8 +30,8 @@ public class BukkitChatMessageTest extends TestCase {
         // デシリアライズ
         BukkitChatMessage after = BukkitChatMessage.fromByteArray(bytes);
 
-        System.out.println("DEBUG after : " + after.getMember().toString());
+        System.out.println("DEBUG after : " + after.member().toString());
 
-        assertTrue(member.toString().equals(after.getMember().toString()));
+        assertTrue(member.toString().equals(after.member().toString()));
     }
 }

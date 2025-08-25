@@ -34,7 +34,7 @@ public abstract class ChannelMember implements Comparable<ChannelMember> {
     /**
      * オブジェクトから、ChannelMemberを作成して返す
      *
-     * @param obj
+     * @param obj Object
      * @return ChannelMember
      */
     public static ChannelMember getChannelMember(Object obj) {
@@ -161,8 +161,8 @@ public abstract class ChannelMember implements Comparable<ChannelMember> {
      * インスタンス同士の比較を行う。このメソッドを実装しておくことで、
      * Java8でのHashMapのキー挿入における高速化が期待できる（らしい）。
      *
-     * @param other
-     * @return
+     * @param other ChannelMember
+     * @return int
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
     @Override

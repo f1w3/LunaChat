@@ -224,7 +224,7 @@ public class ChannelMemberProxiedPlayer extends ChannelMemberBungee {
      * IDを返す
      *
      * @return "$" + UUID を返す
-     * @see com.github.ucchyocean.lc.channel.ChannelPlayer#getID()
+     * @see com.github.ucchyocean.lc.channel.ChannelPlayer#toString()
      */
     @Override
     public String toString() {

@@ -20,10 +20,10 @@ public class Japanizer {
     /**
      * メッセージの日本語化をする
      *
-     * @param org
-     * @param type
-     * @param dictionary
-     * @return
+     * @param org String
+     * @param type JapanizeType
+     * @param dictionary Map<String, String>
+     * @return String
      */
     public static String japanize(String org, JapanizeType type,
                                   Map<String, String> dictionary) {
@@ -37,7 +37,7 @@ public class Japanizer {
         String deletedURL = org.replaceAll(REGEX_URL, " ");
 
         // キーワードをロック
-        HashMap<String, String> keywordMap = new HashMap<String, String>();
+        HashMap<String, String> keywordMap = new HashMap<>();
         int index = 0;
         String keywordLocked = deletedURL;
         for (String dickey : dictionary.keySet()) {
@@ -71,8 +71,8 @@ public class Japanizer {
     /**
      * 日本語化が必要かどうかを判定する
      *
-     * @param org
-     * @return
+     * @param org String
+     * @return boolean
      */
     private static boolean isNeedToJapanize(String org) {
         return (org.getBytes().length == org.length()
@@ -82,8 +82,8 @@ public class Japanizer {
     /**
      * 数値を、全角文字の文字列に変換して返す
      *
-     * @param digit
-     * @return
+     * @param digit int
+     * @return String
      */
     private static String makeMultibytesDigit(int digit) {
 

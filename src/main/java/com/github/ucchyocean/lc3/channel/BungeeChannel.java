@@ -53,7 +53,7 @@ public class BungeeChannel extends Channel {
         String originalMessage = message;
 
         // 受信者を設定する
-        List<ChannelMember> recipients = new ArrayList<ChannelMember>();
+        List<ChannelMember> recipients = new ArrayList<>();
 
         if (isBroadcastChannel()) {
             // ブロードキャストチャンネル
@@ -175,7 +175,7 @@ public class BungeeChannel extends Channel {
         // ブロードキャストチャンネルなら、
         // 現在サーバーに接続している全プレイヤーをメンバーとして返す
         if (isBroadcastChannel()) {
-            List<ChannelMember> mem = new ArrayList<ChannelMember>();
+            List<ChannelMember> mem = new ArrayList<>();
             for (ProxiedPlayer p : ProxyServer.getInstance().getPlayers()) {
                 mem.add(ChannelMember.getChannelMember(p));
             }

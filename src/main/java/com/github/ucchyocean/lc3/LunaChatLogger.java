@@ -58,22 +58,19 @@ public class LunaChatLogger {
         checkDir();
 
         // 以降の処理を、発言処理の負荷軽減のため、非同期実行にする。(see issue #40.)
-        LunaChat.runAsyncTask(new Runnable() {
-            @Override
-            public void run() {
+        LunaChat.runAsyncTask(() -> {
 
-                String msg = Utility.stripColorCode(message);
-                if (msg == null) msg = "";
-                msg = msg.replace(",", "，");
+            String msg = Utility.stripColorCode(message);
+            if (msg == null) msg = "";
+            msg = msg.replace(",", "，");
 
-                try (OutputStreamWriter writer = new OutputStreamWriter(
-                        new FileOutputStream(file, true), StandardCharsets.UTF_8);) {
+            try (OutputStreamWriter writer = new OutputStreamWriter(
+                    new FileOutputStream(file, true), StandardCharsets.UTF_8)) {
 
-                    String str = lformat.format(new Date()) + "," + msg + "," + player;
-                    writer.write(str + "\r\n");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                String str = lformat.format(new Date()) + "," + msg + "," + player;
+                writer.write(str + "\r\n");
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         });
     }
@@ -87,13 +84,12 @@ public class LunaChatLogger {
      * @param reverse 逆順取得
      * @return ログデータ
      */
-    public ArrayList<String> getLog(
-            String player, String filter, String date, boolean reverse) {
+    public ArrayList<String> getLog(String player, String filter, String date, boolean reverse) {
 
         // 指定された日付のログを取得する
         File f = getLogFile(date);
         if (f == null) {
-            return new ArrayList<String>();
+            return new ArrayList<>();
         }
 
         // ログファイルの読み込み
@@ -101,8 +97,8 @@ public class LunaChatLogger {
 
         // プレイヤー指定なら、一致するプレイヤー名が含まれているログに絞る
         if (player != null) {
-            ArrayList<String> temp = new ArrayList<String>(data);
-            data = new ArrayList<String>();
+            ArrayList<String> temp = new ArrayList<>(data);
+            data = new ArrayList<>();
             for (String t : temp) {
                 String[] line = t.split(",");
                 if (line.length >= 3 && line[2].contains(player)) {
@@ -113,8 +109,8 @@ public class LunaChatLogger {
 
         // フィルタ指定なら、指定のキーワードが含まれているログに絞る
         if (filter != null) {
-            ArrayList<String> temp = new ArrayList<String>(data);
-            data = new ArrayList<String>();
+            ArrayList<String> temp = new ArrayList<>(data);
+            data = new ArrayList<>();
             for (String t : temp) {
                 String[] line = t.split(",");
                 if (line.length >= 2 && line[1].contains(filter)) {
@@ -139,7 +135,7 @@ public class LunaChatLogger {
      */
     private ArrayList<String> readAllLines(File file) {
 
-        ArrayList<String> data = new ArrayList<String>();
+        ArrayList<String> data = new ArrayList<>();
         if (!file.exists()) return data;
 
         try (BufferedReader reader = new BufferedReader(

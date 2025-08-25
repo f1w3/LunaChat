@@ -22,7 +22,7 @@ public abstract class ChannelMemberBukkit extends ChannelMember {
     /**
      * CommandSenderから、ChannelMemberを作成して返す
      *
-     * @param sender
+     * @param sender Object
      * @return ChannelMember
      */
     public static ChannelMemberBukkit getChannelMemberBukkit(Object sender) {

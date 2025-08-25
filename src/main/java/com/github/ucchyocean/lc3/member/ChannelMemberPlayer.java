@@ -57,7 +57,6 @@ public class ChannelMemberPlayer extends ChannelMemberBukkit {
         if (player != null) {
             return new ChannelMemberPlayer(player.getUniqueId());
         }
-        @SuppressWarnings("deprecation")
         OfflinePlayer offline = Bukkit.getOfflinePlayer(name);
         offline.getUniqueId();
         return new ChannelMemberPlayer(offline.getUniqueId());
@@ -66,7 +65,7 @@ public class ChannelMemberPlayer extends ChannelMemberBukkit {
     /**
      * CommandSenderから、ChannelPlayerを作成して返す
      *
-     * @param sender
+     * @param sender CommandSender
      * @return ChannelPlayer
      */
     public static ChannelMemberPlayer getChannelPlayer(CommandSender sender) {
@@ -80,7 +79,6 @@ public class ChannelMemberPlayer extends ChannelMemberBukkit {
         if (nameOrUuid.startsWith("$")) {
             return new ChannelMemberPlayer(nameOrUuid.substring(1));
         } else {
-            @SuppressWarnings("deprecation")
             OfflinePlayer op = Bukkit.getOfflinePlayer(nameOrUuid);
             return new ChannelMemberPlayer(op.getUniqueId());
         }
@@ -305,7 +303,7 @@ public class ChannelMemberPlayer extends ChannelMemberBukkit {
      * IDを返す
      *
      * @return "$" + UUID を返す
-     * @see com.github.ucchyocean.lc.channel.ChannelPlayer#getID()
+     * @see com.github.ucchyocean.lc.channel.ChannelPlayer#toString()
      */
     @Override
     public String toString() {

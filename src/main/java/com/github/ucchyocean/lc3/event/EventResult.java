@@ -29,21 +29,21 @@ public class EventResult {
     private Map<String, String> options;
 
     /**
-     * @return
+     * @return Channel
      */
     public Channel getChannel() {
         return LunaChat.getAPI().getChannel(channelName);
     }
 
     /**
-     * @return
+     * @return boolean
      */
     public boolean isCancelled() {
         return isCancelled;
     }
 
     /**
-     * @param cancelled
+     * @param cancelled boolean
      */
     public void setCancelled(boolean cancelled) {
         this.isCancelled = cancelled;

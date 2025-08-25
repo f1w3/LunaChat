@@ -56,7 +56,7 @@ public class BukkitChannel extends Channel {
         String originalMessage = message;
 
         // 受信者を設定する
-        List<ChannelMember> recipients = new ArrayList<ChannelMember>();
+        List<ChannelMember> recipients = new ArrayList<>();
         boolean sendNoRecipientMessage = false;
 
         if (isBroadcastChannel()) {
@@ -236,7 +236,7 @@ public class BukkitChannel extends Channel {
         // ブロードキャストチャンネルなら、
         // 現在サーバーに接続している全プレイヤーをメンバーとして返す
         if (isBroadcastChannel()) {
-            List<ChannelMember> mem = new ArrayList<ChannelMember>();
+            List<ChannelMember> mem = new ArrayList<>();
             for (Player p : Bukkit.getOnlinePlayers()) {
                 mem.add(ChannelMember.getChannelMember(p));
             }
@@ -262,18 +262,18 @@ public class BukkitChannel extends Channel {
         }
 
         // TODO ログ記録プラグイン連携を検討する
-//        // Hawkeye Reloaded のチャットログへ記録
-//        if ( config.isLoggingChatToHawkEye() && LunaChat.getInstance().getHawkEye() != null
-//                && player != null && player.getLocation() != null ) {
-//            LunaChat.getInstance().getHawkEye().writeLog(name, player.getLocation(),
-//                    "channel(" + getName() + ")-" + Utility.stripColor(message));
-//        }
+        // TODO Hawkeye Reloaded のチャットログへ記録
+//      if ( config.isLoggingChatToHawkEye() && LunaChat.getInstance().getHawkEye() != null
+//              && player != null && player.getLocation() != null ) {
+//          LunaChat.getInstance().getHawkEye().writeLog(name, player.getLocation(),
+//                  "channel(" + getName() + ")-" + Utility.stripColor(message));
+//      }
 //
-//        // Prism のチャットログへ記録
-//        if ( config.isLoggingChatToPrism() && LunaChat.getInstance().getPrism() != null
-//                && player != null && player.getPlayer() != null ) {
-//            LunaChat.getInstance().getPrism().writeLog(player.getPlayer(),
-//                    "channel(" + getName() + ")-" + Utility.stripColor(message));
-//        }
+//      // TODO Prism のチャットログへ記録
+//      if ( config.isLoggingChatToPrism() && LunaChat.getInstance().getPrism() != null
+//              && player != null && player.getPlayer() != null ) {
+//          LunaChat.getInstance().getPrism().writeLog(player.getPlayer(),
+//                  "channel(" + getName() + ")-" + Utility.stripColor(message));
+//      }
     }
 }

@@ -19,7 +19,7 @@ public abstract class ChannelMemberBungee extends ChannelMember {
     /**
      * CommandSenderから、ChannelMemberを作成して返す
      *
-     * @param sender
+     * @param sender Object
      * @return ChannelMember
      */
     public static ChannelMemberBungee getChannelMemberBungee(Object sender) {

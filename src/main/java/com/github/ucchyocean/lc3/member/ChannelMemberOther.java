@@ -89,7 +89,7 @@ public class ChannelMemberOther extends ChannelMember {
     @Override
     public String getWorldName() {
         if (worldName != null) return worldName;
-        if (location != null) return location.getWorldName();
+        if (location != null) return location.worldName();
         return "";
     }
 

@@ -19,7 +19,7 @@ public class KeywordReplacer {
     /**
      * 指定された文字列で初期化を行う
      *
-     * @param src
+     * @param src String
      */
     public KeywordReplacer(String src) {
         str = new StringBuilder(src);

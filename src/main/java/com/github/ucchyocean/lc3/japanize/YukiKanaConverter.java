@@ -351,7 +351,11 @@ public class YukiKanaConverter {
      * @since 2.8.10
      */
     private static boolean canStartFromSokuon(String romaji) {
-        return !StringUtils.startsWithAny(romaji, "a", "i", "u", "e", "o", "n");
+        if (romaji == null || romaji.isEmpty()) return false;
+
+        char first = romaji.charAt(0);
+        // 母音と 'n' を除外
+        return first != 'a' && first != 'i' && first != 'u' && first != 'e' && first != 'o' && first != 'n';
     }
 
     /**
