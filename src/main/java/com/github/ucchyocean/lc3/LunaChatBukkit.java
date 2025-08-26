@@ -108,6 +108,7 @@ public class LunaChatBukkit extends JavaPlugin implements PluginInterface {
         // Vault のロード
         if (getServer().getPluginManager().isPluginEnabled("Vault")) {
             vaultchat = VaultChatBridge.load();
+            getLogger().info("Vaultを検出しました!");
         }
 
         // Dynmap のロード
@@ -116,16 +117,19 @@ public class LunaChatBukkit extends JavaPlugin implements PluginInterface {
             if (dynmap != null) {
                 getServer().getPluginManager().registerEvents(dynmap, this);
             }
+            getLogger().info("dynmapを検出しました!");
         }
 
         // mcMMOのロード
         if (getServer().getPluginManager().isPluginEnabled("mcMMO")) {
             getServer().getPluginManager().registerEvents(new McMMOBridge(), this);
+            getLogger().info("mcMMOを検出しました!");
         }
 
         // MultiverseCore のロード
         if (getServer().getPluginManager().isPluginEnabled("Multiverse-Core")) {
             multiverse = MultiverseCoreBridge.load();
+            getLogger().info("Multiverse-Coreを検出しました!");
         }
 
         // リスナーの登録
