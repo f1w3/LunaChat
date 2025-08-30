@@ -1,4 +1,4 @@
-name: Build & Draft Release
+name: Build & Release
 
 on:
   push:
@@ -7,7 +7,6 @@ on:
 
 jobs:
   build:
-    if: startsWith(github.event.head_commit.message, 'bump ')
     runs-on: ubuntu-latest
 
     steps:
@@ -21,7 +20,7 @@ jobs:
           cache: maven
 
       - name: Build with Maven
-        run: mvn --batch-mode --update-snapshots verify
+        run: mvn --batch-mode --update-snapshots package -DskipTests
 
       - run: mkdir -p staging && cp target/*.jar staging
 
@@ -30,18 +29,27 @@ jobs:
           name: Package
           path: staging
 
-      - name: Extract version from commit message
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Extract version (if bump)
         id: get_version
         run: |
-          VERSION=$(echo "${{ github.event.head_commit.message }}" | sed -E 's/^bump (.+)$/\1/')
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          if [[ "${{ github.event.head_commit.message }}" =~ ^bump[[:space:]]+(.+)$ ]]; then
+            echo "version=${BASH_REMATCH[1]}" >> $GITHUB_OUTPUT
+          fi
 
-      - name: Create Draft Release
+      - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v${{ steps.get_version.outputs.version }}
-          name: LunaChat v${{ steps.get_version.outputs.version }}
-          draft: true
+          tag_name: |
+            ${{ steps.get_version.outputs.version && format('v{0}', steps.get_version.outputs.version) || format('dev-{0}', github.sha) }}
+          name: |
+            ${{ steps.get_version.outputs.version && format('LunaChat v{0}', steps.get_version.outputs.version) || format('LunaChat Dev Release ({0})', github.sha) }}
+          draft: ${{ steps.get_version.outputs.version != '' }}
+          prerelease: ${{ steps.get_version.outputs.version == '' }}
           files: staging/*.jar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
