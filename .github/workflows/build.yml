@@ -46,17 +46,11 @@ jobs:
             echo "version=${BASH_REMATCH[1]}" >> $GITHUB_OUTPUT
           fi
 
-      - name: Delete old dev release
-        if: steps.get_version.outputs.version == ''
-        run: |
-          set -e
-          gh release list --limit 100 --json tagName,isDraft,isPrerelease \
-            --jq '.[] | select(.isPrerelease == true and (.tagName | startswith("dev-"))) | .tagName' \
-            | while read tag; do
-                echo "Deleting old dev release $tag"
-                gh release delete "$tag" --yes || true
-                git push origin :refs/tags/$tag || true
-              done
+      - name: Delete draft releases
+        uses: dev-drprasad/delete-tag-and-release@v0.2.1
+        with:
+          delete_release: true
+          tag_name: dev-build
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -64,7 +58,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: |
-            ${{ steps.get_version.outputs.version && format('v{0}', steps.get_version.outputs.version) || format('dev-{0}', github.sha) }}
+            ${{ steps.get_version.outputs.version && format('v{0}', steps.get_version.outputs.version) || dev-build }}
           name: |
             ${{ steps.get_version.outputs.version && format('LunaChat v{0}', steps.get_version.outputs.version) || format('LunaChat Dev Release ({0})', github.sha) }}
           draft: ${{ steps.get_version.outputs.version != '' }}
