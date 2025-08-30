@@ -1,5 +1,7 @@
 # LunaChat fork
 
+[![Build & Release](https://github.com/f1w3/LunaChat/actions/workflows/build.yml/badge.svg)](https://github.com/f1w3/LunaChat/actions/workflows/build.yml)
+
 チャンネルチャットプラグイン
 
 ダウンロードはこちらから
