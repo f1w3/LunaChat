@@ -58,7 +58,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: |
-            ${{ steps.get_version.outputs.version && format('v{0}', steps.get_version.outputs.version) || dev-build }}
+            ${{ steps.get_version.outputs.version && format('v{0}', steps.get_version.outputs.version) || 'dev-build' }}
           name: |
             ${{ steps.get_version.outputs.version && format('LunaChat v{0}', steps.get_version.outputs.version) || format('LunaChat Dev Release ({0})', github.sha) }}
           draft: ${{ steps.get_version.outputs.version != '' }}
