@@ -46,6 +46,20 @@ jobs:
             echo "version=${BASH_REMATCH[1]}" >> $GITHUB_OUTPUT
           fi
 
+      - name: Delete old dev release
+        if: steps.get_version.outputs.version == ''
+        run: |
+          set -e
+          gh release list --limit 100 --json tagName,isDraft,isPrerelease \
+            --jq '.[] | select(.isPrerelease == true and (.tagName | startswith("dev-"))) | .tagName' \
+            | while read tag; do
+                echo "Deleting old dev release $tag"
+                gh release delete "$tag" --yes || true
+                git push origin :refs/tags/$tag || true
+              done
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
