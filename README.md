@@ -4,7 +4,7 @@
 [![Latest Release](https://img.shields.io/github/v/release/f1w3/lunachat?style=for-the-badge)](https://github.com/f1w3/lunachat/releases/latest)
 [![License](https://img.shields.io/badge/License-LGPLv3-green?style=for-the-badge)](https://www.gnu.org/licenses/lgpl-3.0.ja.html)
 
-README - 日本語 / English
+README - [日本語](https://github.com/f1w3/LunaChat/blob/master/README.md) / [English](https://github.com/f1w3/LunaChat/blob/master/README_en.md)  
 
 ## 初めに
 
