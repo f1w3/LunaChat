@@ -1,9 +1,11 @@
 package com.github.ucchyocean.lc3.japanize;
 
+import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
+
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSortedMap;
-
-import java.util.Map;
 
 /**
  * 「ローマ字」から「かな文字」へ正確に変換するクラス
@@ -313,10 +315,10 @@ public class YukiKanaConverter {
         builder.put("n", "ん").put("nn", "ん").put("n'", "ん").put("xn", "ん");
 
         // 促音を追加する
-        for (Map.Entry<String, String> entry : builder.build().entrySet()) {
+        for ( Map.Entry<String, String> entry : builder.build().entrySet() ) {
             String romaji = entry.getKey();
             String hiragana = entry.getValue();
-            if (canStartFromSokuon(romaji)) {
+            if ( canStartFromSokuon(romaji) ) {
                 builder.put(romaji.charAt(0) + romaji, "っ" + hiragana);
             }
         }
@@ -350,19 +352,7 @@ public class YukiKanaConverter {
      * @since 2.8.10
      */
     private static boolean canStartFromSokuon(String romaji) {
-        if (romaji == null || romaji.isEmpty()) return false;
-
-        char first = romaji.charAt(0);
-        // 母音と 'n' を除外
-        return first != 'a' && first != 'i' && first != 'u' && first != 'e' && first != 'o' && first != 'n';
-    }
-
-    private static String replaceEach(String text, String[] search, String[] replace) {
-        String result = text;
-        for (int i = 0; i < search.length; i++) {
-            result = result.replace(search[i], replace[i]);
-        }
-        return result;
+        return !StringUtils.startsWithAny(romaji, "a", "i", "u", "e", "o", "n");
     }
 
     /**
@@ -373,7 +363,7 @@ public class YukiKanaConverter {
      * @since 2.8.10
      */
     public static String conv(String romaji) {
-        return replaceEach(romaji, ROMAJI_LIST, HIRAGANA_LIST);
+        return StringUtils.replaceEach(romaji, ROMAJI_LIST, HIRAGANA_LIST);
     }
 
     /**
@@ -384,6 +374,8 @@ public class YukiKanaConverter {
      * @since 2.8.10
      */
     public static String fixBrackets(String text) {
-        return replaceEach(text, new String[]{"（", "）"}, new String[]{"(", ")"});
+        String[] full = new String[] { "（", "）" };
+        String[] half = new String[] { "(", ")" };
+        return StringUtils.replaceEach(text, full, half);
     }
 }
